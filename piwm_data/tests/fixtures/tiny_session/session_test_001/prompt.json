@@ -1,0 +1,10 @@
+{
+  "session_id": "session_test_001",
+  "product_category": "luxury_watch",
+  "persona": {
+    "type": "price_sensitive_cautious",
+    "description": "测试用 persona"
+  },
+  "aida_stage": "interest",
+  "target_cue": "long_dwell_with_price_check"
+}

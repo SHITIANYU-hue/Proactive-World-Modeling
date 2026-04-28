@@ -1,0 +1,16 @@
+{
+  "name": "piwm-kling-tools",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "node generate_session.js",
+    "generate:dry": "node generate_session.js --dry-run"
+  },
+  "dependencies": {
+    "@ai-sdk/klingai": "latest",
+    "ai": "latest",
+    "dotenv": "latest"
+  }
+}
+

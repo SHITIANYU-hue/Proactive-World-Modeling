@@ -1,0 +1,16 @@
+[project]
+name = "piwm-data-pipeline"
+version = "0.1.0"
+requires-python = ">=3.9"
+dependencies = [
+  "pydantic>=2",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["piwm_data/tests"]
+

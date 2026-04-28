@@ -1,0 +1,62 @@
+{
+  "session_id": "05_V6_atop_machine__airport-lounge__35-50M-African-noacc__S09_RETRY_FAIL",
+  "session_type": "vending_solo",
+  "shot_index": 5,
+  "session_spec": {
+    "session_id": "05_V6_atop_machine__airport-lounge__35-50M-African-noacc__S09_RETRY_FAIL",
+    "session_type": "vending_solo",
+    "persona": {
+      "age_bucket": "35-50",
+      "gender_expression": "M",
+      "ethnicity": "African",
+      "build": "中等",
+      "height": "高",
+      "hair_length": "短",
+      "hair_color": "黑",
+      "hair_style": "直",
+      "face_accessory": "无",
+      "clothing_style": "商务休闲",
+      "carried_item": "双肩包",
+      "tech_familiarity": "med",
+      "facial_hair": "清刮"
+    },
+    "scene": {
+      "category": "public-vending",
+      "location": "机场候机厅",
+      "time_of_day": "上午",
+      "lighting": "自然晴",
+      "ambient_traffic": "中"
+    },
+    "machine": {
+      "category": "public-vending",
+      "visual_base": "立式自助服务机",
+      "lcd": "触屏点亮，整屏为纯文字按钮式自助服务菜单：浅灰或浅蓝背景，顶部窄状态条，主区纵向 4-5 行长条形服务按钮（每行仅一枚圆形功能图标 + 右侧虚化文字），底部一排 取票 / 刷卡 / 支付 / 返回 方形图标。界面中不出现任何商品缩略图、饮料罐、瓶装物、袋装零食、价格标签或商品货架网格——只显示服务菜单按钮。整体低对比度，文字虚化不可辨，无真实品牌。",
+      "display_window": null
+    },
+    "camera": {
+      "name": "V6_atop_machine_facing_customer",
+      "height": "2.1 米",
+      "distance": "1.0 米",
+      "tilt": "20° 俯",
+      "framing_prose": "广角俯拍画面：视角位于约 2.1 米顶部高度、距主角正前方约 1 米处，向下俯约 20° 朝主角拍摄头肩胸特写。主角正面朝镜头站立，面部完整可见，脸部居画面中央且脸部纵向占画面 30-40%，肩膀两端自然延伸至画面左右约三分之二宽，头部、肩膀与胸部清晰居中。画面裁切至胸部或腰部以上，双脚不进入画面。主角身后为走廊或公共空间的纵深场景，主角正面与其身后的公共空间环境同时可见，公共环境作为自然背景围绕主角延伸。"
+    },
+    "distractor": {
+      "has_distractor": false,
+      "count": 0,
+      "types": [],
+      "position": null
+    }
+  },
+  "anchor_only": true,
+  "kling_model": "kling-v3",
+  "kling_mode": "pro",
+  "video_duration_s": "10",
+  "video_aspect": "16:9",
+  "frame_fps": 2,
+  "pipeline_version": "v8",
+  "created_at": "2026-04-19T15:19:56.587127+00:00",
+  "schema_version": "v8.metadata.2",
+  "git_sha": null,
+  "prompts_v2_sha256": "1a05a6052035328e3c756cf02d18ef66b66354df7c6dec44062020adca26d541",
+  "banks_sha256": "5c268a1b6e1888737b22f668175cda157cd946b4785b4cd18edbf97a3667ebd2"
+}

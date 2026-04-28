@@ -1,0 +1,83 @@
+{
+  "_comment": "Fill every null value using exact enums from piwm_data.rules. The migration tool will not infer these semantic mappings.",
+  "_allowed": {
+    "product_category": [
+      "luxury_watch",
+      "electronics_phone",
+      "electronics_laptop",
+      "cosmetics_skincare",
+      "apparel_premium",
+      "home_appliance",
+      "jewelry",
+      "footwear"
+    ],
+    "persona_type": [
+      "price_sensitive_cautious",
+      "first_time_high_consideration",
+      "experienced_brand_loyal",
+      "browser_low_intent",
+      "gift_buyer_uncertain",
+      "price_insensitive_decisive"
+    ],
+    "aida_stage": [
+      "attention",
+      "interest",
+      "desire",
+      "action"
+    ],
+    "target_cue": [
+      "long_dwell_with_price_check",
+      "repeated_product_handling",
+      "comparing_two_products",
+      "looking_around_for_help",
+      "checking_phone_likely_research",
+      "brief_glance_walking_past",
+      "trying_on_or_testing",
+      "asking_companion_opinion",
+      "no_eye_contact_avoidant",
+      "approaching_counter"
+    ]
+  },
+  "sessions": {
+    "01_V3_overhead_diagonal__mall-atrium__35-50F-European-noacc__S03_HOVER": {
+      "legacy_state_id": "S03_HOVER",
+      "product_category": null,
+      "persona_type": null,
+      "aida_stage": null,
+      "target_cue": null,
+      "persona_description": "35-50；F；European；tech=med；item=购物袋"
+    },
+    "02_V5_aisle_endcap__campus-building__25-35M-EastAsian-noacc__S05_BROWSE_UNC": {
+      "legacy_state_id": "S05_BROWSE_UNC",
+      "product_category": null,
+      "persona_type": null,
+      "aida_stage": null,
+      "target_cue": null,
+      "persona_description": "25-35；M；East Asian；tech=high；item=双肩包"
+    },
+    "03_V1_ceiling_corner__convenience-store__50-65M-LatinHispanic-readers__S07_OPERATE": {
+      "legacy_state_id": "S07_OPERATE",
+      "product_category": null,
+      "persona_type": null,
+      "aida_stage": null,
+      "target_cue": null,
+      "persona_description": "50-65；M；Latino-Hispanic；tech=med；item=空手"
+    },
+    "04_V2_highwall_side__subway-platform__18-25F-SouthAsian-mask__S08_PICKUP": {
+      "legacy_state_id": "S08_PICKUP",
+      "product_category": null,
+      "persona_type": null,
+      "aida_stage": null,
+      "target_cue": null,
+      "persona_description": "18-25；F；South Asian；tech=high；item=双肩包"
+    },
+    "05_V6_atop_machine__airport-lounge__35-50M-African-noacc__S09_RETRY_FAIL": {
+      "legacy_state_id": "S09_RETRY_FAIL",
+      "product_category": null,
+      "persona_type": null,
+      "aida_stage": null,
+      "target_cue": null,
+      "persona_description": "35-50；M；African；tech=med；item=双肩包"
+    }
+  }
+}

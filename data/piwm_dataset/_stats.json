@@ -1,0 +1,16 @@
+{
+  "n_sessions_total": 5,
+  "n_sessions_loaded": 0,
+  "n_sessions_skipped": 5,
+  "n_sessions_anchor": 0,
+  "n_state_inference_rows": 0,
+  "n_transition_modeling_rows": 0,
+  "n_policy_preference_rows": 0,
+  "n_policy_preference_skipped_no_pair": 0,
+  "skipped_reasons": {
+    "MissingRequiredFieldError": 5
+  },
+  "rule_version": "v1.0",
+  "frame_sample": 3,
+  "timestamp_utc": "2026-04-27T15:08:26Z"
+}

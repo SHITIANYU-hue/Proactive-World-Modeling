@@ -1,0 +1,62 @@
+{
+  "session_id": "02_V5_aisle_endcap__campus-building__25-35M-EastAsian-noacc__S05_BROWSE_UNC",
+  "session_type": "vending_solo",
+  "shot_index": 2,
+  "session_spec": {
+    "session_id": "02_V5_aisle_endcap__campus-building__25-35M-EastAsian-noacc__S05_BROWSE_UNC",
+    "session_type": "vending_solo",
+    "persona": {
+      "age_bucket": "25-35",
+      "gender_expression": "M",
+      "ethnicity": "East Asian",
+      "build": "中等",
+      "height": "中",
+      "hair_length": "短",
+      "hair_color": "黑",
+      "hair_style": "直",
+      "face_accessory": "无",
+      "clothing_style": "休闲",
+      "carried_item": "双肩包",
+      "tech_familiarity": "high",
+      "facial_hair": "清刮"
+    },
+    "scene": {
+      "category": "public-vending",
+      "location": "大学教学楼",
+      "time_of_day": "上午",
+      "lighting": "自然晴",
+      "ambient_traffic": "低"
+    },
+    "machine": {
+      "category": "public-vending",
+      "visual_base": "黑色立式",
+      "lcd": "小尺寸选购指示屏点亮，仅显示当前选品流程的简洁状态信息：浅灰或浅蓝背景，顶部一行通用「选购」标语，中部为大号商品编号色块（字符虚化不可辨）与对应价格色块，底部支付状态条带含卡片 / 扫码 / 现金三枚模糊图标。界面中不出现商品缩略图、不出现商品货架网格、不重复玻璃展示窗内已陈列的商品轮廓——该屏只承担选购状态显示功能，与玻璃展示窗共属同一台机器的不同部位。低对比度，无可辨文字，无真实品牌标识。",
+      "display_window": "玻璃橱窗分 3 层金属隔板货架，共陈列约 6-8 件商品剪影：上层 2 瓶细长矿泉水（蓝白瓶身）与 1 罐红色易拉罐；中层 2 个黄色或绿色膨胀薯片袋 + 1 个橙色短粗果汁瓶；下层 1 个棕色矮罐装咖啡与 1 瓶绿色茶饮。所有商品仅呈现轮廓色块，标签虚化为纯色块，无可辨文字，无真实品牌标识，无可读商标。"
+    },
+    "camera": {
+      "name": "V5_aisle_endcap_wide",
+      "height": "3.0 米",
+      "distance": "6.0 米",
+      "tilt": "15° 俯",
+      "framing_prose": "走廊尽头高位吊顶安防监控摄像头的宽覆盖巡视画面，摄像头距贩卖机正面约 6.0 米、安装于 3.0 米高处，俯角 15°。同一画面中贩卖机位于画面中心远景（正面可见但仅占画面中部约四分之一）。主角站成侧身姿态站在机前——主角的左肩膀朝向贩卖机方向，整张右侧脸庞朝向镜头方向：右脸颊、右耳、右侧下颌轮廓、右眼眼角与鼻子右侧轮廓清晰朝向镜头入镜。头发自然垂顺不遮挡右侧脸庞。两侧走廊延伸约 4 米后转入背景虚化，墙面为干净的浅色单色面，画面中只有这一台贩卖机，没有其他贩卖机、柜体或货架进入画面。机位位于机器外部，不位于展示窗、柜体或屏幕内部，不透过玻璃展示窗拍摄。"
+    },
+    "distractor": {
+      "has_distractor": false,
+      "count": 0,
+      "types": [],
+      "position": null
+    }
+  },
+  "anchor_only": true,
+  "kling_model": "kling-v3",
+  "kling_mode": "pro",
+  "video_duration_s": "10",
+  "video_aspect": "16:9",
+  "frame_fps": 2,
+  "pipeline_version": "v8",
+  "created_at": "2026-04-19T15:04:16.550136+00:00",
+  "schema_version": "v8.metadata.2",
+  "git_sha": null,
+  "prompts_v2_sha256": "1a05a6052035328e3c756cf02d18ef66b66354df7c6dec44062020adca26d541",
+  "banks_sha256": "5c268a1b6e1888737b22f668175cda157cd946b4785b4cd18edbf97a3667ebd2"
+}
