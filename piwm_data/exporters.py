@@ -73,6 +73,8 @@ def build_policy_preference_row(record: MainSchemaRecord) -> dict[str, Any] | No
             "frames": _frame_paths(record),
             "is_anchor": record.is_anchor,
             "rule_version": rules.RULE_VERSION,
+            "state_summary": _state_summary(record),
+            "candidate_block": _candidate_block(record),
         },
     }
 
@@ -91,8 +93,11 @@ def _state_inference_row(record: MainSchemaRecord) -> dict[str, Any]:
             "history_summary": None,
         },
         "output": {
+            "aida_stage": record.aida_stage,
+            "state_subtype": record.latent_state,
             "current_state": record.latent_state,
             "intent": record.intent,
+            "bdi": record.bdi.model_dump(),
             "proactive_score": record.proactive_score,
             "candidate_actions": record.candidate_actions,
             "best_action": record.best_action,
@@ -115,18 +120,18 @@ def _transition_rows(record: MainSchemaRecord) -> list[dict[str, Any]]:
                 "state_id": f"{record.state_id}#{action}",
                 "input": {
                     "frames": _frame_paths(record),
-                    "current_state_summary": {
-                        "state": record.latent_state,
-                        "intent": record.intent,
-                        "persona_type": record.persona.type,
-                    },
+                    "current_state_summary": _state_summary(record),
                     "candidate_action": action,
                 },
                 "output": {
+                    "next_aida_stage": outcome.next_aida_stage,
+                    "next_state_subtype": outcome.next_state,
                     "next_state": outcome.next_state,
+                    "next_bdi": outcome.next_bdi.model_dump(),
                     "risk": outcome.risk,
                     "benefit": outcome.benefit,
                     "reward": outcome.reward,
+                    "reward_components": outcome.reward_components.model_dump(),
                     "worth_doing": outcome.reward > WORTH_DOING_THRESHOLD,
                     "rationale": outcome.rationale,
                 },
@@ -150,6 +155,33 @@ def _policy_prompt(record: MainSchemaRecord) -> str:
     )
 
 
+def _state_summary(record: MainSchemaRecord) -> dict[str, Any]:
+    return {
+        "aida_stage": record.aida_stage,
+        "state_subtype": record.latent_state,
+        "state": record.latent_state,
+        "intent": record.intent,
+        "bdi": record.bdi.model_dump(),
+        "proactive_score": record.proactive_score,
+        "persona_type": record.persona.type,
+        "observable_cues": record.observable_cues,
+    }
+
+
+def _candidate_block(record: MainSchemaRecord) -> list[dict[str, Any]]:
+    return [
+        {
+            "action": action,
+            "reward": record.reward_by_action[action],
+            "next_state": record.next_state_by_action[action].next_state,
+            "next_aida_stage": record.next_state_by_action[action].next_aida_stage,
+            "risk": record.next_state_by_action[action].risk,
+            "benefit": record.next_state_by_action[action].benefit,
+        }
+        for action in record.candidate_actions
+    ]
+
+
 def _persona_summary(record: MainSchemaRecord) -> str:
     if record.persona.description:
         return f"{record.persona.type}: {record.persona.description}"
@@ -171,4 +203,3 @@ def _write_jsonl(rows: list[dict[str, Any]], out: Path) -> int:
         for row in rows:
             handle.write(json.dumps(row, ensure_ascii=False, sort_keys=False) + "\n")
     return len(rows)
-

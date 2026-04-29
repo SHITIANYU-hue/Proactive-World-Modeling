@@ -1,10 +1,18 @@
 import pytest
 from pydantic import ValidationError
 
+from piwm_data import rules
 from piwm_data.schemas import ActionOutcome, FrameRef, MainSchemaRecord, Persona, Provenance
 
 
+def make_outcome(action: str, **overrides):
+    data = rules.derive_action_outcome("high_hesitation", "interest", "price_sensitive_cautious", action)
+    data.update(overrides)
+    return ActionOutcome(**data)
+
+
 def make_record(**overrides):
+    intent = "compare_value_for_money"
     data = {
         "state_id": "session_test_001",
         "images": [FrameRef(index=0, relative_path="Archive/session_test_001/frames/000.jpg")],
@@ -12,7 +20,8 @@ def make_record(**overrides):
         "persona": Persona(type="price_sensitive_cautious", description="测试用 persona"),
         "aida_stage": "interest",
         "latent_state": "high_hesitation",
-        "intent": "compare_value_for_money",
+        "intent": intent,
+        "bdi": rules.derive_bdi("price_sensitive_cautious", "high_hesitation", intent, ["long_dwell_with_price_check"]),
         "proactive_score": 4,
         "candidate_actions": [
             "A1_silent_observe",
@@ -21,24 +30,9 @@ def make_record(**overrides):
         ],
         "best_action": "A2_offer_value_comparison",
         "next_state_by_action": {
-            "A1_silent_observe": ActionOutcome(
-                next_state="continued_hesitation",
-                reward=0.3,
-                risk="low",
-                benefit="medium",
-            ),
-            "A2_offer_value_comparison": ActionOutcome(
-                next_state="engaged_dialogue",
-                reward=0.8,
-                risk="low",
-                benefit="high",
-            ),
-            "A4_open_with_question": ActionOutcome(
-                next_state="engaged_dialogue",
-                reward=0.6,
-                risk="low",
-                benefit="high",
-            ),
+            "A1_silent_observe": make_outcome("A1_silent_observe"),
+            "A2_offer_value_comparison": make_outcome("A2_offer_value_comparison"),
+            "A4_open_with_question": make_outcome("A4_open_with_question"),
         },
         "reward_by_action": {
             "A1_silent_observe": 0.3,
@@ -76,13 +70,30 @@ def test_persona_rejects_invalid_type():
 
 
 def test_action_outcome_rejects_invalid_next_state():
+    data = rules.derive_action_outcome("high_hesitation", "interest", "price_sensitive_cautious", "A1_silent_observe")
+    data["next_state"] = "not_a_state"
     with pytest.raises(ValidationError):
-        ActionOutcome(next_state="not_a_state", reward=0.0, risk="low", benefit="low")
+        ActionOutcome(**data)
 
 
 def test_action_outcome_rejects_reward_out_of_range():
+    data = rules.derive_action_outcome("high_hesitation", "interest", "price_sensitive_cautious", "A1_silent_observe")
+    data["reward"] = 1.1
+    data["reward_components"] = rules.derive_reward_components("interest", data["next_aida_stage"], "A1_silent_observe", 1.1)
     with pytest.raises(ValidationError):
-        ActionOutcome(next_state="high_hesitation", reward=1.1, risk="low", benefit="low")
+        ActionOutcome(**data)
+
+
+def test_action_outcome_rejects_inconsistent_reward_components():
+    data = rules.derive_action_outcome("high_hesitation", "interest", "price_sensitive_cautious", "A1_silent_observe")
+    data["reward_components"] = rules.derive_reward_components(
+        "interest",
+        data["next_aida_stage"],
+        "A1_silent_observe",
+        0.9,
+    )
+    with pytest.raises(ValidationError):
+        ActionOutcome(**data)
 
 
 def test_next_state_keys_must_cover_candidate_actions():
@@ -101,4 +112,3 @@ def test_reward_by_action_must_match_next_state_rewards():
     }
     with pytest.raises(ValidationError):
         make_record(reward_by_action=reward_by_action)
-

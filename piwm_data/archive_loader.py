@@ -44,10 +44,11 @@ def load_session(session_dir: Path) -> MainSchemaRecord:
 
     latent_state = rules.derive_latent_state([target_cue])
     intent = rules.derive_intent(persona.type, latent_state)
+    bdi = rules.derive_bdi(persona.type, latent_state, intent, [target_cue])
     proactive_score = rules.derive_proactive_score(latent_state)
     candidate_actions = rules.derive_candidate_actions(latent_state, aida_stage)
     next_state_by_action = {
-        action: ActionOutcome(**rules.derive_transition(latent_state, action))
+        action: ActionOutcome(**rules.derive_action_outcome(latent_state, aida_stage, persona.type, action))
         for action in candidate_actions
     }
     reward_by_action = {
@@ -63,6 +64,7 @@ def load_session(session_dir: Path) -> MainSchemaRecord:
         aida_stage=aida_stage,
         latent_state=latent_state,
         intent=intent,
+        bdi=bdi,
         proactive_score=proactive_score,
         candidate_actions=candidate_actions,
         best_action=best_action,
@@ -73,6 +75,7 @@ def load_session(session_dir: Path) -> MainSchemaRecord:
             [
                 "latent_state",
                 "intent",
+                "bdi",
                 "proactive_score",
                 "candidate_actions",
                 "next_state_by_action",
@@ -170,21 +173,31 @@ def _apply_annotation(
     data = record.model_dump()
     changed_fields: list[str] = []
 
-    for field in ("intent", "proactive_score", "best_action", "rationale", "candidate_actions"):
+    for field in ("intent", "bdi", "proactive_score", "best_action", "rationale", "candidate_actions"):
         if field in annotation:
             data[field] = annotation[field]
             changed_fields.append(field)
+
+    if "intent" in changed_fields and "bdi" not in changed_fields:
+        data["bdi"] = rules.derive_bdi(
+            data["persona"]["type"],
+            data["latent_state"],
+            data["intent"],
+            data["observable_cues"],
+        )
+        changed_fields.append("bdi")
 
     if "next_state_by_action" in annotation:
         existing = dict(data["next_state_by_action"])
         for action, partial in annotation["next_state_by_action"].items():
             base = existing.get(action)
             if base is None:
-                base = rules.derive_transition(data["latent_state"], action)
+                base = rules.derive_action_outcome(data["latent_state"], data["aida_stage"], data["persona"]["type"], action)
             if isinstance(base, ActionOutcome):
                 base = base.model_dump()
             merged = dict(base)
             merged.update(partial)
+            merged = _complete_outcome_payload(data, action, merged, partial)
             existing[action] = merged
         data["next_state_by_action"] = existing
         data["reward_by_action"] = {
@@ -210,6 +223,50 @@ def _rule_provenance(fields: list[str]) -> list[Provenance]:
     ]
 
 
+def _complete_outcome_payload(
+    record_data: dict[str, Any],
+    action: str,
+    outcome: dict[str, Any],
+    partial: dict[str, Any],
+) -> dict[str, Any]:
+    should_refresh_next = "next_state" in partial or "reward" in partial
+    if should_refresh_next and "next_aida_stage" not in partial:
+        outcome["next_aida_stage"] = rules.derive_next_aida_stage(
+            record_data["aida_stage"],
+            outcome["next_state"],
+            outcome["reward"],
+        )
+    outcome.setdefault(
+        "next_aida_stage",
+        rules.derive_next_aida_stage(record_data["aida_stage"], outcome["next_state"], outcome["reward"]),
+    )
+
+    if should_refresh_next and "next_bdi" not in partial:
+        next_intent = rules.derive_intent(record_data["persona"]["type"], outcome["next_state"])
+        outcome["next_bdi"] = rules.derive_bdi(record_data["persona"]["type"], outcome["next_state"], next_intent)
+    outcome.setdefault(
+        "next_bdi",
+        rules.derive_bdi(
+            record_data["persona"]["type"],
+            outcome["next_state"],
+            rules.derive_intent(record_data["persona"]["type"], outcome["next_state"]),
+        ),
+    )
+
+    if should_refresh_next and "reward_components" not in partial:
+        outcome["reward_components"] = rules.derive_reward_components(
+            record_data["aida_stage"],
+            outcome["next_aida_stage"],
+            action,
+            outcome["reward"],
+        )
+    outcome.setdefault(
+        "reward_components",
+        rules.derive_reward_components(record_data["aida_stage"], outcome["next_aida_stage"], action, outcome["reward"]),
+    )
+    return outcome
+
+
 def _read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -219,4 +276,3 @@ def _relative_path(path: Path) -> str:
         return path.resolve().relative_to(Path.cwd().resolve()).as_posix()
     except ValueError:
         return path.as_posix()
-

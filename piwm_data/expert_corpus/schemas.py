@@ -38,6 +38,106 @@ class Provenance(BaseModel):
     added_at: str = Field(min_length=1)
 
 
+# --- Source registries and rule-source links --------------------------------
+
+SourceDomain = Literal["sales", "modeling"]
+SourceType = Literal[
+    "theory_framework",
+    "open_textbook",
+    "published_book",
+    "research_paper",
+    "manual_or_sop",
+    "expert_review",
+]
+AuthorityLevel = Literal["canonical", "high", "medium", "pending"]
+CopyrightMode = Literal[
+    "public_domain",
+    "open_license",
+    "citation_only",
+    "internal_paraphrase",
+    "unknown_restricted",
+]
+
+
+class SourceRegistryEntry(BaseModel):
+    """A source that may support sales rules or modeling decisions.
+
+    Sales sources and modeling sources are intentionally separated. BDI-like
+    modeling sources must not be used as evidence for sales rule provenance.
+    """
+
+    source_id: str = Field(min_length=1)
+    domain: SourceDomain
+    source_type: SourceType
+    title: str = Field(min_length=1)
+    citation: str = Field(min_length=1)
+    url: Optional[str] = None
+    authority_level: AuthorityLevel
+    copyright_mode: CopyrightMode
+    usable_for: list[str] = Field(min_length=1)
+    notes: Optional[str] = None
+
+
+RuleSupportStatus = Literal[
+    "seed_only",
+    "theory_anchored",
+    "manual_supported",
+    "expert_reviewed",
+    "unsupported",
+    "candidate_for_removal",
+]
+RuleLifecycle = Literal[
+    "retained_seed",
+    "modified",
+    "removed",
+    "new_source_backed",
+]
+SupportStrength = Literal["none", "low", "medium", "high"]
+ReviewStatus = Literal["pending", "approved", "revise", "reject"]
+RuleTypeName = Literal[
+    "cue_to_state_prior",
+    "persona_state_to_intent",
+    "state_fallback_intent",
+    "state_to_proactive_score",
+    "state_aida_to_candidates",
+    "transition",
+]
+
+
+class RuleSourceLink(BaseModel):
+    """Auditable link from a rule to sales provenance.
+
+    This is not a hard requirement to preserve all seed rules. ``lifecycle``
+    records whether the rule is retained, modified, removed, or newly added.
+    """
+
+    rule_id: str = Field(min_length=1)
+    rule_type: RuleTypeName
+    lifecycle: RuleLifecycle
+    support_status: RuleSupportStatus
+    source_ids: list[str] = Field(default_factory=list)
+    formalization_note: str = Field(min_length=1)
+    support_strength: SupportStrength
+    needs_manual_support: bool
+    review_status: ReviewStatus = "pending"
+
+
+class ExtractedPrinciple(BaseModel):
+    """A paraphrased principle extracted from an allowed source.
+
+    This file stores compact paraphrases only. It must not contain long
+    copyrighted excerpts or be used as model-training text.
+    """
+
+    principle_id: str = Field(min_length=1)
+    source_id: str = Field(min_length=1)
+    principle: str = Field(min_length=1)
+    usable_for: list[str] = Field(min_length=1)
+    extraction_method: Literal["human_paraphrase", "llm_assisted_paraphrase"]
+    copyright_note: str = Field(min_length=1)
+    confidence: float = Field(ge=0.0, le=1.0)
+
+
 # --- Typed key/value bodies --------------------------------------------------
 
 

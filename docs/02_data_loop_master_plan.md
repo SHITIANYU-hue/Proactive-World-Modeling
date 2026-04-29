@@ -89,6 +89,8 @@ flowchart LR
 
 ### Phase 2：数据契约升级
 
+状态：**已完成第一版（2026-04-29）**。当前实现保留旧字段兼容，同时补齐 method-side 需要的 AIDA/BDI/reward/contrast 字段。
+
 目标：解除 method-side implementation spec 的 P0 阻塞。
 
 产出：
@@ -115,7 +117,8 @@ flowchart LR
 进入下一阶段条件：
 
 - method-side target 构造所需字段全部存在；
-- schema/exporter/validator 测试全部通过。
+- schema/exporter/validator 测试全部通过；
+- 当前验证：`python3 -m pytest`，60 passed。
 
 ### Phase 3：场景采样与 Prompt 构造
 

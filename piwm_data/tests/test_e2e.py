@@ -45,4 +45,6 @@ def test_cli_builds_all_jsonl_and_stats(tmp_path, monkeypatch):
     assert stats["n_state_inference_rows"] == 1
     assert stats["n_transition_modeling_rows"] == 3
     assert stats["n_policy_preference_rows"] == 1
-
+    assert stats["n_transition_parent_states"] == 1
+    assert stats["avg_actions_per_state"] == 3
+    assert stats["n_states_with_action_contrast"] == 1

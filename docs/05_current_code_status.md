@@ -1,6 +1,6 @@
 # PIWM 数据管线当前状态
 
-更新时间：2026-04-27
+更新时间：2026-04-29（Phase 2 数据契约升级后）
 
 ## 1. 当前目标
 
@@ -23,10 +23,10 @@
 
 | 文件 | 作用 |
 |---|---|
-| `piwm_data/schemas.py` | pydantic v2 主 schema，包含字段类型、枚举校验、交叉字段校验 |
-| `piwm_data/rules.py` | 规则层，严格按 spec §3 的枚举、数值表、tie-break 顺序实现 |
-| `piwm_data/archive_loader.py` | 从规范 Archive session 读取 `prompt.json + frames/`，生成 `MainSchemaRecord` |
-| `piwm_data/exporters.py` | 从 main schema 导出三套 JSONL |
+| `piwm_data/schemas.py` | pydantic v2 主 schema，包含 BDI、reward components、next action outcome 与交叉字段校验 |
+| `piwm_data/rules.py` | 规则层，严格保留 spec 数值和 tie-break；新增 deterministic BDI / next AIDA / reward component 派生 |
+| `piwm_data/archive_loader.py` | 从规范 Archive session 读取 `prompt.json + frames/`，生成带 BDI/transition outcome 的 `MainSchemaRecord` |
+| `piwm_data/exporters.py` | 从 main schema 导出三套 JSONL，包含 `state_summary`、`candidate_block`、`next_bdi` |
 | `piwm_data/validate.py` | 主 schema 和图片路径校验 |
 | `piwm_data/build_dataset.py` | CLI 入口，写四个输出文件和 `_stats.json` |
 | `piwm_data/tests/` | pytest 测试 |
@@ -64,7 +64,7 @@ python3 -m pytest
 结果：
 
 ```text
-36 passed
+60 passed
 ```
 
 测试覆盖：
@@ -74,6 +74,8 @@ python3 -m pytest
 - 规则层 cue → state、intent fallback、best action tie-break；
 - archive loader 必填字段、非法枚举、annotation override；
 - 三套 exporter；
+- BDI、next BDI、reward component 公式一致性；
+- World Model contrast stats；
 - CLI e2e。
 
 ## 3. 严格遵循的规范点

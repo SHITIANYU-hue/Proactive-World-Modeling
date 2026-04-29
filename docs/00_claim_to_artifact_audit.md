@@ -1,6 +1,6 @@
 # PIWM Claim-to-Artifact Audit
 
-更新时间：2026-04-29（Phase 1 expert_corpus 已落地后再次更新）
+更新时间：2026-04-29（Phase 2 数据契约升级后更新）
 
 ## 1. 目的
 
@@ -17,12 +17,12 @@
 
 | Claim | 论文位置 / 内容 | 当前工件 | 状态 | 缺口 | 必须修正 |
 |---|---|---|---|---|---|
-| Pedagogy-derived action space | action set compiled from retail training manuals | `piwm_data/rules.py` + `piwm_data/expert_corpus/distilled/conditional_rules.jsonl` (72 entries, all `seed_rule`) | covered（first batch 是 honest seed，后续可接受真实蒸馏条目） | 第一批是 seed_rule，不是真实教材引用；后续条目按需补 `manual_distillation`/`pedagogy_text` 来源 | 视论文叙事强度，决定是否第二批补真实教材蒸馏 |
-| AIDA-BDI state | `s_t=(sigma_t,b_t,d_t,i_t)` | `aida_stage` + `latent_state` + `intent` | blocking | 无显式 BDI；`latent_state` 与 `sigma` 语义混用 | `aida_stage=sigma`；新增 `bdi`；`latent_state` 定位为 `state_subtype` |
-| Perception target | `<sigma,b,d,i,rho,C>` | `state_inference.output` | partial | `aida_stage` 在 meta，不在 output；缺 BDI | `output.aida_stage`、`output.bdi` 进入监督目标 |
-| Deliberation target | `<sigma_next,b_next,d_next,i_next,risk,benefit,reward>` | `transition_modeling.output` | partial | 已有 `next_state/risk/benefit/reward`；缺 `next_bdi`；`next_state` 不是 AIDA sigma | 增加 `next_aida_stage` 或明确映射；增加 `next_bdi` |
-| Reward decomposition | `r=alpha*Delta_sigma+beta*Delta_m-gamma*c(a)` | `TRANSITION_TABLE.reward` | blocking | 当前是直接标量，无组件来源 | 增加 `reward_components` 并校验 final reward |
-| World Model supervision | same state + different action -> different future | `transition_modeling.jsonl` | partial | exporter 已按 action 展开；缺对照组统计，空数据未验证 | 增加 contrast stats；pilot 数据必须非空 |
+| Pedagogy-derived action space | action set compiled from retail training manuals | `conditional_rules.jsonl` 72 条 seed；`rule_source_links.jsonl` 全量分类；32 manual-supported / 40 theory-anchored / 0 seed-only / 0 candidate-for-removal | partial | 所有 seed rule 已有 source link；但还没有 expert-reviewed，且 reward 数值仍不是教材推导 | 人工审阅低强度 anchors；补 reward components；不要声称 all rules are expert-reviewed |
+| AIDA-BDI state | `s_t=(sigma_t,b_t,d_t,i_t)` | `MainSchemaRecord.bdi` + `aida_stage` + `latent_state/state_subtype` | partial | 字段契约已落地；BDI 当前仍是 deterministic rule-derived summary，未人工审阅 | 人工审阅 BDI 模板；后续可接入 source-backed BDI principles |
+| Perception target | `<sigma,b,d,i,rho,C>` | `state_inference.output` | covered | `output.aida_stage`、`output.bdi`、`output.state_subtype` 已进入监督目标 | pilot 后检查训练脚本是否读取这些字段 |
+| Deliberation target | `<sigma_next,b_next,d_next,i_next,risk,benefit,reward>` | `transition_modeling.output` | covered | 已输出 `next_aida_stage`、`next_bdi`、`next_state_subtype/risk/benefit/reward` | pilot 后检查同一 parent state 下 action-conditioned future 是否足够多样 |
+| Reward decomposition | `r=alpha*Delta_sigma+beta*Delta_m-gamma*c(a)` | `ActionOutcome.reward_components` | partial | 组件公式已校验，但 `delta_mental` 是为保持现有 scalar reward 反解得到，不是教材独立标注 | 后续把 reward components 上移到 expert corpus/source-backed rules |
+| World Model supervision | same state + different action -> different future | `transition_modeling.jsonl` + `_stats.json` | partial | 已有 action 展开和 contrast stats；仍缺真实 pilot 数据验证 | sampler/prompt/Kling/QA 跑通非空 pilot |
 | Two-phase training | Phase 1 SFT, Phase 2 DPO | 三套 JSONL | partial | 文档未明确三套数据如何分配到训练阶段 | Phase 1: state + transition；Phase 2: preference |
 | Real-store split | reserved real-store scenes for calibration/test | 无 | blocking | 无 real data schema、split、privacy metadata | 定义 `real_test` / `real_calibration` 契约 |
 | OOD split | held-out products/personas | 无 sampler | blocking | 无 split manifest | sampler 写入 `ood_product` / `ood_persona` |
@@ -123,11 +123,11 @@ real-store 样本仍需：
 
 ## 5. 当前最急修正
 
-> 进度：第 1 项已完成（`expert_corpus` + 72 条 JSONL + 13 个测试），具体见 RESEARCH_LOG 2026-04-29 22:30。
+> 进度：第 1 项的规则容器已完成；provenance 已拆成 sales/modeling 两条线；72 条规则均已有 support_status。第 2-5 项的数据契约已完成第一版。具体见 RESEARCH_LOG 2026-04-29 20:55。
 
-1. ~~将"规则表五张"修为"六张运行时映射"~~（**已完成 2026-04-29**：72 条 = 10/14/9/9/9/21，pytest 49 passed）
-2. 明确 `aida_stage=sigma`，`latent_state=state_subtype`；
-3. `state_inference.output` 增加 `aida_stage` 与 `bdi`；
-4. `transition_modeling.output` 增加 `next_bdi`，并明确 next stage 字段；
-5. `TRANSITION_TABLE` 增加 reward component 来源；
+1. ~~将"规则表五张"修为"六张运行时映射"~~（**已完成 2026-04-29**：72 条 = 10/14/9/9/9/21）
+2. ~~明确 `aida_stage=sigma`，`latent_state=state_subtype`~~（**已完成第一版 2026-04-29**）
+3. ~~`state_inference.output` 增加 `aida_stage` 与 `bdi`~~（**已完成第一版 2026-04-29**）
+4. ~~`transition_modeling.output` 增加 `next_bdi`，并明确 next stage 字段~~（**已完成第一版 2026-04-29**）
+5. ~~`TRANSITION_TABLE` 增加 reward component 来源~~（**已完成第一版 2026-04-29**：当前为公式一致性组件，仍需 source-backed 升级）
 6. 新增 real-store split 契约。

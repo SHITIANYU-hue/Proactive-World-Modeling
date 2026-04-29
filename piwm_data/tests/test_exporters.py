@@ -11,7 +11,21 @@ from piwm_data.exporters import (
 from piwm_data.schemas import ActionOutcome, FrameRef, MainSchemaRecord, Persona, Provenance
 
 
+def make_outcome(action: str, **overrides):
+    data = rules.derive_action_outcome("high_hesitation", "interest", "price_sensitive_cautious", action)
+    data.update(overrides)
+    if "reward" in overrides and "reward_components" not in overrides:
+        data["reward_components"] = rules.derive_reward_components(
+            "interest",
+            data["next_aida_stage"],
+            action,
+            data["reward"],
+        )
+    return ActionOutcome(**data)
+
+
 def make_record(**overrides):
+    intent = "compare_value_for_money"
     data = {
         "state_id": "session_test_001",
         "images": [FrameRef(index=0, relative_path="Archive/session_test_001/frames/000.jpg")],
@@ -19,7 +33,8 @@ def make_record(**overrides):
         "persona": Persona(type="price_sensitive_cautious", description="测试用 persona"),
         "aida_stage": "interest",
         "latent_state": "high_hesitation",
-        "intent": "compare_value_for_money",
+        "intent": intent,
+        "bdi": rules.derive_bdi("price_sensitive_cautious", "high_hesitation", intent, ["long_dwell_with_price_check"]),
         "proactive_score": 4,
         "candidate_actions": [
             "A1_silent_observe",
@@ -28,27 +43,9 @@ def make_record(**overrides):
         ],
         "best_action": "A2_offer_value_comparison",
         "next_state_by_action": {
-            "A1_silent_observe": ActionOutcome(
-                next_state="continued_hesitation",
-                reward=0.3,
-                risk="low",
-                benefit="medium",
-                rationale="silent rationale",
-            ),
-            "A2_offer_value_comparison": ActionOutcome(
-                next_state="engaged_dialogue",
-                reward=0.8,
-                risk="low",
-                benefit="high",
-                rationale="best rationale",
-            ),
-            "A4_open_with_question": ActionOutcome(
-                next_state="engaged_dialogue",
-                reward=0.6,
-                risk="low",
-                benefit="high",
-                rationale="question rationale",
-            ),
+            "A1_silent_observe": make_outcome("A1_silent_observe", rationale="silent rationale"),
+            "A2_offer_value_comparison": make_outcome("A2_offer_value_comparison", rationale="best rationale"),
+            "A4_open_with_question": make_outcome("A4_open_with_question", rationale="question rationale"),
         },
         "reward_by_action": {
             "A1_silent_observe": 0.3,
@@ -74,6 +71,8 @@ def test_state_inference_exports_one_row(tmp_path):
     assert count == 1
     assert len(rows) == 1
     assert rows[0]["output"]["current_state"] == "high_hesitation"
+    assert rows[0]["output"]["aida_stage"] == "interest"
+    assert rows[0]["output"]["bdi"]["belief"]
     assert rows[0]["input"]["history_summary"] is None
 
 
@@ -85,6 +84,9 @@ def test_transition_modeling_exports_one_row_per_candidate(tmp_path):
     assert count == len(record.candidate_actions)
     assert rows[0]["state_id"].startswith("session_test_001#")
     assert "worth_doing" in rows[0]["output"]
+    assert "bdi" in rows[0]["input"]["current_state_summary"]
+    assert "next_bdi" in rows[0]["output"]
+    assert rows[0]["output"]["reward_components"]["final_reward"] == rows[0]["output"]["reward"]
 
 
 def test_policy_preference_candidate_count_one_exports_zero_rows(tmp_path):
@@ -113,9 +115,9 @@ def test_policy_preference_all_rewards_equal_exports_zero_rows(tmp_path):
             "A4_open_with_question": 0.5,
         },
         next_state_by_action={
-            "A1_silent_observe": ActionOutcome(next_state="continued_hesitation", reward=0.5, risk="low", benefit="medium"),
-            "A2_offer_value_comparison": ActionOutcome(next_state="engaged_dialogue", reward=0.5, risk="low", benefit="high"),
-            "A4_open_with_question": ActionOutcome(next_state="engaged_dialogue", reward=0.5, risk="low", benefit="high"),
+            "A1_silent_observe": make_outcome("A1_silent_observe", reward=0.5),
+            "A2_offer_value_comparison": make_outcome("A2_offer_value_comparison", reward=0.5),
+            "A4_open_with_question": make_outcome("A4_open_with_question", reward=0.5),
         },
     )
     out = tmp_path / "policy_preference.jsonl"
@@ -134,6 +136,8 @@ def test_policy_preference_uses_best_and_lowest_reward_rejected(tmp_path):
     assert rows[0]["rejected"] == "A1_silent_observe"
     assert rows[0]["reward_gap"] > 0
     assert rows[0]["chosen_json"]["action"] == "A2_offer_value_comparison"
+    assert rows[0]["meta"]["state_summary"]["bdi"]["intention"]
+    assert len(rows[0]["meta"]["candidate_block"]) == len(record.candidate_actions)
 
 
 def test_build_policy_preference_row_returns_none_without_strictly_lower_reward():
@@ -148,4 +152,3 @@ def test_build_policy_preference_row_returns_none_without_strictly_lower_reward(
         }
     )
     assert build_policy_preference_row(record) is None
-

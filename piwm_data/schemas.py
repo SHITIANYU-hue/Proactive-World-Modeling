@@ -30,9 +30,35 @@ class FrameRef(BaseModel):
     timestamp_sec: Optional[float] = None
 
 
+class BDISummary(BaseModel):
+    belief: str = Field(min_length=1)
+    desire: str = Field(min_length=1)
+    intention: str = Field(min_length=1)
+
+
+class RewardComponents(BaseModel):
+    delta_stage: float = Field(ge=-1.0, le=1.0)
+    delta_mental: float = Field(ge=-3.0, le=3.0)
+    action_cost: float = Field(ge=0.0, le=1.0)
+    alpha: float = Field(default=0.4, ge=0.0)
+    beta: float = Field(default=0.5, ge=0.0)
+    gamma: float = Field(default=0.1, ge=0.0)
+    final_reward: float = Field(ge=-1.0, le=1.0)
+
+    @model_validator(mode="after")
+    def validate_formula(self) -> "RewardComponents":
+        expected = self.alpha * self.delta_stage + self.beta * self.delta_mental - self.gamma * self.action_cost
+        if abs(expected - self.final_reward) > 1e-6:
+            raise ValueError("reward_components must satisfy alpha*delta_stage + beta*delta_mental - gamma*action_cost")
+        return self
+
+
 class ActionOutcome(BaseModel):
     next_state: str
+    next_aida_stage: AIDAStage
+    next_bdi: BDISummary
     reward: float = Field(ge=-1.0, le=1.0)
+    reward_components: RewardComponents
     risk: Literal["low", "medium", "high"]
     benefit: Literal["low", "medium", "high"]
     rationale: Optional[str] = None
@@ -43,6 +69,12 @@ class ActionOutcome(BaseModel):
         if value not in rules.LATENT_STATES:
             raise ValueError(f"invalid latent state: {value}")
         return value
+
+    @model_validator(mode="after")
+    def validate_reward_consistency(self) -> "ActionOutcome":
+        if abs(self.reward_components.final_reward - self.reward) > 1e-6:
+            raise ValueError("reward_components.final_reward must equal reward")
+        return self
 
 
 class Provenance(BaseModel):
@@ -59,6 +91,7 @@ class MainSchemaRecord(BaseModel):
     aida_stage: AIDAStage
     latent_state: str
     intent: str
+    bdi: BDISummary
     proactive_score: ProactiveScore
     candidate_actions: list[str] = Field(min_length=2)
     best_action: str
@@ -120,4 +153,3 @@ class MainSchemaRecord(BaseModel):
             if self.reward_by_action[action] != outcome.reward:
                 raise ValueError(f"reward_by_action[{action}] must equal next_state_by_action[{action}].reward")
         return self
-

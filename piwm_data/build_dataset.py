@@ -84,6 +84,7 @@ def main(argv: list[str] | None = None) -> int:
         "frame_sample": args.frame_sample,
         "timestamp_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
+    stats.update(_world_model_stats(records))
     (output_dir / "_stats.json").write_text(
         json.dumps(stats, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -137,6 +138,30 @@ def _write_main_schema(records: list[MainSchemaRecord], out: Path) -> int:
     return len(records)
 
 
+def _world_model_stats(records: list[MainSchemaRecord]) -> dict[str, int | float]:
+    action_counts = [len(record.candidate_actions) for record in records]
+    n_with_contrast = sum(1 for record in records if _has_action_contrast(record))
+    return {
+        "n_transition_parent_states": len(records),
+        "avg_actions_per_state": sum(action_counts) / len(action_counts) if action_counts else 0.0,
+        "n_states_with_action_contrast": n_with_contrast,
+        "n_states_without_action_contrast": len(records) - n_with_contrast,
+    }
+
+
+def _has_action_contrast(record: MainSchemaRecord) -> bool:
+    signatures = {
+        (
+            record.next_state_by_action[action].next_state,
+            record.next_state_by_action[action].next_aida_stage,
+            record.next_state_by_action[action].reward,
+            record.next_state_by_action[action].risk,
+            record.next_state_by_action[action].benefit,
+        )
+        for action in record.candidate_actions
+    }
+    return len(signatures) > 1
+
+
 if __name__ == "__main__":
     raise SystemExit(main())
-

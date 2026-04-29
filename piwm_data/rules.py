@@ -78,6 +78,35 @@ ACTIONS = [
     "A8_offer_companion_invite",
 ]
 
+AIDA_STAGES = ["attention", "interest", "desire", "action"]
+
+STATE_TO_AIDA_STAGE_PRIOR: dict[str, str] = {
+    "early_browsing": "attention",
+    "disengaged": "attention",
+    "defensive_withdrawal": "attention",
+    "high_hesitation": "interest",
+    "active_evaluation": "interest",
+    "continued_hesitation": "interest",
+    "engaged_dialogue": "desire",
+    "post_decision_reassurance": "desire",
+    "ready_to_decide": "action",
+}
+
+ACTION_COST: dict[str, float] = {
+    "A1_silent_observe": 0.0,
+    "A2_offer_value_comparison": 0.2,
+    "A3_strong_recommend": 0.3,
+    "A4_open_with_question": 0.1,
+    "A5_provide_demonstration": 0.2,
+    "A6_acknowledge_and_wait": 0.1,
+    "A7_disengage": 0.0,
+    "A8_offer_companion_invite": 0.2,
+}
+
+REWARD_ALPHA = 0.4
+REWARD_BETA = 0.5
+REWARD_GAMMA = 0.1
+
 CUE_TO_STATE_PRIOR: dict[str, str] = {
     "long_dwell_with_price_check": "high_hesitation",
     "repeated_product_handling": "active_evaluation",
@@ -353,6 +382,99 @@ def derive_transition(state: str, action: str) -> dict[str, Any]:
     return deepcopy(TRANSITION_TABLE.get((state, action), DEFAULT_TRANSITION))
 
 
+def derive_bdi(
+    persona_type: str,
+    state: str,
+    intent: str,
+    cues: list[str] | None = None,
+) -> dict[str, str]:
+    cue_text = f" Observable cue(s): {', '.join(cues)}." if cues else ""
+    belief = {
+        "high_hesitation": "The offer may not yet justify its price.",
+        "active_evaluation": "Several options remain worth comparing.",
+        "ready_to_decide": "A suitable choice is close but still needs confirmation.",
+        "early_browsing": "The category is worth a brief look, but commitment is low.",
+        "post_decision_reassurance": "The selected option should be confirmed before closure.",
+        "disengaged": "The current interaction is not useful enough to continue.",
+        "defensive_withdrawal": "The salesperson may be applying too much pressure.",
+        "engaged_dialogue": "The salesperson may help resolve the decision.",
+        "continued_hesitation": "The decision remains uncertain after the last observation.",
+    }.get(state, "The customer's current mental state is uncertain.")
+    desire = {
+        "compare_value_for_money": "find better value for money",
+        "seek_reassurance": "gain reassurance before deciding",
+        "explore_options": "explore available options",
+        "confirm_choice": "confirm the preferred choice",
+        "leave_without_purchase": "avoid further engagement",
+        "request_demonstration": "see how the product works",
+        "negotiate_price": "obtain a better price",
+        "no_clear_intent": "keep options open",
+    }.get(intent, "reduce decision uncertainty")
+    intention = {
+        "compare_value_for_money": "compare alternatives before deciding",
+        "seek_reassurance": "look for reassurance or clarification",
+        "explore_options": "continue browsing and comparing",
+        "confirm_choice": "move toward confirming the choice",
+        "leave_without_purchase": "leave without buying",
+        "request_demonstration": "ask for a demonstration",
+        "negotiate_price": "ask about price flexibility",
+        "no_clear_intent": "continue observing without commitment",
+    }.get(intent, "keep observing before acting")
+    return {
+        "belief": f"{belief} Persona: {persona_type}.{cue_text}",
+        "desire": desire,
+        "intention": intention,
+    }
+
+
+def derive_next_aida_stage(current_aida: str, next_state: str, reward: float) -> str:
+    current_index = _aida_index(current_aida)
+    inferred_stage = STATE_TO_AIDA_STAGE_PRIOR.get(next_state, current_aida)
+    inferred_index = _aida_index(inferred_stage)
+    if reward > 0:
+        return AIDA_STAGES[max(current_index, inferred_index)]
+    if reward < 0:
+        return AIDA_STAGES[min(current_index, inferred_index)]
+    return AIDA_STAGES[current_index]
+
+
+def derive_reward_components(
+    current_aida: str,
+    next_aida_stage: str,
+    action: str,
+    final_reward: float,
+) -> dict[str, float]:
+    delta_stage = (_aida_index(next_aida_stage) - _aida_index(current_aida)) / (len(AIDA_STAGES) - 1)
+    action_cost = ACTION_COST.get(action, 0.2)
+    delta_mental = (final_reward - REWARD_ALPHA * delta_stage + REWARD_GAMMA * action_cost) / REWARD_BETA
+    return {
+        "delta_stage": delta_stage,
+        "delta_mental": delta_mental,
+        "action_cost": action_cost,
+        "alpha": REWARD_ALPHA,
+        "beta": REWARD_BETA,
+        "gamma": REWARD_GAMMA,
+        "final_reward": final_reward,
+    }
+
+
+def derive_action_outcome(
+    state: str,
+    aida_stage: str,
+    persona_type: str,
+    action: str,
+) -> dict[str, Any]:
+    transition = derive_transition(state, action)
+    next_state = transition["next_state"]
+    reward = float(transition["reward"])
+    next_aida_stage = derive_next_aida_stage(aida_stage, next_state, reward)
+    next_intent = derive_intent(persona_type, next_state)
+    transition["next_aida_stage"] = next_aida_stage
+    transition["next_bdi"] = derive_bdi(persona_type, next_state, next_intent)
+    transition["reward_components"] = derive_reward_components(aida_stage, next_aida_stage, action, reward)
+    return transition
+
+
 def pick_best_action(state: str, candidates: list[str]) -> str:
     def key(action: str) -> tuple[float, int, int, int]:
         transition = derive_transition(state, action)
@@ -365,3 +487,6 @@ def pick_best_action(state: str, candidates: list[str]) -> str:
 
     return min(candidates, key=key)
 
+
+def _aida_index(stage: str) -> int:
+    return AIDA_STAGES.index(stage) if stage in AIDA_STAGES else 0

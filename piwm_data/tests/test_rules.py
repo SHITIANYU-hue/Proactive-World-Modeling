@@ -31,6 +31,40 @@ def test_derive_intent_uses_state_fallback():
     assert rules.derive_intent("browser_low_intent", "active_evaluation") == "explore_options"
 
 
+def test_derive_bdi_returns_explicit_three_part_summary():
+    bdi = rules.derive_bdi(
+        "price_sensitive_cautious",
+        "high_hesitation",
+        "compare_value_for_money",
+        ["long_dwell_with_price_check"],
+    )
+    assert set(bdi) == {"belief", "desire", "intention"}
+    assert all(bdi.values())
+
+
+def test_derive_action_outcome_adds_world_model_fields():
+    outcome = rules.derive_action_outcome(
+        "high_hesitation",
+        "interest",
+        "price_sensitive_cautious",
+        "A2_offer_value_comparison",
+    )
+    assert outcome["next_state"] == "engaged_dialogue"
+    assert outcome["next_aida_stage"] == "desire"
+    assert outcome["next_bdi"]["belief"]
+    assert outcome["reward_components"]["final_reward"] == outcome["reward"]
+
+
+def test_reward_components_preserve_scalar_reward_formula():
+    components = rules.derive_reward_components("interest", "desire", "A2_offer_value_comparison", 0.8)
+    reconstructed = (
+        components["alpha"] * components["delta_stage"]
+        + components["beta"] * components["delta_mental"]
+        - components["gamma"] * components["action_cost"]
+    )
+    assert abs(reconstructed - 0.8) < 1e-9
+
+
 def test_pick_best_action_uses_highest_reward():
     assert (
         rules.pick_best_action(
@@ -80,4 +114,3 @@ def test_pick_best_action_tie_breaks_by_global_action_order():
         rules.pick_best_action("early_browsing", ["A6_acknowledge_and_wait", "A1_silent_observe"])
         == "A1_silent_observe"
     )
-

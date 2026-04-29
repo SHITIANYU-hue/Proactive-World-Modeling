@@ -1,0 +1,69 @@
+{
+  "n_existing_rules_total": 72,
+  "n_rule_source_links_total": 72,
+  "n_existing_rules_linked": 72,
+  "n_existing_rules_unlinked": 0,
+  "support_status_counts": {
+    "manual_supported": 32,
+    "theory_anchored": 40
+  },
+  "lifecycle_counts": {
+    "retained_seed": 72
+  },
+  "coverage_by_rule_type": {
+    "cue_to_state_prior": {
+      "total": 10,
+      "linked": 10,
+      "unlinked": 0,
+      "theory_anchored_or_better": 10,
+      "manual_supported_or_better": 6,
+      "expert_reviewed": 0,
+      "candidate_for_removal": 0
+    },
+    "persona_state_to_intent": {
+      "total": 14,
+      "linked": 14,
+      "unlinked": 0,
+      "theory_anchored_or_better": 14,
+      "manual_supported_or_better": 6,
+      "expert_reviewed": 0,
+      "candidate_for_removal": 0
+    },
+    "state_aida_to_candidates": {
+      "total": 9,
+      "linked": 9,
+      "unlinked": 0,
+      "theory_anchored_or_better": 9,
+      "manual_supported_or_better": 7,
+      "expert_reviewed": 0,
+      "candidate_for_removal": 0
+    },
+    "state_fallback_intent": {
+      "total": 9,
+      "linked": 9,
+      "unlinked": 0,
+      "theory_anchored_or_better": 9,
+      "manual_supported_or_better": 4,
+      "expert_reviewed": 0,
+      "candidate_for_removal": 0
+    },
+    "state_to_proactive_score": {
+      "total": 9,
+      "linked": 9,
+      "unlinked": 0,
+      "theory_anchored_or_better": 9,
+      "manual_supported_or_better": 0,
+      "expert_reviewed": 0,
+      "candidate_for_removal": 0
+    },
+    "transition": {
+      "total": 21,
+      "linked": 21,
+      "unlinked": 0,
+      "theory_anchored_or_better": 21,
+      "manual_supported_or_better": 9,
+      "expert_reviewed": 0,
+      "candidate_for_removal": 0
+    }
+  }
+}

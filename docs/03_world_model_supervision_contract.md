@@ -1,6 +1,6 @@
 # PIWM World Model Supervision Contract
 
-更新时间：2026-04-29
+更新时间：2026-04-29（Phase 2 数据契约升级后）
 
 ## 1. 核心判据
 
@@ -94,7 +94,7 @@ meta.rule_version
 `_stats.json` 或额外统计文件应记录：
 
 ```text
-n_parent_states
+n_transition_parent_states
 n_transition_rows
 avg_actions_per_state
 n_states_with_action_contrast
@@ -134,3 +134,9 @@ n_states_without_action_contrast
 | WM-3 | transition 输入显式包含 `candidate_action` |
 | WM-4 | transition 输出包含 next AIDA / next BDI / risk / benefit / reward |
 | WM-5 | policy preference pair 来自 highest-reward vs lowest-reward 候选动作 |
+
+当前实现状态：
+
+- `transition_modeling.jsonl` 已输出 `next_aida_stage`、`next_bdi`、`next_state_subtype`、`reward_components`；
+- `_stats.json` 已输出 `n_transition_parent_states`、`avg_actions_per_state`、`n_states_with_action_contrast`、`n_states_without_action_contrast`；
+- 这只是字段与统计契约完成，仍需要 Phase 3-5 产出非空 pilot 数据来验证视觉样本确实支撑这些标签。
