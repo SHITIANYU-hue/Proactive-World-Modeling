@@ -78,7 +78,29 @@ ACTIONS = [
     "A8_offer_companion_invite",
 ]
 
+ACTION_VISIBLE_BEHAVIOR: dict[str, str] = {
+    "A1_silent_observe": "no salesperson appears, no staff enters, and no one speaks; the shopper remains alone with the product and decides what to do without intervention",
+    "A2_offer_value_comparison": "a salesperson appears at the side and gestures toward two product options as if comparing features",
+    "A3_strong_recommend": "a salesperson approaches firmly and gestures toward one specific product with an assertive recommending pose",
+    "A4_open_with_question": "a salesperson appears at a respectful distance with an open posture as if asking a brief question",
+    "A5_provide_demonstration": "a salesperson appears and operates the product to demonstrate a feature",
+    "A6_acknowledge_and_wait": "a salesperson briefly acknowledges the shopper with a small nod and steps back to a non-intrusive distance",
+    "A7_disengage": "a salesperson visibly steps away from the shopper, returns to the background, and stops interacting so the shopper is clearly left alone",
+    "A8_offer_companion_invite": "a salesperson invites a companion or assistant to join the conversation with an open hand gesture",
+}
+
 AIDA_STAGES = ["attention", "interest", "desire", "action"]
+
+SPLITS = ["train", "dev", "test", "ood_product", "ood_persona"]
+
+VIEWPOINTS = [
+    "salesperson_observable",
+    "surveillance_oblique",
+    "third_party_side",
+    "first_person_pov",
+]
+
+DEFAULT_VIEWPOINT = "salesperson_observable"
 
 STATE_TO_AIDA_STAGE_PRIOR: dict[str, str] = {
     "early_browsing": "attention",
@@ -166,21 +188,25 @@ STATE_AIDA_TO_CANDIDATES: dict[tuple[str, str], list[str]] = {
         "A1_silent_observe",
         "A2_offer_value_comparison",
         "A4_open_with_question",
+        "A3_strong_recommend",
     ],
     ("high_hesitation", "desire"): [
         "A2_offer_value_comparison",
         "A4_open_with_question",
         "A6_acknowledge_and_wait",
+        "A3_strong_recommend",
     ],
     ("active_evaluation", "interest"): [
         "A4_open_with_question",
         "A5_provide_demonstration",
         "A1_silent_observe",
+        "A3_strong_recommend",
     ],
     ("active_evaluation", "desire"): [
         "A2_offer_value_comparison",
         "A5_provide_demonstration",
         "A4_open_with_question",
+        "A3_strong_recommend",
     ],
     ("ready_to_decide", "desire"): [
         "A2_offer_value_comparison",
@@ -190,10 +216,12 @@ STATE_AIDA_TO_CANDIDATES: dict[tuple[str, str], list[str]] = {
     ("ready_to_decide", "action"): [
         "A3_strong_recommend",
         "A4_open_with_question",
+        "A1_silent_observe",
     ],
     ("early_browsing", "attention"): [
         "A1_silent_observe",
         "A6_acknowledge_and_wait",
+        "A3_strong_recommend",
     ],
     ("disengaged", "attention"): [
         "A7_disengage",
@@ -388,7 +416,6 @@ def derive_bdi(
     intent: str,
     cues: list[str] | None = None,
 ) -> dict[str, str]:
-    cue_text = f" Observable cue(s): {', '.join(cues)}." if cues else ""
     belief = {
         "high_hesitation": "The offer may not yet justify its price.",
         "active_evaluation": "Several options remain worth comparing.",
@@ -421,10 +448,24 @@ def derive_bdi(
         "no_clear_intent": "continue observing without commitment",
     }.get(intent, "keep observing before acting")
     return {
-        "belief": f"{belief} Persona: {persona_type}.{cue_text}",
+        "belief": f"{belief} Persona: {persona_type}.",
         "desire": desire,
         "intention": intention,
     }
+
+
+def derive_transition_rationale(
+    state: str,
+    action: str,
+    next_state: str,
+    reward: float,
+    risk: str,
+    benefit: str,
+) -> str:
+    return (
+        f"Rule-derived expectation: {action} from {state} leads to {next_state} "
+        f"with {risk} risk, {benefit} benefit, and reward {reward:.2f}."
+    )
 
 
 def derive_next_aida_stage(current_aida: str, next_state: str, reward: float) -> str:
@@ -472,6 +513,17 @@ def derive_action_outcome(
     transition["next_aida_stage"] = next_aida_stage
     transition["next_bdi"] = derive_bdi(persona_type, next_state, next_intent)
     transition["reward_components"] = derive_reward_components(aida_stage, next_aida_stage, action, reward)
+    transition.setdefault(
+        "rationale",
+        derive_transition_rationale(
+            state,
+            action,
+            next_state,
+            reward,
+            transition["risk"],
+            transition["benefit"],
+        ),
+    )
     return transition
 
 

@@ -6,5 +6,6 @@
     "description": "测试用 persona"
   },
   "aida_stage": "interest",
+  "viewpoint": "salesperson_observable",
   "target_cue": "long_dwell_with_price_check"
 }

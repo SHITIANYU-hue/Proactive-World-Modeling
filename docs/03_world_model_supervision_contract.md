@@ -1,6 +1,6 @@
 # PIWM World Model Supervision Contract
 
-更新时间：2026-04-29（Phase 2 数据契约升级后）
+更新时间：2026-04-30（Phase 7 Action-Continuation Layer 骨架后）
 
 ## 1. 核心判据
 
@@ -14,10 +14,18 @@ frames -> response text
 
 这些任务最多证明模型能做状态识别或策略分类。
 
-World Model 的最小训练判据是：
+World Model 的文本级最小训练判据是：
 
 ```text
 same observation + same current state + different action -> different predicted future
+```
+
+Phase 7 后增加视觉级判据：
+
+```text
+same observation + same current state + different action
+  -> different textual future
+  -> different visual continuation evidence
 ```
 
 在 PIWM 中，state 是顾客购买意图状态：
@@ -36,6 +44,7 @@ s_t = (aida_stage, belief, desire, intention)
 1 条 state_inference 样本
 N 条 transition_modeling 样本
 0-1 条 policy_preference pair
+0-M 条 world_model_continuation 样本
 ```
 
 其中 transition 是核心：
@@ -112,8 +121,26 @@ n_states_without_action_contrast
 | JSONL | 训练能力 | World Model 证据 |
 |---|---|---|
 | `state_inference.jsonl` | state estimation | 否 |
-| `transition_modeling.jsonl` | action-conditioned next-state prediction | 是，核心证据 |
+| `transition_modeling.jsonl` | action-conditioned next-state prediction | 是，文本级核心证据 |
 | `policy_preference.jsonl` | action ranking / DPO | 间接证据，依赖 transition |
+| `world_model_continuation.jsonl` | action-conditioned future reaction caption | 是，视觉级核心证据 |
+
+`world_model_continuation.jsonl` 不要求模型生成像素。第一版训练目标是 caption objective：
+
+```text
+input  = current_frames + candidate_action
+target = reaction_caption + continuation_frames reference
+```
+
+其中 continuation frames 来自额外的 5 秒 action-continuation video，并通过 continuation QA gate 验证：
+
+```text
+reaction_visible
+reaction_matches_expected_state
+pre_action_continuity_pass
+no_scene_change
+no_new_subjects
+```
 
 ## 7. 失败模式
 
@@ -134,9 +161,22 @@ n_states_without_action_contrast
 | WM-3 | transition 输入显式包含 `candidate_action` |
 | WM-4 | transition 输出包含 next AIDA / next BDI / risk / benefit / reward |
 | WM-5 | policy preference pair 来自 highest-reward vs lowest-reward 候选动作 |
+| WM-6 | `world_model_continuation.jsonl` 可输出 action-conditioned continuation caption rows |
+| WM-7 | continuation QA gate 能拒绝 reaction 不可见或不匹配 expected_state 的样本 |
 
 当前实现状态：
 
 - `transition_modeling.jsonl` 已输出 `next_aida_stage`、`next_bdi`、`next_state_subtype`、`reward_components`；
 - `_stats.json` 已输出 `n_transition_parent_states`、`avg_actions_per_state`、`n_states_with_action_contrast`、`n_states_without_action_contrast`；
-- 这只是字段与统计契约完成，仍需要 Phase 3-5 产出非空 pilot 数据来验证视觉样本确实支撑这些标签。
+- Path A 已把 `A3_strong_recommend` / `A1_silent_observe` 等负干预纳入候选集，pilot30 重建后出现 13 条 negative reward transition；
+- Phase 7.1/7.2 已完成 `ActionContinuation` schema、`reaction_templates.py`、`continuation_prompt_builder.py`、continuation QA gate 与 `world_model_continuation.jsonl` exporter；
+- Phase 7.3 smoke 已完成：5 条 continuation 中 4 条视觉 QA pass，失败样本为 `A1_silent_observe -> disengaged` 被 Kling 生成成主动互动；
+- Phase 7.4 pilot continuation 已在远端数据盘完成：48 条 continuation video 全部生成，4 条因 reaction/continuity 不可靠被 QA 拒绝，44 条进入 `world_model_continuation.jsonl`；
+- 当前远端正式产物为 `/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_dataset_pilot30_with_continuations/`：
+  - `main_schema.jsonl`: 24
+  - `transition_modeling.jsonl`: 66
+  - `policy_preference.jsonl`: 24
+  - `world_model_continuation.jsonl`: 44
+  - `n_continuations_with_visual_qa_pass`: 44
+  - `n_negative_reward_continuations`: 12
+- 下一步不是继续扩大生成，而是先审阅这 44 条 continuation 的失败/通过模式，决定是否修正 `A1_silent_observe`、`A7_disengage` 等 continuation prompt。

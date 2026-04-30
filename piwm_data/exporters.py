@@ -6,15 +6,26 @@ import json
 from pathlib import Path
 from typing import Any, Iterable
 
-from . import rules
+from . import reaction_templates, rules
 from .schemas import MainSchemaRecord
 
 WORTH_DOING_THRESHOLD = 0.0
 
 
-def export_state_inference(records: Iterable[MainSchemaRecord], out: Path) -> int:
-    rows = [_state_inference_row(record) for record in records]
+def export_state_inference(
+    records: Iterable[MainSchemaRecord],
+    out: Path,
+    include_observable_cues: bool = False,
+) -> int:
+    rows = [
+        _state_inference_row(record, include_observable_cues=include_observable_cues)
+        for record in records
+    ]
     return _write_jsonl(rows, out)
+
+
+def export_state_inference_with_cue(records: Iterable[MainSchemaRecord], out: Path) -> int:
+    return export_state_inference(records, out, include_observable_cues=True)
 
 
 def export_transition_modeling(records: Iterable[MainSchemaRecord], out: Path) -> int:
@@ -30,6 +41,13 @@ def export_policy_preference(records: Iterable[MainSchemaRecord], out: Path) -> 
         row = build_policy_preference_row(record)
         if row is not None:
             rows.append(row)
+    return _write_jsonl(rows, out)
+
+
+def export_world_model_continuation(records: Iterable[MainSchemaRecord], out: Path) -> int:
+    rows: list[dict[str, Any]] = []
+    for record in records:
+        rows.extend(_world_model_continuation_rows(record))
     return _write_jsonl(rows, out)
 
 
@@ -70,6 +88,9 @@ def build_policy_preference_row(record: MainSchemaRecord) -> dict[str, Any] | No
         },
         "reward_gap": best_reward - rejected_reward,
         "meta": {
+            "product_category": record.product_category,
+            "split": record.split,
+            "viewpoint": record.viewpoint,
             "frames": _frame_paths(record),
             "is_anchor": record.is_anchor,
             "rule_version": rules.RULE_VERSION,
@@ -83,15 +104,17 @@ def count_policy_preference_skipped_no_pair(records: Iterable[MainSchemaRecord])
     return sum(1 for record in records if build_policy_preference_row(record) is None)
 
 
-def _state_inference_row(record: MainSchemaRecord) -> dict[str, Any]:
+def _state_inference_row(record: MainSchemaRecord, include_observable_cues: bool = False) -> dict[str, Any]:
+    input_payload: dict[str, Any] = {
+        "frames": _frame_paths(record),
+        "persona_summary": _persona_summary(record),
+        "history_summary": None,
+    }
+    if include_observable_cues:
+        input_payload["observable_cues"] = record.observable_cues
     return {
         "state_id": record.state_id,
-        "input": {
-            "frames": _frame_paths(record),
-            "observable_cues": record.observable_cues,
-            "persona_summary": _persona_summary(record),
-            "history_summary": None,
-        },
+        "input": input_payload,
         "output": {
             "aida_stage": record.aida_stage,
             "state_subtype": record.latent_state,
@@ -104,6 +127,11 @@ def _state_inference_row(record: MainSchemaRecord) -> dict[str, Any]:
             "rationale": record.rationale,
         },
         "meta": {
+            "product_category": record.product_category,
+            "split": record.split,
+            "viewpoint": record.viewpoint,
+            "observable_cues": record.observable_cues,
+            "visual_only_input": not include_observable_cues,
             "aida_stage": record.aida_stage,
             "is_anchor": record.is_anchor,
             "rule_version": rules.RULE_VERSION,
@@ -136,8 +164,54 @@ def _transition_rows(record: MainSchemaRecord) -> list[dict[str, Any]]:
                     "rationale": outcome.rationale,
                 },
                 "meta": {
+                    "product_category": record.product_category,
+                    "split": record.split,
+                    "viewpoint": record.viewpoint,
                     "parent_state_id": record.state_id,
                     "is_anchor": record.is_anchor,
+                    "rule_version": rules.RULE_VERSION,
+                },
+            }
+        )
+    return rows
+
+
+def _world_model_continuation_rows(record: MainSchemaRecord) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for action in record.candidate_actions:
+        continuation = record.continuations.get(action)
+        if continuation is None or continuation.qa_overall_pass is not True:
+            continue
+        outcome = record.next_state_by_action[action]
+        template = reaction_templates.REACTION_TEMPLATES[continuation.reaction_template_id]
+        rows.append(
+            {
+                "state_id": continuation.continuation_id,
+                "input": {
+                    "current_frames": _frame_paths(record),
+                    "candidate_action": action,
+                    "current_state_summary": _state_summary(record),
+                },
+                "output": {
+                    "next_aida_stage": outcome.next_aida_stage,
+                    "next_state_subtype": outcome.next_state,
+                    "next_state": outcome.next_state,
+                    "reward": outcome.reward,
+                    "risk": outcome.risk,
+                    "benefit": outcome.benefit,
+                    "reaction_caption": template["reaction_caption"],
+                    "continuation_frames": [
+                        frame.model_dump()
+                        for frame in continuation.frames
+                    ],
+                },
+                "meta": {
+                    "product_category": record.product_category,
+                    "split": record.split,
+                    "viewpoint": record.viewpoint,
+                    "continuation_role": continuation.continuation_role.value,
+                    "reaction_template_id": continuation.reaction_template_id,
+                    "parent_state_id": record.state_id,
                     "rule_version": rules.RULE_VERSION,
                 },
             }
@@ -158,6 +232,7 @@ def _policy_prompt(record: MainSchemaRecord) -> str:
 def _state_summary(record: MainSchemaRecord) -> dict[str, Any]:
     return {
         "aida_stage": record.aida_stage,
+        "product_category": record.product_category,
         "state_subtype": record.latent_state,
         "state": record.latent_state,
         "intent": record.intent,

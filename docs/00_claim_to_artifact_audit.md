@@ -1,6 +1,6 @@
 # PIWM Claim-to-Artifact Audit
 
-更新时间：2026-04-29（Phase 2 数据契约升级后更新）
+更新时间：2026-04-29（Viewpoint V1-V4 后更新）
 
 ## 1. 目的
 
@@ -22,11 +22,12 @@
 | Perception target | `<sigma,b,d,i,rho,C>` | `state_inference.output` | covered | `output.aida_stage`、`output.bdi`、`output.state_subtype` 已进入监督目标 | pilot 后检查训练脚本是否读取这些字段 |
 | Deliberation target | `<sigma_next,b_next,d_next,i_next,risk,benefit,reward>` | `transition_modeling.output` | covered | 已输出 `next_aida_stage`、`next_bdi`、`next_state_subtype/risk/benefit/reward` | pilot 后检查同一 parent state 下 action-conditioned future 是否足够多样 |
 | Reward decomposition | `r=alpha*Delta_sigma+beta*Delta_m-gamma*c(a)` | `ActionOutcome.reward_components` | partial | 组件公式已校验，但 `delta_mental` 是为保持现有 scalar reward 反解得到，不是教材独立标注 | 后续把 reward components 上移到 expert corpus/source-backed rules |
-| World Model supervision | same state + different action -> different future | `transition_modeling.jsonl` + `_stats.json` | partial | 已有 action 展开和 contrast stats；仍缺真实 pilot 数据验证 | sampler/prompt/Kling/QA 跑通非空 pilot |
+| World Model supervision | same state + different action -> different future | `transition_modeling.jsonl` + `_stats.json` | partial | 已有 action 展开和 contrast stats；2 条 pilot 数据已经能展开 5 行 transition；规模仍小 | 扩到 30 条 QA pass session 后再校核 |
 | Two-phase training | Phase 1 SFT, Phase 2 DPO | 三套 JSONL | partial | 文档未明确三套数据如何分配到训练阶段 | Phase 1: state + transition；Phase 2: preference |
 | Real-store split | reserved real-store scenes for calibration/test | 无 | blocking | 无 real data schema、split、privacy metadata | 定义 `real_test` / `real_calibration` 契约 |
-| OOD split | held-out products/personas | 无 sampler | blocking | 无 split manifest | sampler 写入 `ood_product` / `ood_persona` |
-| Visual rendering | Kling renders visual side, not labels | `kling/generate_session.js` | partial | API wrapper 已有；无 prompt builder / QA | 实现 sampler + prompt builder + QA gate |
+| OOD split | held-out products/personas | `data/scenario_manifest.jsonl` 已写入 `ood_product` 240 / `ood_persona` 280 | partial | sampler 已支持，但尚未跑出 OOD QA pass 样本 | pilot 扩到 OOD 子集 |
+| Visual rendering | Kling renders visual side, not labels | `kling/generate_session.js` + `scripts/{scenario_sampler,prompt_builder,extract_frames,qa_gate}.py` | partial | API wrapper、prompt builder、QA gate 已具备；2 条 QA pass pilot 入库 | 扩 pilot 规模并接 VLM reviewer |
+| Multi-view evaluation | salesperson_observable / surveillance_oblique / first_person_pov | `viewpoint` 字段贯穿 schema / sampler / prompt_builder / qa_gate / exporter；当前 manifest 1536 sales / 384 surveillance | partial | view-aware vs view-agnostic vs view-shift 三种实验设置尚未跑过；first_person_pov 暂缓 | 实现 view-shift evaluation；当前 viewpoint 仅进 meta，不进 input |
 | Internal simulator | same VLM queried three times | method-side spec in archive | future | 数据契约未稳定，训练代码暂缓 | 数据 pilot 后解锁 `piwm_train` / `piwm_infer` |
 
 ## 3. 关键语义决策
@@ -119,6 +120,7 @@ real-store 样本仍需：
 | DoD-Reward | 本文 | reward components 可解释并校验 final reward |
 | DoD-Visual | [04_visual_input_contract.md](04_visual_input_contract.md) | sampled frames 支持 target cue |
 | DoD-WM | [03_world_model_supervision_contract.md](03_world_model_supervision_contract.md) | 同一 parent state 有多条 action-conditioned future |
+| DoD-View | [04_visual_input_contract.md](04_visual_input_contract.md) | viewpoint 字段贯穿 schema/sampler/prompt/qa/exporter；first_person_pov 暂缓；view-shift 实验记录 |
 | DoD-Real | 本文 | real-store split 有 schema、privacy metadata 与 QA |
 
 ## 5. 当前最急修正
@@ -130,4 +132,5 @@ real-store 样本仍需：
 3. ~~`state_inference.output` 增加 `aida_stage` 与 `bdi`~~（**已完成第一版 2026-04-29**）
 4. ~~`transition_modeling.output` 增加 `next_bdi`，并明确 next stage 字段~~（**已完成第一版 2026-04-29**）
 5. ~~`TRANSITION_TABLE` 增加 reward component 来源~~（**已完成第一版 2026-04-29**：当前为公式一致性组件，仍需 source-backed 升级）
-6. 新增 real-store split 契约。
+6. ~~Multi-view 视觉契约~~（**已完成 V1-V4 2026-04-29**：viewpoint 字段贯穿管线；first_person_pov 暂缓；view-shift 评估未跑）
+7. 新增 real-store split 契约。

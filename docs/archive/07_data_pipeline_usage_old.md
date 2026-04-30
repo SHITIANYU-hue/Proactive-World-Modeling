@@ -1,6 +1,14 @@
-# PIWM 数据管线使用说明
+# PIWM 数据管线使用说明（已归档）
 
-本实现严格按 `/Users/mutsumi/Downloads/data_pipeline_spec.md` v1 编写。
+> **归档说明**：本文档对应 `data_pipeline_spec.md` v1 阶段，未涵盖 QA gate、
+> visual-only state inference、`state_inference_with_cue.jsonl`、viewpoint 等
+> 后续契约。新人入口请使用：
+>
+> - `README.md`（5 分钟 quickstart）
+> - `docs/04_visual_input_contract.md`（视觉输入与多视角契约）
+> - `docs/05_current_code_status.md`（当前代码现状）
+>
+> 本文保留供历史溯源，不要再作为执行入口。
 
 范围只包括训练数据产出，不包括模型训练、评测、推理服务，也不调用网络。
 

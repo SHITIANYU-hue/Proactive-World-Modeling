@@ -2,7 +2,15 @@ import pytest
 from pydantic import ValidationError
 
 from piwm_data import rules
-from piwm_data.schemas import ActionOutcome, FrameRef, MainSchemaRecord, Persona, Provenance
+from piwm_data.schemas import (
+    ActionContinuation,
+    ActionOutcome,
+    FrameRef,
+    MainSchemaRecord,
+    Persona,
+    Provenance,
+    ReactionFrameRef,
+)
 
 
 def make_outcome(action: str, **overrides):
@@ -16,6 +24,8 @@ def make_record(**overrides):
     data = {
         "state_id": "session_test_001",
         "images": [FrameRef(index=0, relative_path="Archive/session_test_001/frames/000.jpg")],
+        "product_category": "luxury_watch",
+        "split": "train",
         "observable_cues": ["long_dwell_with_price_check"],
         "persona": Persona(type="price_sensitive_cautious", description="测试用 persona"),
         "aida_stage": "interest",
@@ -51,11 +61,14 @@ def make_record(**overrides):
     ("field", "value"),
     [
         ("observable_cues", ["not_a_cue"]),
+        ("product_category", "not_a_product"),
+        ("split", "not_a_split"),
         ("latent_state", "not_a_state"),
         ("intent", "not_an_intent"),
         ("candidate_actions", ["A1_silent_observe", "not_an_action"]),
         ("best_action", "not_an_action"),
         ("aida_stage", "not_a_stage"),
+        ("viewpoint", "not_a_viewpoint"),
         ("proactive_score", 6),
     ],
 )
@@ -112,3 +125,54 @@ def test_reward_by_action_must_match_next_state_rewards():
     }
     with pytest.raises(ValidationError):
         make_record(reward_by_action=reward_by_action)
+
+
+def make_continuation(**overrides):
+    data = {
+        "continuation_id": "session_test_001#best_A2_offer_value_comparison",
+        "parent_state_id": "session_test_001",
+        "candidate_action": "A2_offer_value_comparison",
+        "continuation_role": "best",
+        "continuation_viewpoint": "salesperson_observable",
+        "video_relative_path": "Archive/session_test_001/continuations/best_A2_offer_value_comparison/video.mp4",
+        "frames": [
+            ReactionFrameRef(index=0, relative_path="Archive/session_test_001/continuations/best_A2_offer_value_comparison/frames/000.jpg", role="reaction_onset"),
+            ReactionFrameRef(index=1, relative_path="Archive/session_test_001/continuations/best_A2_offer_value_comparison/frames/001.jpg", role="reaction_peak"),
+        ],
+        "duration_seconds": 5,
+        "expected_next_state": "engaged_dialogue",
+        "expected_next_aida_stage": "desire",
+        "expected_reward": 0.8,
+        "expected_risk": "low",
+        "expected_benefit": "high",
+        "reaction_template_id": "REACT_ENGAGED_DIALOGUE_001",
+        "qa_overall_pass": True,
+        "reaction_visible": True,
+        "reaction_matches_expected_state": True,
+        "pre_action_continuity_pass": True,
+    }
+    data.update(overrides)
+    return ActionContinuation(**data)
+
+
+def test_main_schema_default_continuations_is_empty():
+    record = make_record()
+    assert record.continuations == {}
+
+
+def test_main_schema_accepts_valid_action_continuation():
+    continuation = make_continuation()
+    record = make_record(continuations={"A2_offer_value_comparison": continuation})
+    assert record.continuations["A2_offer_value_comparison"].qa_overall_pass is True
+
+
+def test_main_schema_rejects_continuation_not_in_candidates():
+    continuation = make_continuation(candidate_action="A3_strong_recommend")
+    with pytest.raises(ValidationError):
+        make_record(continuations={"A3_strong_recommend": continuation})
+
+
+def test_main_schema_rejects_continuation_viewpoint_mismatch():
+    continuation = make_continuation(continuation_viewpoint="surveillance_oblique")
+    with pytest.raises(ValidationError):
+        make_record(continuations={"A2_offer_value_comparison": continuation})

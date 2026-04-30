@@ -40,6 +40,8 @@ def test_derive_bdi_returns_explicit_three_part_summary():
     )
     assert set(bdi) == {"belief", "desire", "intention"}
     assert all(bdi.values())
+    assert "long_dwell_with_price_check" not in bdi["belief"]
+    assert "Observable cue" not in bdi["belief"]
 
 
 def test_derive_action_outcome_adds_world_model_fields():
@@ -53,6 +55,7 @@ def test_derive_action_outcome_adds_world_model_fields():
     assert outcome["next_aida_stage"] == "desire"
     assert outcome["next_bdi"]["belief"]
     assert outcome["reward_components"]["final_reward"] == outcome["reward"]
+    assert outcome["rationale"]
 
 
 def test_reward_components_preserve_scalar_reward_formula():
@@ -69,10 +72,24 @@ def test_pick_best_action_uses_highest_reward():
     assert (
         rules.pick_best_action(
             "high_hesitation",
-            ["A1_silent_observe", "A2_offer_value_comparison", "A4_open_with_question"],
+            ["A1_silent_observe", "A2_offer_value_comparison", "A4_open_with_question", "A3_strong_recommend"],
         )
         == "A2_offer_value_comparison"
     )
+
+
+def test_candidate_sets_include_negative_intervention_contrast():
+    assert "A3_strong_recommend" in rules.derive_candidate_actions("high_hesitation", "interest")
+    assert "A3_strong_recommend" in rules.derive_candidate_actions("active_evaluation", "interest")
+    assert "A3_strong_recommend" in rules.derive_candidate_actions("early_browsing", "attention")
+    assert "A1_silent_observe" in rules.derive_candidate_actions("ready_to_decide", "action")
+
+
+def test_negative_intervention_transitions_cross_zero():
+    assert rules.derive_transition("high_hesitation", "A3_strong_recommend")["reward"] < 0
+    assert rules.derive_transition("active_evaluation", "A3_strong_recommend")["reward"] < 0
+    assert rules.derive_transition("early_browsing", "A3_strong_recommend")["reward"] < 0
+    assert rules.derive_transition("ready_to_decide", "A1_silent_observe")["reward"] < 0
 
 
 def test_pick_best_action_tie_breaks_by_lower_risk(monkeypatch):

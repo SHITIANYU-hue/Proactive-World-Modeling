@@ -14,7 +14,6 @@
 | [docs/03_world_model_supervision_contract.md](docs/03_world_model_supervision_contract.md) | World Model 监督契约：action-conditioned transition |
 | [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md) | 视觉输入契约：Kling、抽帧、frame manifest、QA |
 | [docs/05_current_code_status.md](docs/05_current_code_status.md) | 当前代码状态：schema/rules/exporter/Kling wrapper |
-| [docs/06_data_pipeline_usage.md](docs/06_data_pipeline_usage.md) | 现有数据管线使用说明 |
 | [docs/07_kling_api_usage.md](docs/07_kling_api_usage.md) | Kling API wrapper 使用说明 |
 | [docs/08_intro_related_work_v6.md](docs/08_intro_related_work_v6.md) | 最新 intro + related work 草稿，定义当前论文 claim |
 | [docs/09_related_work_expert_distillation.md](docs/09_related_work_expert_distillation.md) | 高价值 related-work 审阅：专家知识蒸馏与销售/视觉 agent 差异 |
@@ -24,35 +23,84 @@
 
 ## High-Density Updates
 
-### [2026-04-29 20:55:00 CST] | Phase: Phase 2 Data Contract Upgrade
+### [2026-04-30 01:16:00 CST] | Phase: Data Quality Patch / Pilot30 Prompt Pack
 
 **Key Progress**
-- 新增 `BDISummary` 与 `RewardComponents`，`MainSchemaRecord` 现在显式包含 `bdi`，`ActionOutcome` 包含 `next_aida_stage`、`next_bdi`、`reward_components`。
-- `rules.py` 保留旧 reward / candidate / tie-break 数值不变，新增 deterministic BDI、next AIDA stage、reward component 派生函数。
-- `archive_loader` 生成完整 action outcome；annotation override 会补齐 BDI 与 reward component 字段。
-- `state_inference.jsonl` 输出 `aida_stage`、`state_subtype`、`bdi`；`transition_modeling.jsonl` 输出 `next_bdi`、`next_aida_stage`、`reward_components`；`policy_preference.meta` 输出 `state_summary` 与 `candidate_block`。
-- `_stats.json` 新增 `n_transition_parent_states`、`avg_actions_per_state`、`n_states_with_action_contrast`、`n_states_without_action_contrast`。
-- pytest **60 passed**。
+- `MainSchemaRecord` 新增 `product_category` 与可选 `split`；三套 JSONL meta 与 `_stats.json` 同步输出 product/split 覆盖。
+- `derive_bdi` 移除 `Observable cue(s): xxx`，避免把 cue 枚举名写入 BDI supervision token。
+- `derive_action_outcome` 为每个 rule-derived transition 写入 rationale；`policy_preference.chosen_json/rejected_json.rationale` 不再为空。
+- `prompt_builder.py` 顶层写入 `sampler.version`，并在 prompt index 中加入 `product_category`。
+- 生成 `Archive_prompts_pilot30/`：30 条 prompt，21 条 `salesperson_observable`、9 条 `surveillance_oblique`，每个 cue 3 条，forbidden label hits 为 0。
+- 重新构建 `data/piwm_dataset/`、`data/piwm_dataset_pilot/`、`data/piwm_dataset_viewpoint_review/`，使现有数据集全部采用新 schema。
+- pytest **80 passed**。
 
 **Data Loop Insight**
-- Phase 2 已把论文的 perception / deliberation target 字段落到可训练 JSONL，当前阻塞从“数据契约缺字段”转移到“需要 sampler + Kling + QA 产出非空 pilot 数据”。
-- reward components 当前是对既有 scalar reward 的公式一致性解释，不是独立专家标注；后续应上移到 expert corpus/source-backed rules。
+- 当前从“能入库”推进到“可审计覆盖”：训练 JSONL 本身可以统计 product/split/viewpoint，而不用回查 prompt。
+- 下一步仍不应直接上 1920 条；`pilot30` 的目标是测 pass rate 与失败模式，而不是训练。
 
 **Pending Criticals**
-- DoD-Phase3：实现 scenario sampler / prompt builder，生成可审阅 dry-run prompt。
-- DoD-Visual：抽帧生成 `frame_manifest.json`，并验证 sampled frames 支持 target cue。
-- DoD-Review：人工审阅 deterministic BDI 模板和低强度 provenance anchors。
+- DoD-PromptReview30：人工审阅 `Archive_prompts_pilot30/_prompt_index.jsonl` 指向的 30 条 prompt。
+- DoD-Kling30：审阅通过后再调用 Kling，随后跑 extract/QA/build_dataset。
+- DoD-PassRateReport：输出 cue/viewpoint/persona/product 的 pass/fail 统计，决定是否扩大生产。
 
 **Ref Reference**
-- `piwm_data/schemas.py`
-- `piwm_data/rules.py`
-- `piwm_data/archive_loader.py`
-- `piwm_data/exporters.py`
-- `piwm_data/build_dataset.py`
-- [docs/00_claim_to_artifact_audit.md](docs/00_claim_to_artifact_audit.md)
+- `Archive_prompts_pilot30/_prompt_index.jsonl`
+- `data/_scenario_stats_pilot30.json`
+- `data/piwm_dataset_viewpoint_review/_stats.json`
 - [docs/01_data_generation_loop_status.md](docs/01_data_generation_loop_status.md)
-- [docs/02_data_loop_master_plan.md](docs/02_data_loop_master_plan.md)
-- [docs/03_world_model_supervision_contract.md](docs/03_world_model_supervision_contract.md)
+- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
+- [docs/05_current_code_status.md](docs/05_current_code_status.md)
+
+### [2026-04-30 00:40:00 CST] | Phase: Mixed-View Kling Real Batch / QA-Gated Dataset
+
+**Key Progress**
+- 已从本机已有工程配置定位 Kling 凭据来源并完成真实 mixed-view 小批量生成；不再把 API 环境视为当前阻塞。
+- `Archive_generated_viewpoint_review/` 生成 10 条 `video.mp4`，并完成正式抽帧、`frame_manifest.json`、manual QA review 与 `qa_report.json`。
+- QA gate 结果：6 pass / 10 generated；拒绝原因为 target cue 不可见 1 条、viewpoint visibility 不足 2 条、旧 prompt label leakage 1 条。
+- 修复未来 prompt 模板中的内部标签泄露：`no_eye_contact_avoidant` 不再生成包含 `disengaged` 的文本。
+- 构建 `data/piwm_dataset_viewpoint_review/`：6 main schema、6 visual-only state inference、6 with-cue state inference、16 transition rows、6 policy preference rows。
+- `scripts/run_kling_batch.py` 新增 `--reuse-existing`，可复用已有 `video.mp4` 重跑抽帧/QA/summary，不重新调用 Kling。
+- pytest **77 passed**。
+
+**Data Loop Insight**
+- 当前闭环已从 dry-run 进入真实视频路径：`scenario -> prompt -> Kling video -> extract frames -> QA gate -> JSONL` 可运行。
+- 训练入口现在默认只读取 `qa_report.overall_pass=true`，失败视频不会进入正式数据集。
+- 第一轮 pass rate 显示 P0 `salesperson_observable` 可行，但需要继续强化脸/视线/手/商品/价格区同框约束；P1 `surveillance_oblique` 可保留为跨视角泛化测试，不应立刻扩大为主线。
+
+**Pending Criticals**
+- DoD-Pass30：扩大到至少 30 条 QA pass 样本，统计 cue/persona/viewpoint 覆盖。
+- DoD-QAQuality：把 viewpoint fail 与 cue invisible 的失败模式反馈到 prompt_builder，而不是人工放宽 QA。
+- DoD-EndToEnd：新增一键脚本串联 batch Kling、extract、QA、build_dataset，并输出 pass-rate report。
+
+**Ref Reference**
+- `Archive_generated_viewpoint_review/_qa_index.jsonl`
+- `data/piwm_dataset_viewpoint_review/_stats.json`
+- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
+- [docs/05_current_code_status.md](docs/05_current_code_status.md)
+
+### [2026-04-30 00:12:00 CST] | Phase: Mixed-View Kling Batch Runner
+
+**Key Progress**
+- 新增 `scripts/run_kling_batch.py`：按 `_prompt_index.jsonl` 顺序批量调用 `kling/generate_session.js`，随后执行 `extract_frames` 与 `qa_gate`。
+- 脚本会为每个生成 session 写 `qa_manual_review.template.json`，按 viewpoint 自动列出 required visibility 字段。
+- 对 `Archive_prompts_viewpoint_review/_prompt_index.jsonl` 执行 dry-run：10 条 prompt 全部可规划，8 条 `salesperson_observable`、2 条 `surveillance_oblique`。
+- 当时当前 shell 和项目目录未发现 `KLINGAI_ACCESS_KEY` / `KLINGAI_SECRET_KEY`，真实 Kling 调用尚未执行；后续已从本机既有工程配置定位凭据并完成真实生成，见 00:40 更新。
+- pytest **76 passed**。
+
+**Data Loop Insight**
+- V5 的工程入口已经具备；剩余阻塞不是 schema/prompt/QA，而是运行环境凭据与后续人工 QA。
+- dry-run 保证 10 条 mixed-view prompt 可以被同一批处理入口接入，不需要手动逐条调用 Kling。
+
+**Pending Criticals**
+- DoD-Credentials：设置 `KLINGAI_ACCESS_KEY` / `KLINGAI_SECRET_KEY` 后去掉 `--dry-run` 执行真实生成。
+- DoD-ManualReview：对生成视频填写 `qa_manual_review.json`，不要直接改 template 当作通过。
+- DoD-PassRate：统计 P0/P1 两种 viewpoint 的 QA pass rate，再决定是否扩大 `surveillance_oblique`。
+
+**Ref Reference**
+- `scripts/run_kling_batch.py`
+- `Archive_generated_viewpoint_review/_batch_summary_dry_run.json`
+- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
+- [docs/05_current_code_status.md](docs/05_current_code_status.md)
 
 ### [2026-04-30 00:35:00 CST] | Phase: Provenance Weak-Point Cleanup
 
@@ -102,6 +150,71 @@
 - `piwm_data/expert_corpus/provenance.py`
 - `piwm_data/tests/test_provenance.py`
 - [docs/12_expert_provenance_upgrade_plan.md](docs/12_expert_provenance_upgrade_plan.md)
+
+### [2026-04-29 23:58:00 CST] | Phase: Multi-View Visual Contract V1-V4
+
+**Key Progress**
+- 新增 `viewpoint` 枚举：`salesperson_observable` / `surveillance_oblique` / `third_party_side` / `first_person_pov`。
+- `scenario_sampler.py` 支持 `--viewpoints` 与 `--viewpoint-ratio`；默认 80% `salesperson_observable`、20% `surveillance_oblique`，`session_id` hash 已纳入 viewpoint。
+- `prompt_builder.py` 按 viewpoint 生成 camera / negative；`salesperson_observable` 强制脸、视线、手、商品、价格区域可见，`surveillance_oblique` 强制轨迹、停留、手/臂动作和商品区域可见。
+- `extract_frames.py` 的 `frame_manifest.json` 写入 `viewpoint`。
+- `qa_gate.py` 的 `qa_report.json` 写入 `viewpoint`、`viewpoint_pass`、`required_visibility`，并按不同 viewpoint 生成 checklist。
+- 三套训练 JSONL 的 `meta` 写入 `viewpoint`，但主 `input` 不包含 viewpoint，保留 view-agnostic 主线。
+- 重跑 10 条 prompt 审阅包：`Archive_prompts_viewpoint_review/` = 8 条 `salesperson_observable` + 2 条 `surveillance_oblique`。
+- pytest **73 passed**。
+
+**Data Loop Insight**
+- 视觉输入契约从单一观察角升级为 multi-view in-store visual observations，但执行优先级仍以导购可观察视角为主。
+- 后续可以做 view-aware / view-agnostic / view-shift 三种实验，而不需要重写主 schema。
+
+**Pending Criticals**
+- DoD-MixedView-Video：用 10 条 mixed-view prompt 跑 Kling，比较 `salesperson_observable` 与 `surveillance_oblique` 的 QA pass rate。
+- DoD-Visibility-QA：人工审阅 `required_visibility` 是否足以约束脸、视线、手、商品和价格区域。
+- DoD-Scale：暂不引入 `first_person_pov`，直到 P0/P1 视角 pass rate 稳定。
+
+**Ref Reference**
+- `scripts/scenario_sampler.py`
+- `scripts/prompt_builder.py`
+- `scripts/extract_frames.py`
+- `scripts/qa_gate.py`
+- `Archive_prompts_viewpoint_review/_prompt_index.jsonl`
+- `data/scenario_manifest_viewpoint_review10.jsonl`
+- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
+- [docs/05_current_code_status.md](docs/05_current_code_status.md)
+
+### [2026-04-29 23:45:00 CST] | Phase: Extract Frames / QA-Passing Pilot Dataset
+
+**Key Progress**
+- 新增正式 `scripts/extract_frames.py`：读取 `prompt.json.frame_sampling_plan`，从 `video.mp4` 抽取 `frames/*.jpg`，写 `frame_manifest.json`。
+- 修正 `prompt_builder.py` 的 demo-sample / glass-display 物理约束，避免“隔着玻璃触碰商品”的生成错误。
+- 重跑 Kling pilot：`Archive_generated_pilot/` 共 3 条 session，其中 2 条 `qa_report.overall_pass=true`，1 条因 sampled frames 未确认 cue 被拒绝。
+- `build_dataset` 默认 QA gate 生效，正式读入 2 条 QA pass session，跳过 1 条 QA fail session。
+- `data/piwm_dataset/` 与 `data/piwm_dataset_pilot/` 非空：2 行 state inference、2 行 cue-debug state inference、5 行 transition modeling、2 行 policy preference。
+- pytest **71 passed**。
+
+**Data Loop Insight**
+- 数据闭环已经从“schema 能跑”推进到“真实 Kling 视频 -> 抽帧 -> QA -> 非空 JSONL”的最小闭合。
+- 当前 pilot 证明 QA gate 能阻止坏视频入库，也证明 `state_inference.jsonl` visual-only 主线可与 `state_inference_with_cue.jsonl` debug 上限并存。
+- 风险仍然是规模与覆盖：当前 2 条 pass 都是 `checking_phone_likely_research`，不能代表全部 cue 或 persona。
+
+**Pending Criticals**
+- DoD-Pilot-30：扩到至少 30 条 QA pass session，并统计 cue-by-cue pass/fail 原因。
+- DoD-Prompt-Feedback：把失败原因回流到 `prompt_builder.py` 的 cue-specific timeline。
+- DoD-Rationale：补齐 policy preference 的 rationale，避免 chosen/rejected 解释为空。
+- DoD-QA-Automation：后续接 VLM reviewer，降低人工 `qa_manual_review.json` 成本。
+
+**Ref Reference**
+- `scripts/extract_frames.py`
+- `scripts/prompt_builder.py`
+- `scripts/qa_gate.py`
+- `Archive_generated_pilot/_qa_index.jsonl`
+- `Archive_generated_pilot/qa_pass_contact_sheet.jpg`
+- `Archive_generated_pilot/_one_complete_qa_pass_data_preview.json`
+- `data/piwm_dataset/_stats.json`
+- `data/piwm_dataset_pilot/_stats.json`
+- [docs/01_data_generation_loop_status.md](docs/01_data_generation_loop_status.md)
+- [docs/02_data_loop_master_plan.md](docs/02_data_loop_master_plan.md)
+- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
 
 ### [2026-04-29 23:40:00 CST] | Phase: Expert Provenance Implementation
 
@@ -155,6 +268,34 @@
 - [docs/00_claim_to_artifact_audit.md](docs/00_claim_to_artifact_audit.md)
 - [docs/09_related_work_expert_distillation.md](docs/09_related_work_expert_distillation.md)
 
+### [2026-04-29 23:05:00 CST] | Phase: QA Gate / Visual-Only State Inference
+
+**Key Progress**
+- `state_inference.jsonl` 改为 visual-only 主线：`observable_cues` 不再进入 `input`，只保留在 `meta`。
+- 新增 `state_inference_with_cue.jsonl`，作为带 oracle cue 的调试/上限版本。
+- 新增 `scripts/qa_gate.py`：生成 `qa_report.json`，自动检查文件/帧/prompt 标签泄露，并结合 `qa_manual_review.json` 判断 cue 可见性与物理一致性。
+- `build_dataset` 默认只读取 `qa_report.overall_pass=true` 的 session；开发调试必须显式使用 `--allow-unreviewed`。
+- 3 条 Kling smoke test 已补 `qa_report.json`，均被 QA gate 拒绝：price-check sampled frames 不足、glass-counter physical inconsistency、comparison sampled frames 不足。
+- pytest **69 passed**。
+
+**Data Loop Insight**
+- 当前系统已经具备“生成失败不入库”的闭环保护：Kling 能出视频不等于可训练数据。
+- 这次改动切断了 `observable_cues` 直接作为 state inference 输入的 oracle shortcut，正式训练主线更接近真实视觉识别任务。
+
+**Pending Criticals**
+- DoD-Extract：实现正式 `scripts/extract_frames.py`，替代 smoke test 临时抽帧脚本。
+- DoD-Pilot：修正 prompt 并重跑小批量 Kling，直到至少 1 条 `overall_pass=true`。
+- DoD-QA-Scale：后续接 VLM reviewer，减少人工 `qa_manual_review.json` 成本。
+
+**Ref Reference**
+- `scripts/qa_gate.py`
+- `piwm_data/build_dataset.py`
+- `piwm_data/exporters.py`
+- `Archive_generated_test/_qa_index.jsonl`
+- `Archive_generated_test/_one_complete_data_preview.json`
+- [docs/01_data_generation_loop_status.md](docs/01_data_generation_loop_status.md)
+- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
+
 ### [2026-04-29 22:30:00 CST] | Phase: Phase 1 Expert Corpus Landed
 
 **Key Progress**
@@ -182,6 +323,86 @@
 - `piwm_data/expert_corpus/distilled/conditional_rules.jsonl`
 - `piwm_data/tests/test_expert_corpus.py`
 - [docs/00_claim_to_artifact_audit.md](docs/00_claim_to_artifact_audit.md)（"Pedagogy-derived action space" 行可由 `blocking` 改为 `partial→covered`）
+
+### [2026-04-29 21:40:00 CST] | Phase: Kling Smoke Test / Visual Contract Check
+
+**Key Progress**
+- 用 `Archive_prompts_review/piwm_1321b89375/prompt.json` 跑通 Kling v3.0，生成 10 秒 `video.mp4`。
+- 追加测试 `repeated_product_handling` 与 `comparing_two_products`，共 3 条视频。
+- 使用 OpenCV 按 2s / 5s / 8s 抽帧，生成 `frames/`、`frame_manifest.json` 和 contact sheet。
+- 观察结果：`repeated_product_handling` 通过；`long_dwell_with_price_check` 与 `comparing_two_products` 部分通过但需要更强视觉约束。
+
+**Data Loop Insight**
+- `single current-state video -> sampled frames -> single-turn training row` 主结构可保留。
+- 固定 K=3 不应作为唯一采样策略；对 price-check / comparison 这类细微时间性 cue，需要 cue-aware prompt 和 K=4/5 抽帧。
+
+**Pending Criticals**
+- DoD-Phase4：实现正式 `extract_frames.py`，读取 `frame_sampling_plan` 并写 `frame_manifest.json`。
+- DoD-QA：QA gate 必须检查 sampled frames，不只检查整段视频。
+- DoD-Prompt：强化 subtle cue prompt，要求价格标签、手指指向、头部/视线切换等可抽帧证据。
+
+**Ref Reference**
+- `Archive_generated_test/_smoke_test_report.json`
+- `Archive_generated_test/phase4_test_contact_sheet.jpg`
+- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
+
+### [2026-04-29 21:15:00 CST] | Phase: Phase 3 Scenario Sampler / Prompt Builder
+
+**Key Progress**
+- 新增 `scripts/scenario_sampler.py`：枚举当前规则空间，生成 `data/scenario_manifest.jsonl`。
+- 当前 manifest 共 1920 条：train 1112 / dev 148 / test 140 / ood_product 240 / ood_persona 280。
+- 每条 scenario 包含 `session_id`、`split`、`product_category`、`persona_type`、`aida_stage`、`target_cue`、`source_rule_ids`、`runtime_fallbacks`。
+- 新增 `scripts/prompt_builder.py`：将 scenario 转成 Kling 可读 `prompt.json`，包含 camera / scene / behavior timeline / negative 四层。
+- 生成 10 条人工审阅样本到 `Archive_prompts_review/`，索引为 `Archive_prompts_review/_prompt_index.jsonl`。
+- pytest **65 passed**。
+
+**Data Loop Insight**
+- 数据闭环已从“规则和字段契约”推进到“Kling 前置控制面”：每条未来视频现在都有可复现的规则来源、split、视觉 cue 时间轴和抽帧计划。
+- 当前仍未调用 Kling；下一风险点从 prompt 构造转移到视频是否真实呈现 cue，以及 sampled frames 是否支持标签。
+
+**Pending Criticals**
+- DoD-Review：人工审阅 10 条 `Archive_prompts_review/*/prompt.json` 是否自然、可视、无标签泄露。
+- DoD-Phase4：实现视频生成批处理、`extract_frames.py`、`frame_manifest.json`。
+- DoD-QA：建立 video-level 与 sampled-frame-level QA gate，拒绝 sampled frames 不支持标签的样本。
+
+**Ref Reference**
+- `scripts/scenario_sampler.py`
+- `scripts/prompt_builder.py`
+- `data/scenario_manifest.jsonl`
+- `data/_scenario_stats.json`
+- `Archive_prompts_review/_prompt_index.jsonl`
+- [docs/02_data_loop_master_plan.md](docs/02_data_loop_master_plan.md)
+- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
+
+### [2026-04-29 20:55:00 CST] | Phase: Phase 2 Data Contract Upgrade
+
+**Key Progress**
+- 新增 `BDISummary` 与 `RewardComponents`，`MainSchemaRecord` 现在显式包含 `bdi`，`ActionOutcome` 包含 `next_aida_stage`、`next_bdi`、`reward_components`。
+- `rules.py` 保留旧 reward / candidate / tie-break 数值不变，新增 deterministic BDI、next AIDA stage、reward component 派生函数。
+- `archive_loader` 生成完整 action outcome；annotation override 会补齐 BDI 与 reward component 字段。
+- `state_inference.jsonl` 输出 `aida_stage`、`state_subtype`、`bdi`；`transition_modeling.jsonl` 输出 `next_bdi`、`next_aida_stage`、`reward_components`；`policy_preference.meta` 输出 `state_summary` 与 `candidate_block`。
+- `_stats.json` 新增 `n_transition_parent_states`、`avg_actions_per_state`、`n_states_with_action_contrast`、`n_states_without_action_contrast`。
+- pytest **60 passed**。
+
+**Data Loop Insight**
+- Phase 2 已把论文的 perception / deliberation target 字段落到可训练 JSONL，当前阻塞从“数据契约缺字段”转移到“需要 sampler + Kling + QA 产出非空 pilot 数据”。
+- reward components 当前是对既有 scalar reward 的公式一致性解释，不是独立专家标注；后续应上移到 expert corpus/source-backed rules。
+
+**Pending Criticals**
+- DoD-Phase3：实现 scenario sampler / prompt builder，生成可审阅 dry-run prompt。
+- DoD-Visual：抽帧生成 `frame_manifest.json`，并验证 sampled frames 支持 target cue。
+- DoD-Review：人工审阅 deterministic BDI 模板和低强度 provenance anchors。
+
+**Ref Reference**
+- `piwm_data/schemas.py`
+- `piwm_data/rules.py`
+- `piwm_data/archive_loader.py`
+- `piwm_data/exporters.py`
+- `piwm_data/build_dataset.py`
+- [docs/00_claim_to_artifact_audit.md](docs/00_claim_to_artifact_audit.md)
+- [docs/01_data_generation_loop_status.md](docs/01_data_generation_loop_status.md)
+- [docs/02_data_loop_master_plan.md](docs/02_data_loop_master_plan.md)
+- [docs/03_world_model_supervision_contract.md](docs/03_world_model_supervision_contract.md)
 
 ### [2026-04-29 02:19:27 CST] | Phase: Documentation Refactor / Claim-Data Alignment
 

@@ -1,0 +1,38 @@
+{
+  "qa_version": "fixture_v1",
+  "session_id": "session_test_001",
+  "viewpoint": "salesperson_observable",
+  "target_cue": "long_dwell_with_price_check",
+  "training_input_mode": "multi_image_single_turn",
+  "file_checks_pass": true,
+  "video_level_pass": true,
+  "sampled_frames_pass": true,
+  "overall_pass": true,
+  "cue_visible_in_video": true,
+  "cue_visible_in_sampled_frames": true,
+  "physical_consistency_pass": true,
+  "prompt_physical_consistency_pass": true,
+  "viewpoint_pass": true,
+  "required_visibility": {
+    "face_visible": true,
+    "gaze_visible": true,
+    "hands_visible": true,
+    "product_visible": true,
+    "price_area_visible": true
+  },
+  "label_leakage": false,
+  "label_leakage_hits": [],
+  "extra_subjects": false,
+  "manual_review_required": false,
+  "rejection_reason": null,
+  "checks": {
+    "files": {
+      "prompt_json_exists": true,
+      "video_exists": true,
+      "frame_manifest_exists": true,
+      "sampled_frame_count": 3,
+      "sampled_frames_exist": true
+    }
+  },
+  "reviewer_notes": "Test fixture pass marker."
+}

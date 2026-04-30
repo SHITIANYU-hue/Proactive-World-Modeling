@@ -9,7 +9,7 @@ from typing import Any, Iterator, Optional
 from pydantic import ValidationError
 
 from . import rules
-from .schemas import ActionOutcome, FrameRef, MainSchemaRecord, Persona, Provenance
+from .schemas import ActionContinuation, ActionOutcome, FrameRef, MainSchemaRecord, Persona, Provenance, ReactionFrameRef
 
 
 class MissingRequiredFieldError(ValueError):
@@ -41,6 +41,7 @@ def load_session(session_dir: Path) -> MainSchemaRecord:
     persona = _load_persona(session_dir, prompt)
     target_cue = prompt["target_cue"]
     aida_stage = prompt["aida_stage"]
+    viewpoint = prompt.get("viewpoint", rules.DEFAULT_VIEWPOINT)
 
     latent_state = rules.derive_latent_state([target_cue])
     intent = rules.derive_intent(persona.type, latent_state)
@@ -59,7 +60,10 @@ def load_session(session_dir: Path) -> MainSchemaRecord:
     record = MainSchemaRecord(
         state_id=prompt["session_id"],
         images=frames,
+        product_category=prompt["product_category"],
+        split=prompt.get("split"),
         observable_cues=[target_cue],
+        viewpoint=viewpoint,
         persona=persona,
         aida_stage=aida_stage,
         latent_state=latent_state,
@@ -70,8 +74,14 @@ def load_session(session_dir: Path) -> MainSchemaRecord:
         best_action=best_action,
         next_state_by_action=next_state_by_action,
         reward_by_action=reward_by_action,
+        continuations=_load_continuations(session_dir, prompt["session_id"], viewpoint, next_state_by_action),
         rationale=None,
-        provenance=_rule_provenance(
+        provenance=[
+            Provenance(field_name="product_category", source="prompt_json", rule_version=rules.RULE_VERSION),
+            Provenance(field_name="split", source="prompt_json", rule_version=rules.RULE_VERSION),
+            Provenance(field_name="viewpoint", source="prompt_json", rule_version=rules.RULE_VERSION),
+        ]
+        + _rule_provenance(
             [
                 "latent_state",
                 "intent",
@@ -120,6 +130,60 @@ def sample_frames(frames: list[FrameRef], n: int) -> list[FrameRef]:
     return [frames[i] for i in indices]
 
 
+def _load_continuations(
+    session_dir: Path,
+    parent_state_id: str,
+    parent_viewpoint: str,
+    next_state_by_action: dict[str, ActionOutcome],
+) -> dict[str, ActionContinuation]:
+    continuation_root = session_dir / "continuations"
+    if not continuation_root.exists():
+        return {}
+    continuations: dict[str, ActionContinuation] = {}
+    for continuation_dir in sorted(path for path in continuation_root.iterdir() if path.is_dir()):
+        prompt_path = continuation_dir / "continuation_prompt.json"
+        manifest_path = continuation_dir / "frame_manifest.json"
+        qa_path = continuation_dir / "qa_report.json"
+        video_path = continuation_dir / "video.mp4"
+        if not (prompt_path.exists() and manifest_path.exists() and qa_path.exists() and video_path.exists()):
+            continue
+        prompt = _read_json(prompt_path)
+        manifest = _read_json(manifest_path)
+        qa = _read_json(qa_path)
+        action = prompt["candidate_action"]
+        outcome = next_state_by_action[action]
+        frames = [
+            ReactionFrameRef(
+                index=index,
+                relative_path=_relative_path(continuation_dir / entry["path"]),
+                timestamp_sec=entry.get("timestamp_sec"),
+                role=entry["role"],
+            )
+            for index, entry in enumerate(manifest.get("sampled_frames", []))
+        ]
+        continuations[action] = ActionContinuation(
+            continuation_id=prompt["continuation_id"],
+            parent_state_id=parent_state_id,
+            candidate_action=action,
+            continuation_role=prompt["continuation_role"],
+            continuation_viewpoint=prompt.get("continuation_viewpoint", parent_viewpoint),
+            video_relative_path=_relative_path(video_path),
+            frames=frames,
+            duration_seconds=prompt.get("duration_seconds", 5),
+            expected_next_state=prompt.get("expected_next_state", outcome.next_state),
+            expected_next_aida_stage=prompt.get("expected_next_aida_stage", outcome.next_aida_stage),
+            expected_reward=prompt.get("expected_reward", outcome.reward),
+            expected_risk=prompt.get("expected_risk", outcome.risk),
+            expected_benefit=prompt.get("expected_benefit", outcome.benefit),
+            reaction_template_id=prompt["reaction_template_id"],
+            qa_overall_pass=qa.get("overall_pass") is True,
+            reaction_visible=qa.get("reaction_visible") is True,
+            reaction_matches_expected_state=qa.get("reaction_matches_expected_state") is True,
+            pre_action_continuity_pass=qa.get("pre_action_continuity_pass") is True,
+        )
+    return continuations
+
+
 def _load_frames(frames_dir: Path) -> list[FrameRef]:
     if not frames_dir.exists():
         raise FrameNotFoundError(f"missing frames directory: {frames_dir}")
@@ -161,8 +225,13 @@ def _validate_prompt_enums(prompt: dict[str, Any]) -> None:
         raise InvalidEnumValueError(f"persona.type={prompt['persona']['type']}")
     if prompt["aida_stage"] not in ("attention", "interest", "desire", "action"):
         raise InvalidEnumValueError(f"aida_stage={prompt['aida_stage']}")
+    if prompt.get("split") is not None and prompt["split"] not in rules.SPLITS:
+        raise InvalidEnumValueError(f"split={prompt['split']}")
     if prompt["target_cue"] not in rules.CUES:
         raise InvalidEnumValueError(f"target_cue={prompt['target_cue']}")
+    viewpoint = prompt.get("viewpoint", rules.DEFAULT_VIEWPOINT)
+    if viewpoint not in rules.VIEWPOINTS:
+        raise InvalidEnumValueError(f"viewpoint={viewpoint}")
 
 
 def _apply_annotation(

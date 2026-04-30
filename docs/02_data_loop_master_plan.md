@@ -1,19 +1,19 @@
 # PIWM 数据生成闭环主计划
 
-更新时间：2026-04-29
+更新时间：2026-04-29（Viewpoint V1-V4 后）
 
 ## 0. 核心判断
 
 本项目当前的首要目标不是先优化训练/推理架构，而是先打通可信的数据生成闭环：
 
 ```text
-专家规则 -> 场景采样 -> Kling 当前状态视频 -> 抽帧与 QA -> 主 schema -> 三套训练数据 -> 训练/推理代码
+专家规则 -> 场景采样 -> 多视角 Kling 当前状态视频 -> 抽帧与 QA -> 主 schema -> 三套训练数据 -> 训练/推理代码
 ```
 
-训练代码只有在数据格式稳定之后才有意义。当前 Claude 生成的 method-side implementation spec 已保存到 [archive/06_piwm_implementation_spec_method_side_blocked.md](archive/06_piwm_implementation_spec_method_side_blocked.md)，但它依赖两个尚未完成的数据契约：
+训练代码只有在数据格式稳定之后才有意义。当前 Claude 生成的 method-side implementation spec 已保存到 [archive/06_piwm_implementation_spec_method_side_blocked.md](archive/06_piwm_implementation_spec_method_side_blocked.md)。其中曾经阻塞训练代码的两个数据契约已经在 Phase 2 第一版补齐：
 
-- `state_inference.jsonl` / `transition_modeling.jsonl` 需要显式 `bdi` / `next_bdi`；
-- `policy_preference.jsonl.meta` 需要 `state_summary` 与结构化 `candidate_block`。
+- `state_inference.jsonl` / `transition_modeling.jsonl` 已有显式 `bdi` / `next_bdi`；
+- `policy_preference.jsonl.meta` 已有 `state_summary` 与结构化 `candidate_block`。
 
 因此，当前执行顺序必须以数据闭环优先。
 
@@ -25,7 +25,7 @@ flowchart LR
     B --> C["rules.py runtime tables"]
     C --> D["scenario_sampler.py"]
     D --> E["prompt_builder.py"]
-    E --> F["Kling current-state video"]
+    E --> F["Kling multi-view current-state video"]
     F --> G["extract_frames.py"]
     G --> H["QA gate: cue visible / no leakage"]
     H --> I["main_schema.jsonl"]
@@ -83,7 +83,7 @@ flowchart LR
 
 进入下一阶段条件：
 
-- 现有 36 个测试不回退；
+- 既有测试不回退（基线见 RESEARCH_LOG 最新条目）；
 - 新增 expert corpus 测试通过；
 - conflict log 可生成且无未解释冲突。
 
@@ -117,10 +117,11 @@ flowchart LR
 进入下一阶段条件：
 
 - method-side target 构造所需字段全部存在；
-- schema/exporter/validator 测试全部通过；
-- 当前验证：`python3 -m pytest`，60 passed。
+- schema/exporter/validator 测试全部通过（当前 baseline 见 RESEARCH_LOG 最新条目）。
 
 ### Phase 3：场景采样与 Prompt 构造
+
+状态：**已完成 Viewpoint V1-V2（2026-04-29）**。已能生成完整规则空间 manifest 和 10 条 mixed-view 人工审阅用 Kling prompt。
 
 目标：让 Kling 输入由规则和 coverage 计划自动产生。
 
@@ -129,20 +130,27 @@ flowchart LR
 - `scripts/scenario_sampler.py`
 - `scripts/prompt_builder.py`
 - `data/scenario_manifest.jsonl`
+- `data/_scenario_stats.json`
+- `Archive_prompts_viewpoint_review/<session_id>/prompt.json`（10 条 mixed-view 审阅样本）
 
 验收：
 
-- 每条样本有 `session_id`、`split`、`product_category`、`persona_type`、`aida_stage`、`target_cue`、`source_rule_ids`；
+- 每条样本有 `session_id`、`split`、`viewpoint`、`product_category`、`persona_type`、`aida_stage`、`target_cue`、`source_rule_ids`；
 - prompt 不泄露 state/action 标签；
-- prompt 有 camera / scene / behavior timeline / negative 四层；
+- prompt 有 camera / scene / behavior timeline / negative 四层，camera / negative 按 viewpoint 生成；
 - train / dev / test / ood_product / ood_persona split 可复现。
+- 当前验证：`data/scenario_manifest.jsonl` 1920 条；split = train 1112 / dev 148 / test 140 / ood_product 240 / ood_persona 280；
+- 当前验证：viewpoint = `salesperson_observable` 1536 / `surveillance_oblique` 384；
+- 当前验证：`Archive_prompts_viewpoint_review/` 10 条 prompt = 8 条 `salesperson_observable` + 2 条 `surveillance_oblique`。
 
 进入下一阶段条件：
 
-- 10 条 dry-run prompt 人工审阅通过；
+- 10 条 dry-run prompt 人工审阅通过（当前已生成，待人工审阅）；
 - target cue 都能转写成可见行为描述。
 
 ### Phase 4：Kling 生成、抽帧与 QA Gate
+
+状态：**已完成 Viewpoint V3（2026-04-29）**。已用正式 `extract_frames.py` 抽帧，并用 QA gate 拒绝失败样本、放行 2 条 pilot 样本；QA report 已支持 viewpoint visibility checklist。
 
 目标：只允许视觉 cue 真实可见的样本进入训练数据。
 
@@ -152,7 +160,8 @@ flowchart LR
 - `Archive_generated/<session_id>/frames/*.jpg`
 - `Archive_generated/<session_id>/frame_manifest.json`
 - `Archive_generated/<session_id>/qa_report.json`
-- `scripts/extract_frames.py`
+- `scripts/extract_frames.py`（已完成）
+- `scripts/qa_gate.py`（第一版已完成）
 
 验收：
 
@@ -161,7 +170,10 @@ flowchart LR
 - `training_input_mode = multi_image_single_turn`；
 - 无字幕、品牌、额外主角、明显标签泄露；
 - target cue 在 sampled frames 中可见；
-- QA fail 样本写入 reject log，不进入 dataset build。
+- QA fail 样本写入 `qa_report.json`，不进入 dataset build；
+- `build_dataset` 默认要求 `qa_report.overall_pass=true`。
+- `qa_report.json` 包含 `viewpoint`、`viewpoint_pass`、`required_visibility`。
+- 当前验证：`Archive_generated_pilot/` 共 3 条 session，2 条 `overall_pass=true`，1 条被拒绝。
 
 进入下一阶段条件：
 
@@ -170,15 +182,19 @@ flowchart LR
 
 ### Phase 5：小规模 Dataset Pilot
 
+状态：**已完成最小闭环（2026-04-29）**。已有非空正式数据集与 pilot 镜像，但规模仍不足以训练。
+
 目标：用真实生成的 QA pass session 跑完训练数据导出。
 
 产出：
 
 - `data/piwm_dataset/main_schema.jsonl`
 - `data/piwm_dataset/state_inference.jsonl`
+- `data/piwm_dataset/state_inference_with_cue.jsonl`
 - `data/piwm_dataset/transition_modeling.jsonl`
 - `data/piwm_dataset/policy_preference.jsonl`
 - `data/piwm_dataset/_stats.json`
+- `data/piwm_dataset_pilot/`（同源 pilot 镜像，便于保留本轮实验结果）
 
 验收：
 
@@ -188,11 +204,14 @@ flowchart LR
 - `transition_modeling` 统计 `n_states_with_action_contrast`；
 - `_stats.json` 记录 loaded / skipped / rejected 计数；
 - `python3 -m pytest` 全部通过。
+- 当前验证：2 条 QA pass session 入库，产出 2 行 state inference、5 行 transition modeling、2 行 policy preference。
+- 当前验证：1 条 QA fail session 被 `QAGateNotPassedError` 跳过。
 
 进入下一阶段条件：
 
 - method-side spec 中步骤 1-7 可以用 pilot 数据 fixture 做非 GPU 测试；
 - DPO 所需 preference meta 字段齐全。
+- `viewpoint` 只进入三套 JSONL 的 `meta`，不进入主 `input`。
 
 ### Phase 6：训练/推理代码解锁
 
@@ -221,13 +240,12 @@ flowchart LR
 
 ## 3. 当前阻塞
 
-1. 还没有 `expert_corpus`，论文中的 pedagogy-derived claim 缺代码证据。
-2. 当前 data pipeline 没有显式 BDI，method-side spec 暂不能直接实现。
-3. 当前 Kling wrapper 只能调用 API，不能构造受控视频 prompt。
-4. 当前没有 QA gate，标签可能与视频画面脱钩。
-5. 当前 OOD split 还没有进入 sampler，不能支撑 v6 的 OOD gap claim。
-6. 当前 reward 仍是标量 hard-code，不能支撑论文里的三项分解 claim。
-7. 当前 real-store split 没有 schema 和隐私/授权 metadata，不能支撑论文 real-store test claim。
+1. 当前环境缺少 `KLINGAI_ACCESS_KEY` / `KLINGAI_SECRET_KEY`，mixed-view 10 条真实 Kling 生成尚未执行；`scripts/run_kling_batch.py --dry-run` 已通过。
+2. 当前只有 2 条 QA pass pilot 样本，且都来自 `checking_phone_likely_research` cue，不能代表规则空间。
+3. QA gate 仍依赖人工 `qa_manual_review.json`，尚未接 VLM reviewer。
+4. 失败样本原因尚未系统回流到 prompt_builder；需要统计 cue-by-cue pass/fail。
+5. reward components 已有公式一致性，但还不是 source-backed 独立标注。
+6. real-store split 仍没有 schema 和隐私/授权 metadata，不能支撑论文 real-store test claim。
 
 ## 4. 当前不做
 

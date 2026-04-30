@@ -91,8 +91,9 @@ Kling 需要看到的不是 enum 名，而是自然语言画面描述。
 
 ```text
 Camera:
-  Stable third-person retail camera, medium-wide shot, no brand logos,
-  no readable text, one customer only.
+  Multi-view in-store visual observation. In the main setting, use a
+  salesperson-observable medium shot where the customer face, gaze,
+  hands, product display, and price area are visible.
 
 Scene:
   A premium watch display counter in a quiet retail store.
