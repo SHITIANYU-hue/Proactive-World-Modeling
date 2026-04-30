@@ -1,0 +1,12 @@
+{
+  "session_id": "best_A7_disengage",
+  "out_dir": "Archive_generated_fix3/piwm_59b32db5b6/continuations/best_A7_disengage",
+  "video_path": "Archive_generated_fix3/piwm_59b32db5b6/continuations/best_A7_disengage/video.mp4",
+  "model": "kling-v3.0-t2v",
+  "aspect_ratio": "16:9",
+  "duration": 5,
+  "mode": "pro",
+  "sound": "off",
+  "prompt_chars": 1672,
+  "dry_run": false
+}

@@ -1,0 +1,210 @@
+{
+  "artifact": "ms_swift_checkpoint_eval",
+  "is_training_result": true,
+  "model": "/root/lanyun-pub/Qwen/Qwen2.5-VL-7B-Instruct",
+  "checkpoint": "data/piwm_results/ms_swift_sft_qwen25vl7b_sprint_combined_4gpu/v0-20260430-200052/checkpoint-660",
+  "input_jsonl": "data/piwm_results/ms_swift_eval_inputs/pilot30_balanced24.jsonl",
+  "n_records": 24,
+  "task_counts": {
+    "perception": 8,
+    "deliberation": 8,
+    "continuation_caption": 8
+  },
+  "parse_success": 0,
+  "parse_rate": 0.0,
+  "metrics": {},
+  "outputs": [
+    {
+      "source_id": "piwm_018c60ec22",
+      "task": "perception",
+      "target": "<stage>attention</stage>\n<belief>Several options remain worth comparing. Persona: price_sensitive_cautious.</belief>\n<desire>obtain a better price</desire>\n<intention>ask about price flexibility</intention>\n<score>3</score>\n<cands>A1_silent_observe, A6_acknowledge_and_wait</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_0b17a72423",
+      "task": "perception",
+      "target": "<stage>attention</stage>\n<belief>A suitable choice is close but still needs confirmation. Persona: browser_low_intent.</belief>\n<desire>confirm the preferred choice</desire>\n<intention>move toward confirming the choice</intention>\n<score>5</score>\n<cands>A1_silent_observe, A6_acknowledge_and_wait</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_0bb27e53db",
+      "task": "perception",
+      "target": "<stage>action</stage>\n<belief>Several options remain worth comparing. Persona: price_sensitive_cautious.</belief>\n<desire>obtain a better price</desire>\n<intention>ask about price flexibility</intention>\n<score>3</score>\n<cands>A1_silent_observe, A6_acknowledge_and_wait</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_12af89a3d3",
+      "task": "perception",
+      "target": "<stage>action</stage>\n<belief>The current interaction is not useful enough to continue. Persona: price_sensitive_cautious.</belief>\n<desire>avoid further engagement</desire>\n<intention>leave without buying</intention>\n<score>1</score>\n<cands>A1_silent_observe, A6_acknowledge_and_wait</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_287c764c9f",
+      "task": "perception",
+      "target": "<stage>desire</stage>\n<belief>The offer may not yet justify its price. Persona: experienced_brand_loyal.</belief>\n<desire>gain reassurance before deciding</desire>\n<intention>look for reassurance or clarification</intention>\n<score>4</score>\n<cands>A2_offer_value_comparison, A4_open_with_question, A6_acknowledge_and_wait, A3_strong_recommend</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_3875ec078e",
+      "task": "perception",
+      "target": "<stage>action</stage>\n<belief>Several options remain worth comparing. Persona: price_sensitive_cautious.</belief>\n<desire>obtain a better price</desire>\n<intention>ask about price flexibility</intention>\n<score>3</score>\n<cands>A1_silent_observe, A6_acknowledge_and_wait</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_45930086f4",
+      "task": "perception",
+      "target": "<stage>action</stage>\n<belief>Several options remain worth comparing. Persona: browser_low_intent.</belief>\n<desire>explore available options</desire>\n<intention>continue browsing and comparing</intention>\n<score>3</score>\n<cands>A1_silent_observe, A6_acknowledge_and_wait</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_49afedcfca",
+      "task": "perception",
+      "target": "<stage>interest</stage>\n<belief>The offer may not yet justify its price. Persona: gift_buyer_uncertain.</belief>\n<desire>gain reassurance before deciding</desire>\n<intention>look for reassurance or clarification</intention>\n<score>4</score>\n<cands>A1_silent_observe, A2_offer_value_comparison, A4_open_with_question, A3_strong_recommend</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_018c60ec22#A1_silent_observe",
+      "task": "deliberation",
+      "target": "<next_stage>interest</next_stage>\n<next_belief>Several options remain worth comparing. Persona: price_sensitive_cautious.</next_belief>\n<next_desire>obtain a better price</next_desire>\n<next_intention>ask about price flexibility</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.20</reward>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_018c60ec22#A6_acknowledge_and_wait",
+      "task": "deliberation",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain after the last observation. Persona: price_sensitive_cautious.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>0.00</reward>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_0b17a72423#A1_silent_observe",
+      "task": "deliberation",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The current interaction is not useful enough to continue. Persona: browser_low_intent.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>-0.20</reward>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_0b17a72423#A6_acknowledge_and_wait",
+      "task": "deliberation",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain after the last observation. Persona: browser_low_intent.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>0.00</reward>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_0bb27e53db#A1_silent_observe",
+      "task": "deliberation",
+      "target": "<next_stage>action</next_stage>\n<next_belief>Several options remain worth comparing. Persona: price_sensitive_cautious.</next_belief>\n<next_desire>obtain a better price</next_desire>\n<next_intention>ask about price flexibility</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.20</reward>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_0bb27e53db#A6_acknowledge_and_wait",
+      "task": "deliberation",
+      "target": "<next_stage>action</next_stage>\n<next_belief>The decision remains uncertain after the last observation. Persona: price_sensitive_cautious.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>0.00</reward>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_12af89a3d3#A1_silent_observe",
+      "task": "deliberation",
+      "target": "<next_stage>action</next_stage>\n<next_belief>The current interaction is not useful enough to continue. Persona: price_sensitive_cautious.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.30</reward>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_12af89a3d3#A6_acknowledge_and_wait",
+      "task": "deliberation",
+      "target": "<next_stage>action</next_stage>\n<next_belief>The decision remains uncertain after the last observation. Persona: price_sensitive_cautious.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>0.00</reward>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_018c60ec22#best_A1_silent_observe",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer continues examining the product, keeping attention on visible details and features</reaction_caption>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_018c60ec22#worst_A6_acknowledge_and_wait",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer stays undecided, with no clear engagement or withdrawal</reaction_caption>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_0b17a72423#worst_A1_silent_observe",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer turns away from the display and stops interacting with the product</reaction_caption>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_0b17a72423#best_A6_acknowledge_and_wait",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer stays undecided, with no clear engagement or withdrawal</reaction_caption>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_0bb27e53db#best_A1_silent_observe",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer continues examining the product, keeping attention on visible details and features</reaction_caption>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_0bb27e53db#worst_A6_acknowledge_and_wait",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer stays undecided, with no clear engagement or withdrawal</reaction_caption>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_12af89a3d3#best_A1_silent_observe",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer turns away from the display and stops interacting with the product</reaction_caption>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "source_id": "piwm_12af89a3d3#worst_A6_acknowledge_and_wait",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer stays undecided, with no clear engagement or withdrawal</reaction_caption>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 1.94 GiB. GPU 0 has a total capacity of 23.52 GiB of which 1.93 GiB is free. Including non-PyTorch memory, this process has 21.58 GiB memory in use. Of the allocated memory 19.28 GiB is allocated by PyTorch, and 1.84 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    }
+  ]
+}

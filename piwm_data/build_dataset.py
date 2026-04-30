@@ -16,6 +16,7 @@ from .exporters import (
     export_state_inference,
     export_state_inference_with_cue,
     export_transition_modeling,
+    export_world_model_continuation,
 )
 from .schemas import MainSchemaRecord
 from .validate import validate_image_paths, validate_main_schema
@@ -30,6 +31,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--no-validate", action="store_true")
     parser.add_argument("--strict", action="store_true")
     parser.add_argument("--allow-unreviewed", action="store_true")
+    parser.add_argument("--require-continuation", action="store_true")
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args(argv)
 
@@ -47,6 +49,7 @@ def main(argv: list[str] | None = None) -> int:
         frame_sample=args.frame_sample,
         no_validate=args.no_validate,
         require_qa_pass=not args.allow_unreviewed,
+        require_continuation=args.require_continuation,
         strict=args.strict,
     )
 
@@ -55,6 +58,7 @@ def main(argv: list[str] | None = None) -> int:
     n_state_with_cue = export_state_inference_with_cue(records, output_dir / "state_inference_with_cue.jsonl")
     n_transition = export_transition_modeling(records, output_dir / "transition_modeling.jsonl")
     n_preference = export_policy_preference(records, output_dir / "policy_preference.jsonl")
+    n_world_model_continuation = export_world_model_continuation(records, output_dir / "world_model_continuation.jsonl")
     n_preference_skipped = sum(1 for record in records if build_policy_preference_row(record) is None)
 
     stats = {
@@ -67,8 +71,10 @@ def main(argv: list[str] | None = None) -> int:
         "n_transition_modeling_rows": n_transition,
         "n_policy_preference_rows": n_preference,
         "n_policy_preference_skipped_no_pair": n_preference_skipped,
+        "n_world_model_continuation_rows": n_world_model_continuation,
         "skipped_reasons": dict(skipped_reasons),
         "require_qa_pass": not args.allow_unreviewed,
+        "require_continuation": args.require_continuation,
         "rule_version": rules.RULE_VERSION,
         "frame_sample": args.frame_sample,
         "timestamp_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -88,6 +94,7 @@ def _load_sessions_lenient(
     frame_sample: int,
     no_validate: bool,
     require_qa_pass: bool,
+    require_continuation: bool,
     strict: bool = False,
 ) -> tuple[list[MainSchemaRecord], Counter[str]]:
     from .archive_loader import load_session
@@ -108,6 +115,8 @@ def _load_sessions_lenient(
                 if not qa_ok:
                     raise QAGateNotPassedError(qa_reason)
             record = load_session(session_dir)
+            if require_continuation and not any(c.qa_overall_pass for c in record.continuations.values()):
+                raise ContinuationNotPassedError("no qa-passed continuation found")
             sampled = record.model_copy(update={"images": sample_frames(record.images, frame_sample)})
             if not no_validate:
                 errors = validate_main_schema(sampled) + validate_image_paths(sampled, Path.cwd())
@@ -122,6 +131,10 @@ def _load_sessions_lenient(
 
 
 class QAGateNotPassedError(ValueError):
+    pass
+
+
+class ContinuationNotPassedError(ValueError):
     pass
 
 
@@ -159,6 +172,10 @@ def _world_model_stats(records: list[MainSchemaRecord]) -> dict[str, int | float
     contrast_by_viewpoint: dict[str, int] = {}
     product_counts: dict[str, int] = {}
     split_counts: dict[str, int] = {}
+    continuation_role_counts: dict[str, int] = {}
+    negative_reward_continuations = 0
+    qa_pass_continuations = 0
+    reward_gaps: list[float] = []
     for record in records:
         viewpoint = record.viewpoint
         viewpoint_counts[viewpoint] = viewpoint_counts.get(viewpoint, 0) + 1
@@ -167,6 +184,16 @@ def _world_model_stats(records: list[MainSchemaRecord]) -> dict[str, int | float
             split_counts[record.split] = split_counts.get(record.split, 0) + 1
         if _has_action_contrast(record):
             contrast_by_viewpoint[viewpoint] = contrast_by_viewpoint.get(viewpoint, 0) + 1
+        passed_continuations = [continuation for continuation in record.continuations.values() if continuation.qa_overall_pass]
+        for continuation in passed_continuations:
+            role = continuation.continuation_role.value
+            continuation_role_counts[role] = continuation_role_counts.get(role, 0) + 1
+            qa_pass_continuations += 1
+            if continuation.expected_reward < 0:
+                negative_reward_continuations += 1
+        if len(passed_continuations) >= 2:
+            rewards = [continuation.expected_reward for continuation in passed_continuations]
+            reward_gaps.append(max(rewards) - min(rewards))
     return {
         "n_transition_parent_states": len(records),
         "avg_actions_per_state": sum(action_counts) / len(action_counts) if action_counts else 0.0,
@@ -176,7 +203,23 @@ def _world_model_stats(records: list[MainSchemaRecord]) -> dict[str, int | float
         "n_sessions_by_product_category": dict(sorted(product_counts.items())),
         "n_sessions_by_split": dict(sorted(split_counts.items())),
         "n_states_with_action_contrast_by_viewpoint": dict(sorted(contrast_by_viewpoint.items())),
+        "n_continuations_with_visual_qa_pass": qa_pass_continuations,
+        "n_continuations_by_role": dict(sorted(continuation_role_counts.items())),
+        "n_negative_reward_continuations": negative_reward_continuations,
+        "best_worst_reward_gap_distribution": _reward_gap_distribution(reward_gaps),
     }
+
+
+def _reward_gap_distribution(values: list[float]) -> dict[str, float]:
+    if not values:
+        return {"min": 0.0, "median": 0.0, "max": 0.0}
+    values = sorted(values)
+    mid = len(values) // 2
+    if len(values) % 2:
+        median = values[mid]
+    else:
+        median = (values[mid - 1] + values[mid]) / 2
+    return {"min": values[0], "median": median, "max": values[-1]}
 
 
 def _has_action_contrast(record: MainSchemaRecord) -> bool:

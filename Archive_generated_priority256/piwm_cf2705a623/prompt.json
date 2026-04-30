@@ -1,0 +1,124 @@
+{
+  "session_id": "piwm_cf2705a623",
+  "split": "train",
+  "viewpoint": "salesperson_observable",
+  "product_category": "luxury_watch",
+  "persona": {
+    "type": "browser_low_intent",
+    "description": "A casual browser with low purchase intent who may leave if approached too strongly."
+  },
+  "aida_stage": "interest",
+  "target_cue": "checking_phone_likely_research",
+  "duration_seconds": 10,
+  "training_input_mode": "multi_image_single_turn",
+  "source_rule_ids": [
+    "CAND_003",
+    "CUE2STATE_005",
+    "FALLBACK_002",
+    "PROSCORE_002",
+    "TRANS_006",
+    "TRANS_008",
+    "TRANS_009",
+    "TRANS_010"
+  ],
+  "runtime_fallbacks": [
+    "persona_state_to_intent->state_fallback_intent"
+  ],
+  "behavior_description": "0-2s: The shopper examines the product display. 2-5s: The shopper takes out a phone and looks at it while standing next to the product. 5-8s: The shopper alternates between the phone screen and the product, as if comparing information. 8-10s: The shopper keeps the phone in hand and continues reviewing the product.",
+  "behavior_timeline": [
+    {
+      "time": "0-2s",
+      "event": "The shopper examines the product display."
+    },
+    {
+      "time": "2-5s",
+      "event": "The shopper takes out a phone and looks at it while standing next to the product."
+    },
+    {
+      "time": "5-8s",
+      "event": "The shopper alternates between the phone screen and the product, as if comparing information."
+    },
+    {
+      "time": "8-10s",
+      "event": "The shopper keeps the phone in hand and continues reviewing the product."
+    }
+  ],
+  "frame_sampling_plan": [
+    {
+      "index": 0,
+      "timestamp_sec": 2.0,
+      "role": "cue_onset"
+    },
+    {
+      "index": 1,
+      "timestamp_sec": 5.0,
+      "role": "cue_peak"
+    },
+    {
+      "index": 2,
+      "timestamp_sec": 8.0,
+      "role": "cue_resolution"
+    }
+  ],
+  "kling_prompt_sections": {
+    "camera": "10-second realistic in-store medium shot from a salesperson-observable angle, three-quarter front or side-front view; customer face, gaze direction, subtle expression, upper body, hands, product display, and price area visible; one primary shopper, natural movement, no subtitles, no voiceover, no brand logos.",
+    "scene": "a quiet watch boutique with a glass display counter; visible product setup: two premium wristwatches on neutral display pads.",
+    "behavior_timeline": [
+      {
+        "time": "0-2s",
+        "event": "The shopper examines the product display."
+      },
+      {
+        "time": "2-5s",
+        "event": "The shopper takes out a phone and looks at it while standing next to the product."
+      },
+      {
+        "time": "5-8s",
+        "event": "The shopper alternates between the phone screen and the product, as if comparing information."
+      },
+      {
+        "time": "8-10s",
+        "event": "The shopper keeps the phone in hand and continues reviewing the product."
+      }
+    ],
+    "negative": "no back-only shot, no face hidden, no hands outside frame, no extra shoppers, no completed purchase, no salesperson speech, no exaggerated acting, no floating labels, no hidden-category labels, no intervention labels, no scoring text, no UI overlays."
+  },
+  "kling_prompt": "Camera: 10-second realistic in-store medium shot from a salesperson-observable angle, three-quarter front or side-front view; customer face, gaze direction, subtle expression, upper body, hands, product display, and price area visible; one primary shopper, natural movement, no subtitles, no voiceover, no brand logos.\nScene: a quiet watch boutique with a glass display counter; visible product setup: two premium wristwatches on neutral display pads.\nCustomer behavior style: The shopper stays near the display and examines details with visible curiosity.\nBehavior timeline:\n- 0-2s: The shopper examines the product display.\n- 2-5s: The shopper takes out a phone and looks at it while standing next to the product.\n- 5-8s: The shopper alternates between the phone screen and the product, as if comparing information.\n- 8-10s: The shopper keeps the phone in hand and continues reviewing the product.\nNegative constraints: no back-only shot, no face hidden, no hands outside frame, no extra shoppers, no completed purchase, no salesperson speech, no exaggerated acting, no floating labels, no hidden-category labels, no intervention labels, no scoring text, no UI overlays.",
+  "sampler": {
+    "version": "phase3_viewpoint_v1",
+    "seed": 20260430,
+    "holdout_products": [
+      "footwear"
+    ],
+    "holdout_personas": [
+      "gift_buyer_uncertain"
+    ],
+    "viewpoint": "salesperson_observable"
+  },
+  "scenario_metadata": {
+    "sample_index": 83,
+    "derived": {
+      "state_subtype": "active_evaluation",
+      "intent": "explore_options",
+      "proactive_score": 3,
+      "candidate_actions": [
+        "A4_open_with_question",
+        "A5_provide_demonstration",
+        "A1_silent_observe",
+        "A3_strong_recommend"
+      ],
+      "best_action": "A5_provide_demonstration"
+    },
+    "sampler": {
+      "version": "phase3_viewpoint_v1",
+      "seed": 20260430,
+      "holdout_products": [
+        "footwear"
+      ],
+      "holdout_personas": [
+        "gift_buyer_uncertain"
+      ],
+      "viewpoint": "salesperson_observable"
+    }
+  }
+}

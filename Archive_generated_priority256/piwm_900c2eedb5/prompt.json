@@ -1,0 +1,122 @@
+{
+  "session_id": "piwm_900c2eedb5",
+  "split": "train",
+  "viewpoint": "salesperson_observable",
+  "product_category": "electronics_phone",
+  "persona": {
+    "type": "first_time_high_consideration",
+    "description": "A first-time buyer considering a higher-stakes purchase and needing reassurance."
+  },
+  "aida_stage": "interest",
+  "target_cue": "trying_on_or_testing",
+  "duration_seconds": 10,
+  "training_input_mode": "multi_image_single_turn",
+  "source_rule_ids": [
+    "CAND_003",
+    "CUE2STATE_007",
+    "PROSCORE_002",
+    "PSI_005",
+    "TRANS_006",
+    "TRANS_008",
+    "TRANS_009",
+    "TRANS_010"
+  ],
+  "runtime_fallbacks": [],
+  "behavior_description": "0-2s: The shopper steps close to the product display. 2-5s: The shopper tries the product, tests a demo function, or checks fit in a natural way. 5-8s: The shopper continues testing while watching the product response or appearance. 8-10s: The shopper finishes the test and keeps considering the item.",
+  "behavior_timeline": [
+    {
+      "time": "0-2s",
+      "event": "The shopper steps close to the product display."
+    },
+    {
+      "time": "2-5s",
+      "event": "The shopper tries the product, tests a demo function, or checks fit in a natural way."
+    },
+    {
+      "time": "5-8s",
+      "event": "The shopper continues testing while watching the product response or appearance."
+    },
+    {
+      "time": "8-10s",
+      "event": "The shopper finishes the test and keeps considering the item."
+    }
+  ],
+  "frame_sampling_plan": [
+    {
+      "index": 0,
+      "timestamp_sec": 2.0,
+      "role": "cue_onset"
+    },
+    {
+      "index": 1,
+      "timestamp_sec": 5.0,
+      "role": "cue_peak"
+    },
+    {
+      "index": 2,
+      "timestamp_sec": 8.0,
+      "role": "cue_resolution"
+    }
+  ],
+  "kling_prompt_sections": {
+    "camera": "10-second realistic in-store medium shot from a salesperson-observable angle, three-quarter front or side-front view; customer face, gaze direction, subtle expression, upper body, hands, product display, and price area visible; one primary shopper, natural movement, no subtitles, no voiceover, no brand logos.",
+    "scene": "a modern phone retail store with clean demo tables; visible product setup: an accessible demo sample on an open presentation tray on top of the counter, outside any glass case; the shopper can naturally touch only this demo sample, while the enclosed display stays in the background.",
+    "behavior_timeline": [
+      {
+        "time": "0-2s",
+        "event": "The shopper steps close to the product display."
+      },
+      {
+        "time": "2-5s",
+        "event": "The shopper tries the product, tests a demo function, or checks fit in a natural way."
+      },
+      {
+        "time": "5-8s",
+        "event": "The shopper continues testing while watching the product response or appearance."
+      },
+      {
+        "time": "8-10s",
+        "event": "The shopper finishes the test and keeps considering the item."
+      }
+    ],
+    "negative": "no back-only shot, no face hidden, no hands outside frame, no extra shoppers, no completed purchase, no salesperson speech, no exaggerated acting, no floating labels, no hidden-category labels, no intervention labels, no scoring text, no UI overlays."
+  },
+  "kling_prompt": "Camera: 10-second realistic in-store medium shot from a salesperson-observable angle, three-quarter front or side-front view; customer face, gaze direction, subtle expression, upper body, hands, product display, and price area visible; one primary shopper, natural movement, no subtitles, no voiceover, no brand logos.\nScene: a modern phone retail store with clean demo tables; visible product setup: an accessible demo sample on an open presentation tray on top of the counter, outside any glass case; the shopper can naturally touch only this demo sample, while the enclosed display stays in the background.\nCustomer behavior style: The shopper stays near the display and examines details with visible curiosity.\nBehavior timeline:\n- 0-2s: The shopper steps close to the product display.\n- 2-5s: The shopper tries the product, tests a demo function, or checks fit in a natural way.\n- 5-8s: The shopper continues testing while watching the product response or appearance.\n- 8-10s: The shopper finishes the test and keeps considering the item.\nNegative constraints: no back-only shot, no face hidden, no hands outside frame, no extra shoppers, no completed purchase, no salesperson speech, no exaggerated acting, no floating labels, no hidden-category labels, no intervention labels, no scoring text, no UI overlays.",
+  "sampler": {
+    "version": "phase3_viewpoint_v1",
+    "seed": 20260430,
+    "holdout_products": [
+      "footwear"
+    ],
+    "holdout_personas": [
+      "gift_buyer_uncertain"
+    ],
+    "viewpoint": "salesperson_observable"
+  },
+  "scenario_metadata": {
+    "sample_index": 113,
+    "derived": {
+      "state_subtype": "active_evaluation",
+      "intent": "request_demonstration",
+      "proactive_score": 3,
+      "candidate_actions": [
+        "A4_open_with_question",
+        "A5_provide_demonstration",
+        "A1_silent_observe",
+        "A3_strong_recommend"
+      ],
+      "best_action": "A5_provide_demonstration"
+    },
+    "sampler": {
+      "version": "phase3_viewpoint_v1",
+      "seed": 20260430,
+      "holdout_products": [
+        "footwear"
+      ],
+      "holdout_personas": [
+        "gift_buyer_uncertain"
+      ],
+      "viewpoint": "salesperson_observable"
+    }
+  }
+}

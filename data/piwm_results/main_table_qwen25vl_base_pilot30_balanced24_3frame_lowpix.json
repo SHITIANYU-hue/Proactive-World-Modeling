@@ -1,0 +1,313 @@
+{
+  "artifact": "ms_swift_checkpoint_eval",
+  "is_training_result": true,
+  "eval_label": "qwen25vl_base_pilot30_3frame_lowpix",
+  "model": "/root/lanyun-pub/Qwen/Qwen2.5-VL-7B-Instruct",
+  "checkpoint": null,
+  "input_jsonl": "data/piwm_results/ms_swift_eval_inputs/pilot30_balanced24.jsonl",
+  "eval_args": {
+    "limit": 24,
+    "max_new_tokens": 128,
+    "image_limit": 3,
+    "max_pixels": 100352,
+    "torch_dtype": "float16",
+    "device_map": "auto"
+  },
+  "n_records": 24,
+  "task_counts": {
+    "perception": 8,
+    "deliberation": 8,
+    "continuation_caption": 8
+  },
+  "parse_success": 11,
+  "parse_rate": 0.4583333333333333,
+  "metrics": {
+    "benefit_exact": 1.0,
+    "caption_exact": 0.0,
+    "next_stage_exact": 0.3333333333333333,
+    "reward_exact": 0.0,
+    "risk_exact": 0.0
+  },
+  "outputs": [
+    {
+      "source_id": "piwm_018c60ec22",
+      "task": "perception",
+      "target": "<stage>attention</stage>\n<belief>Several options remain worth comparing. Persona: price_sensitive_cautious.</belief>\n<desire>obtain a better price</desire>\n<intention>ask about price flexibility</intention>\n<score>3</score>\n<cands>A1_silent_observe, A6_acknowledge_and_wait</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one stage tag, found 0"
+    },
+    {
+      "source_id": "piwm_0b17a72423",
+      "task": "perception",
+      "target": "<stage>attention</stage>\n<belief>A suitable choice is close but still needs confirmation. Persona: browser_low_intent.</belief>\n<desire>confirm the preferred choice</desire>\n<intention>move toward confirming the choice</intention>\n<score>5</score>\n<cands>A1_silent_observe, A6_acknowledge_and_wait</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one stage tag, found 0"
+    },
+    {
+      "source_id": "piwm_0bb27e53db",
+      "task": "perception",
+      "target": "<stage>action</stage>\n<belief>Several options remain worth comparing. Persona: price_sensitive_cautious.</belief>\n<desire>obtain a better price</desire>\n<intention>ask about price flexibility</intention>\n<score>3</score>\n<cands>A1_silent_observe, A6_acknowledge_and_wait</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one stage tag, found 0"
+    },
+    {
+      "source_id": "piwm_12af89a3d3",
+      "task": "perception",
+      "target": "<stage>action</stage>\n<belief>The current interaction is not useful enough to continue. Persona: price_sensitive_cautious.</belief>\n<desire>avoid further engagement</desire>\n<intention>leave without buying</intention>\n<score>1</score>\n<cands>A1_silent_observe, A6_acknowledge_and_wait</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid candidate action(s): ['recommend fitting room', 'offer assistance']"
+    },
+    {
+      "source_id": "piwm_287c764c9f",
+      "task": "perception",
+      "target": "<stage>desire</stage>\n<belief>The offer may not yet justify its price. Persona: experienced_brand_loyal.</belief>\n<desire>gain reassurance before deciding</desire>\n<intention>look for reassurance or clarification</intention>\n<score>4</score>\n<cands>A2_offer_value_comparison, A4_open_with_question, A6_acknowledge_and_wait, A3_strong_recommend</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one stage tag, found 0"
+    },
+    {
+      "source_id": "piwm_3875ec078e",
+      "task": "perception",
+      "target": "<stage>action</stage>\n<belief>Several options remain worth comparing. Persona: price_sensitive_cautious.</belief>\n<desire>obtain a better price</desire>\n<intention>ask about price flexibility</intention>\n<score>3</score>\n<cands>A1_silent_observe, A6_acknowledge_and_wait</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid candidate action(s): ['offer assistance', 'provide information']"
+    },
+    {
+      "source_id": "piwm_45930086f4",
+      "task": "perception",
+      "target": "<stage>action</stage>\n<belief>Several options remain worth comparing. Persona: browser_low_intent.</belief>\n<desire>explore available options</desire>\n<intention>continue browsing and comparing</intention>\n<score>3</score>\n<cands>A1_silent_observe, A6_acknowledge_and_wait</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid candidate action(s): ['informal inquiry']"
+    },
+    {
+      "source_id": "piwm_49afedcfca",
+      "task": "perception",
+      "target": "<stage>interest</stage>\n<belief>The offer may not yet justify its price. Persona: gift_buyer_uncertain.</belief>\n<desire>gain reassurance before deciding</desire>\n<intention>look for reassurance or clarification</intention>\n<score>4</score>\n<cands>A1_silent_observe, A2_offer_value_comparison, A4_open_with_question, A3_strong_recommend</cands>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid candidate action(s): ['inform', 'assist']"
+    },
+    {
+      "source_id": "piwm_018c60ec22#A1_silent_observe",
+      "task": "deliberation",
+      "target": "<next_stage>interest</next_stage>\n<next_belief>Several options remain worth comparing. Persona: price_sensitive_cautious.</next_belief>\n<next_desire>obtain a better price</next_desire>\n<next_intention>ask about price flexibility</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.20</reward>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one risk tag, found 0"
+    },
+    {
+      "source_id": "piwm_018c60ec22#A6_acknowledge_and_wait",
+      "task": "deliberation",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain after the last observation. Persona: price_sensitive_cautious.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>0.00</reward>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one risk tag, found 0"
+    },
+    {
+      "source_id": "piwm_0b17a72423#A1_silent_observe",
+      "task": "deliberation",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The current interaction is not useful enough to continue. Persona: browser_low_intent.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>-0.20</reward>",
+      "prediction": "<next_stage>action</next_stage>\n<next_belief>low</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>high</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.25</reward>",
+      "parsed": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "low",
+          "desire": "medium",
+          "intention": "high"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.25
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": false,
+        "benefit_exact": true,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_0b17a72423#A6_acknowledge_and_wait",
+      "task": "deliberation",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain after the last observation. Persona: browser_low_intent.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>0.00</reward>",
+      "prediction": "<next_stage>action</next_stage>\n<next_belief>low</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>high</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.25</reward>",
+      "parsed": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "low",
+          "desire": "medium",
+          "intention": "high"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.25
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": false,
+        "benefit_exact": true,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_0bb27e53db#A1_silent_observe",
+      "task": "deliberation",
+      "target": "<next_stage>action</next_stage>\n<next_belief>Several options remain worth comparing. Persona: price_sensitive_cautious.</next_belief>\n<next_desire>obtain a better price</next_desire>\n<next_intention>ask about price flexibility</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.20</reward>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "piwm_0bb27e53db#A6_acknowledge_and_wait",
+      "task": "deliberation",
+      "target": "<next_stage>action</next_stage>\n<next_belief>The decision remains uncertain after the last observation. Persona: price_sensitive_cautious.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>0.00</reward>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one risk tag, found 0"
+    },
+    {
+      "source_id": "piwm_12af89a3d3#A1_silent_observe",
+      "task": "deliberation",
+      "target": "<next_stage>action</next_stage>\n<next_belief>The current interaction is not useful enough to continue. Persona: price_sensitive_cautious.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.30</reward>",
+      "prediction": null,
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one risk tag, found 0"
+    },
+    {
+      "source_id": "piwm_12af89a3d3#A6_acknowledge_and_wait",
+      "task": "deliberation",
+      "target": "<next_stage>action</next_stage>\n<next_belief>The decision remains uncertain after the last observation. Persona: price_sensitive_cautious.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>0.00</reward>",
+      "prediction": "<next_stage>action</next_stage>\n<next_belief>low</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>-0.25</reward>",
+      "parsed": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "low",
+          "desire": "medium",
+          "intention": "leave without buying"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": -0.25
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": true,
+        "risk_exact": false,
+        "benefit_exact": true,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_018c60ec22#best_A1_silent_observe",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer continues examining the product, keeping attention on visible details and features</reaction_caption>",
+      "prediction": "<reaction_caption>The customer looks at the salesperson expectantly, possibly waiting for an explanation or further information regarding the laptop's features or price.</reaction_caption>",
+      "parsed": {
+        "reaction_caption": "The customer looks at the salesperson expectantly, possibly waiting for an explanation or further information regarding the laptop's features or price."
+      },
+      "parse_ok": true,
+      "scores": {
+        "caption_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_018c60ec22#worst_A6_acknowledge_and_wait",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer stays undecided, with no clear engagement or withdrawal</reaction_caption>",
+      "prediction": "<reaction_caption>The customer looks at the salesperson expectantly, possibly waiting for an explanation or further information regarding the laptop's features or price.</reaction_caption>",
+      "parsed": {
+        "reaction_caption": "The customer looks at the salesperson expectantly, possibly waiting for an explanation or further information regarding the laptop's features or price."
+      },
+      "parse_ok": true,
+      "scores": {
+        "caption_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_0b17a72423#worst_A1_silent_observe",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer turns away from the display and stops interacting with the product</reaction_caption>",
+      "prediction": "<reaction_caption>The customer will likely continue to browse other options or ask for more information about the displayed products.</reaction_caption>",
+      "parsed": {
+        "reaction_caption": "The customer will likely continue to browse other options or ask for more information about the displayed products."
+      },
+      "parse_ok": true,
+      "scores": {
+        "caption_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_0b17a72423#best_A6_acknowledge_and_wait",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer stays undecided, with no clear engagement or withdrawal</reaction_caption>",
+      "prediction": "<reaction_caption>The customer will likely look at the salesperson expectantly, waiting for further guidance or information about the preferred choice.</reaction_caption>",
+      "parsed": {
+        "reaction_caption": "The customer will likely look at the salesperson expectantly, waiting for further guidance or information about the preferred choice."
+      },
+      "parse_ok": true,
+      "scores": {
+        "caption_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_0bb27e53db#best_A1_silent_observe",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer continues examining the product, keeping attention on visible details and features</reaction_caption>",
+      "prediction": "<reaction_caption>The customer looks up from their phone, possibly noticing the salesperson's approach.</reaction_caption>",
+      "parsed": {
+        "reaction_caption": "The customer looks up from their phone, possibly noticing the salesperson's approach."
+      },
+      "parse_ok": true,
+      "scores": {
+        "caption_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_0bb27e53db#worst_A6_acknowledge_and_wait",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer stays undecided, with no clear engagement or withdrawal</reaction_caption>",
+      "prediction": "<reaction_caption>The customer looks up from their phone, possibly acknowledging the salesperson's presence or response.</reaction_caption>",
+      "parsed": {
+        "reaction_caption": "The customer looks up from their phone, possibly acknowledging the salesperson's presence or response."
+      },
+      "parse_ok": true,
+      "scores": {
+        "caption_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_12af89a3d3#best_A1_silent_observe",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer turns away from the display and stops interacting with the product</reaction_caption>",
+      "prediction": "<reaction_caption>The customer may look around the store, possibly checking out other items or looking for assistance from a staff member.</reaction_caption>",
+      "parsed": {
+        "reaction_caption": "The customer may look around the store, possibly checking out other items or looking for assistance from a staff member."
+      },
+      "parse_ok": true,
+      "scores": {
+        "caption_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_12af89a3d3#worst_A6_acknowledge_and_wait",
+      "task": "continuation_caption",
+      "target": "<reaction_caption>the customer stays undecided, with no clear engagement or withdrawal</reaction_caption>",
+      "prediction": "<reaction_caption>The customer may look around the store, possibly checking out other items or looking for assistance from another staff member.</reaction_caption>",
+      "parsed": {
+        "reaction_caption": "The customer may look around the store, possibly checking out other items or looking for assistance from another staff member."
+      },
+      "parse_ok": true,
+      "scores": {
+        "caption_exact": false
+      }
+    }
+  ]
+}

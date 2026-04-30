@@ -1,0 +1,12 @@
+{
+  "session_id": "piwm_cf2705a623",
+  "out_dir": "Archive_generated_priority256/piwm_cf2705a623",
+  "video_path": "Archive_generated_priority256/piwm_cf2705a623/video.mp4",
+  "model": "kling-v3.0-t2v",
+  "aspect_ratio": "16:9",
+  "duration": 10,
+  "mode": "pro",
+  "sound": "off",
+  "prompt_chars": 1172,
+  "dry_run": false
+}

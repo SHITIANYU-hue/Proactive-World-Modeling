@@ -1,0 +1,14 @@
+{
+  "cue_visible_in_video": true,
+  "cue_visible_in_sampled_frames": true,
+  "physical_consistency_pass": true,
+  "extra_subjects": false,
+  "viewpoint_pass": true,
+  "required_visibility": {
+    "body_trajectory_visible": true,
+    "dwell_visible": true,
+    "hands_or_arm_movement_visible": true,
+    "product_area_visible": true
+  },
+  "reviewer_notes": "PASS: stratified contact-sheet QA; target cue, sampled frames, viewpoint visibility, and physical consistency are sufficiently supported."
+}

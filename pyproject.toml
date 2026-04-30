@@ -10,7 +10,18 @@ dependencies = [
 test = [
   "pytest",
 ]
+train = [
+  "accelerate",
+  "bitsandbytes",
+  "modelscope",
+  "ms-swift",
+  "peft",
+  "pillow",
+  "qwen-vl-utils",
+  "torch",
+  "transformers",
+  "trl",
+]
 
 [tool.pytest.ini_options]
-testpaths = ["piwm_data/tests"]
-
+testpaths = ["piwm_data/tests", "piwm_train/tests", "piwm_infer/tests"]

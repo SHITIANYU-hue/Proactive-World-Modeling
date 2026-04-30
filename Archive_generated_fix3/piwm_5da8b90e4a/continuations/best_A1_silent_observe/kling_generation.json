@@ -1,0 +1,12 @@
+{
+  "session_id": "best_A1_silent_observe",
+  "out_dir": "Archive_generated_fix3/piwm_5da8b90e4a/continuations/best_A1_silent_observe",
+  "video_path": "Archive_generated_fix3/piwm_5da8b90e4a/continuations/best_A1_silent_observe/video.mp4",
+  "model": "kling-v3.0-t2v",
+  "aspect_ratio": "16:9",
+  "duration": 5,
+  "mode": "pro",
+  "sound": "off",
+  "prompt_chars": 1769,
+  "dry_run": false
+}

@@ -1,0 +1,19 @@
+{
+  "reaction_visible": true,
+  "reaction_matches_expected_state": false,
+  "pre_action_continuity_pass": true,
+  "no_scene_change": true,
+  "no_new_subjects": true,
+  "viewpoint_pass": false,
+  "required_visibility": {
+    "body_trajectory_change_visible": false,
+    "pre_action_continuity_pass": true,
+    "no_scene_change": true
+  },
+  "reaction_checklist": {
+    "light_browsing_continues": false,
+    "minimal_product_contact": false,
+    "noncommittal_movement": false
+  },
+  "reviewer_notes": "No staff appears after the prompt fix, but the shopper remains in close product inspection with hands near the display; this reads as active evaluation rather than early browsing. Surveillance-style body trajectory is not visible enough."
+}

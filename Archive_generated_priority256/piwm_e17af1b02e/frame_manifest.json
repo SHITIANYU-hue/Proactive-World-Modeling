@@ -1,0 +1,29 @@
+{
+  "source_video": "video.mp4",
+  "viewpoint": "surveillance_oblique",
+  "training_input_mode": "multi_image_single_turn",
+  "frame_sampling_strategy": "cue_timeline_plan",
+  "fps": 24.0,
+  "frame_count": 241.0,
+  "duration_sec": 10.041666666666666,
+  "sampled_frames": [
+    {
+      "index": 0,
+      "path": "frames/000.jpg",
+      "timestamp_sec": 2.0,
+      "role": "cue_onset"
+    },
+    {
+      "index": 1,
+      "path": "frames/001.jpg",
+      "timestamp_sec": 5.0,
+      "role": "cue_peak"
+    },
+    {
+      "index": 2,
+      "path": "frames/002.jpg",
+      "timestamp_sec": 8.0,
+      "role": "cue_resolution"
+    }
+  ]
+}

@@ -1,0 +1,553 @@
+{
+  "n_sessions": 59,
+  "n_error": 59,
+  "status_counts": {
+    "error": 59
+  },
+  "viewpoint_counts": {
+    "salesperson_observable": {
+      "n": 44,
+      "error": 44
+    },
+    "surveillance_oblique": {
+      "n": 15,
+      "error": 15
+    }
+  },
+  "prompt_index": "data/priority_generation_queue/prompt_index_priority256_remaining_shard1.jsonl",
+  "out_root": "Archive_generated_priority256",
+  "dry_run": false,
+  "results": [
+    {
+      "session_id": "piwm_91738249dd",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "repeated_product_handling",
+      "prompt_path": "Archive_prompts_priority256/piwm_91738249dd/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_91738249dd",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_9210a34928",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "brief_glance_walking_past",
+      "prompt_path": "Archive_prompts_priority256/piwm_9210a34928/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_9210a34928",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_3549e65d37",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "approaching_counter",
+      "prompt_path": "Archive_prompts_priority256/piwm_3549e65d37/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_3549e65d37",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_a12a7e30e0",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "long_dwell_with_price_check",
+      "prompt_path": "Archive_prompts_priority256/piwm_a12a7e30e0/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_a12a7e30e0",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_e160194fa9",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "long_dwell_with_price_check",
+      "prompt_path": "Archive_prompts_priority256/piwm_e160194fa9/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_e160194fa9",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_bf86577543",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "long_dwell_with_price_check",
+      "prompt_path": "Archive_prompts_priority256/piwm_bf86577543/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_bf86577543",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_4d433ad0b0",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "long_dwell_with_price_check",
+      "prompt_path": "Archive_prompts_priority256/piwm_4d433ad0b0/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_4d433ad0b0",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_72062b7b5a",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "long_dwell_with_price_check",
+      "prompt_path": "Archive_prompts_priority256/piwm_72062b7b5a/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_72062b7b5a",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_885015d95c",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "long_dwell_with_price_check",
+      "prompt_path": "Archive_prompts_priority256/piwm_885015d95c/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_885015d95c",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_c15ae94c2b",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "comparing_two_products",
+      "prompt_path": "Archive_prompts_priority256/piwm_c15ae94c2b/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_c15ae94c2b",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_29d51cb0e8",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "comparing_two_products",
+      "prompt_path": "Archive_prompts_priority256/piwm_29d51cb0e8/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_29d51cb0e8",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_f1198c1c8a",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "repeated_product_handling",
+      "prompt_path": "Archive_prompts_priority256/piwm_f1198c1c8a/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_f1198c1c8a",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_e101ea6eeb",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "asking_companion_opinion",
+      "prompt_path": "Archive_prompts_priority256/piwm_e101ea6eeb/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_e101ea6eeb",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_5e2a3c0230",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "asking_companion_opinion",
+      "prompt_path": "Archive_prompts_priority256/piwm_5e2a3c0230/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_5e2a3c0230",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_0a75f16567",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "trying_on_or_testing",
+      "prompt_path": "Archive_prompts_priority256/piwm_0a75f16567/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_0a75f16567",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_e4cdc7c2ed",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "checking_phone_likely_research",
+      "prompt_path": "Archive_prompts_priority256/piwm_e4cdc7c2ed/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_e4cdc7c2ed",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_cf2705a623",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "checking_phone_likely_research",
+      "prompt_path": "Archive_prompts_priority256/piwm_cf2705a623/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_cf2705a623",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_b0eaa13d82",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "asking_companion_opinion",
+      "prompt_path": "Archive_prompts_priority256/piwm_b0eaa13d82/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_b0eaa13d82",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_b02c4265e6",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "repeated_product_handling",
+      "prompt_path": "Archive_prompts_priority256/piwm_b02c4265e6/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_b02c4265e6",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_cb9ca11257",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "asking_companion_opinion",
+      "prompt_path": "Archive_prompts_priority256/piwm_cb9ca11257/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_cb9ca11257",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_3b16caee86",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "repeated_product_handling",
+      "prompt_path": "Archive_prompts_priority256/piwm_3b16caee86/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_3b16caee86",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_888e59fc70",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "comparing_two_products",
+      "prompt_path": "Archive_prompts_priority256/piwm_888e59fc70/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_888e59fc70",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_399ae105f7",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "asking_companion_opinion",
+      "prompt_path": "Archive_prompts_priority256/piwm_399ae105f7/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_399ae105f7",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_476ac5b9c5",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "repeated_product_handling",
+      "prompt_path": "Archive_prompts_priority256/piwm_476ac5b9c5/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_476ac5b9c5",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_8c9a8fce25",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "repeated_product_handling",
+      "prompt_path": "Archive_prompts_priority256/piwm_8c9a8fce25/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_8c9a8fce25",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_29602646d4",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "trying_on_or_testing",
+      "prompt_path": "Archive_prompts_priority256/piwm_29602646d4/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_29602646d4",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_4782c35f7d",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "repeated_product_handling",
+      "prompt_path": "Archive_prompts_priority256/piwm_4782c35f7d/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_4782c35f7d",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_445d72aa66",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "comparing_two_products",
+      "prompt_path": "Archive_prompts_priority256/piwm_445d72aa66/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_445d72aa66",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_e3aaba3e8a",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "repeated_product_handling",
+      "prompt_path": "Archive_prompts_priority256/piwm_e3aaba3e8a/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_e3aaba3e8a",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_8d6af44692",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "checking_phone_likely_research",
+      "prompt_path": "Archive_prompts_priority256/piwm_8d6af44692/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_8d6af44692",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_d07b4c2f0b",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "asking_companion_opinion",
+      "prompt_path": "Archive_prompts_priority256/piwm_d07b4c2f0b/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_d07b4c2f0b",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_01c0c8a6e2",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "checking_phone_likely_research",
+      "prompt_path": "Archive_prompts_priority256/piwm_01c0c8a6e2/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_01c0c8a6e2",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_00c1991226",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "trying_on_or_testing",
+      "prompt_path": "Archive_prompts_priority256/piwm_00c1991226/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_00c1991226",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_f29432adae",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "trying_on_or_testing",
+      "prompt_path": "Archive_prompts_priority256/piwm_f29432adae/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_f29432adae",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_8f67abde4f",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "comparing_two_products",
+      "prompt_path": "Archive_prompts_priority256/piwm_8f67abde4f/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_8f67abde4f",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_8bd0243be8",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "repeated_product_handling",
+      "prompt_path": "Archive_prompts_priority256/piwm_8bd0243be8/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_8bd0243be8",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_020ee5a9cb",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "repeated_product_handling",
+      "prompt_path": "Archive_prompts_priority256/piwm_020ee5a9cb/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_020ee5a9cb",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_ebcb895e24",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "asking_companion_opinion",
+      "prompt_path": "Archive_prompts_priority256/piwm_ebcb895e24/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_ebcb895e24",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_5249ac7bf5",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "checking_phone_likely_research",
+      "prompt_path": "Archive_prompts_priority256/piwm_5249ac7bf5/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_5249ac7bf5",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_588bb7c879",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "checking_phone_likely_research",
+      "prompt_path": "Archive_prompts_priority256/piwm_588bb7c879/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_588bb7c879",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_c5c2cc2229",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "repeated_product_handling",
+      "prompt_path": "Archive_prompts_priority256/piwm_c5c2cc2229/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_c5c2cc2229",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_0890693dd8",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "looking_around_for_help",
+      "prompt_path": "Archive_prompts_priority256/piwm_0890693dd8/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_0890693dd8",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_2090ed8432",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "looking_around_for_help",
+      "prompt_path": "Archive_prompts_priority256/piwm_2090ed8432/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_2090ed8432",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_4122e1ccf2",
+      "viewpoint": "salesperson_observable",
+      "target_cue": "looking_around_for_help",
+      "prompt_path": "Archive_prompts_priority256/piwm_4122e1ccf2/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_4122e1ccf2",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_e9721b3770",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "looking_around_for_help",
+      "prompt_path": "Archive_prompts_priority256/piwm_e9721b3770/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_e9721b3770",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_ca5ad0ed43",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "brief_glance_walking_past",
+      "prompt_path": "Archive_prompts_priority256/piwm_ca5ad0ed43/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_ca5ad0ed43",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_7a649f05c8",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "brief_glance_walking_past",
+      "prompt_path": "Archive_prompts_priority256/piwm_7a649f05c8/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_7a649f05c8",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_c379e3704c",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "brief_glance_walking_past",
+      "prompt_path": "Archive_prompts_priority256/piwm_c379e3704c/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_c379e3704c",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_7d2a250a41",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "looking_around_for_help",
+      "prompt_path": "Archive_prompts_priority256/piwm_7d2a250a41/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_7d2a250a41",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_7a12e2e2ad",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "approaching_counter",
+      "prompt_path": "Archive_prompts_priority256/piwm_7a12e2e2ad/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_7a12e2e2ad",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_2ccdc2e615",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "approaching_counter",
+      "prompt_path": "Archive_prompts_priority256/piwm_2ccdc2e615/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_2ccdc2e615",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_53cc96927b",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "approaching_counter",
+      "prompt_path": "Archive_prompts_priority256/piwm_53cc96927b/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_53cc96927b",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_ee748a489e",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "approaching_counter",
+      "prompt_path": "Archive_prompts_priority256/piwm_ee748a489e/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_ee748a489e",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_e9d1290f96",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "approaching_counter",
+      "prompt_path": "Archive_prompts_priority256/piwm_e9d1290f96/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_e9d1290f96",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_ab5b03d84c",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "approaching_counter",
+      "prompt_path": "Archive_prompts_priority256/piwm_ab5b03d84c/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_ab5b03d84c",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_5883d29028",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "approaching_counter",
+      "prompt_path": "Archive_prompts_priority256/piwm_5883d29028/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_5883d29028",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_0102032a3a",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "no_eye_contact_avoidant",
+      "prompt_path": "Archive_prompts_priority256/piwm_0102032a3a/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_0102032a3a",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_ff477e3cb3",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "no_eye_contact_avoidant",
+      "prompt_path": "Archive_prompts_priority256/piwm_ff477e3cb3/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_ff477e3cb3",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    },
+    {
+      "session_id": "piwm_6d3e2963d7",
+      "viewpoint": "surveillance_oblique",
+      "target_cue": "no_eye_contact_avoidant",
+      "prompt_path": "Archive_prompts_priority256/piwm_6d3e2963d7/prompt.json",
+      "session_dir": "Archive_generated_priority256/piwm_6d3e2963d7",
+      "status": "error",
+      "error": "OpenCV is required for extract_frames.py. Install opencv-python or provide ffmpeg wrapper."
+    }
+  ]
+}

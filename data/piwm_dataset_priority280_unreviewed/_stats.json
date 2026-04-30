@@ -1,0 +1,75 @@
+{
+  "artifact": "combined_piwm_dataset",
+  "archive_roots": [
+    "Archive_generated_priority24",
+    "Archive_generated_priority256"
+  ],
+  "n_archive_roots": 2,
+  "n_sessions_total": 260,
+  "n_sessions_loaded": 260,
+  "n_sessions_skipped": 0,
+  "n_sessions_by_source_archive": {
+    "Archive_generated_priority24": 24,
+    "Archive_generated_priority256": 236
+  },
+  "per_source": {
+    "Archive_generated_priority24": {
+      "total": 24,
+      "loaded": 24
+    },
+    "Archive_generated_priority256": {
+      "total": 236,
+      "loaded": 236
+    }
+  },
+  "skipped_reasons": {},
+  "require_qa_pass": false,
+  "require_continuation": false,
+  "rule_version": "v1.0",
+  "frame_sample": 3,
+  "timestamp_utc": "2026-04-30T11:48:04Z",
+  "n_policy_preference_skipped_no_pair": 0,
+  "n_state_inference_rows": 260,
+  "n_state_inference_with_cue_rows": 260,
+  "n_transition_modeling_rows": 927,
+  "n_policy_preference_rows": 260,
+  "n_world_model_continuation_rows": 0,
+  "n_states_with_strict_action_contrast": 260,
+  "n_transition_parent_states": 260,
+  "avg_actions_per_state": 3.5653846153846156,
+  "n_states_with_action_contrast": 260,
+  "n_states_without_action_contrast": 0,
+  "n_sessions_by_viewpoint": {
+    "salesperson_observable": 192,
+    "surveillance_oblique": 68
+  },
+  "n_sessions_by_product_category": {
+    "apparel_premium": 29,
+    "cosmetics_skincare": 37,
+    "electronics_laptop": 30,
+    "electronics_phone": 36,
+    "footwear": 26,
+    "home_appliance": 34,
+    "jewelry": 40,
+    "luxury_watch": 28
+  },
+  "n_sessions_by_split": {
+    "dev": 8,
+    "ood_persona": 21,
+    "ood_product": 26,
+    "test": 6,
+    "train": 199
+  },
+  "n_states_with_action_contrast_by_viewpoint": {
+    "salesperson_observable": 192,
+    "surveillance_oblique": 68
+  },
+  "n_continuations_with_visual_qa_pass": 0,
+  "n_continuations_by_role": {},
+  "n_negative_reward_continuations": 0,
+  "best_worst_reward_gap_distribution": {
+    "min": 0.0,
+    "median": 0.0,
+    "max": 0.0
+  }
+}

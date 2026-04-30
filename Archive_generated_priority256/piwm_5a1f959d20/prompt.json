@@ -1,0 +1,119 @@
+{
+  "session_id": "piwm_5a1f959d20",
+  "split": "train",
+  "viewpoint": "surveillance_oblique",
+  "product_category": "home_appliance",
+  "persona": {
+    "type": "experienced_brand_loyal",
+    "description": "An experienced shopper who already trusts familiar brands and compares details quickly."
+  },
+  "aida_stage": "attention",
+  "target_cue": "looking_around_for_help",
+  "duration_seconds": 10,
+  "training_input_mode": "multi_image_single_turn",
+  "source_rule_ids": [
+    "CUE2STATE_004",
+    "PROSCORE_003",
+    "PSI_008",
+    "TRANS_014"
+  ],
+  "runtime_fallbacks": [
+    "state_aida_to_candidates->DEFAULT_CANDIDATES",
+    "transition:ready_to_decide:A6_acknowledge_and_wait->DEFAULT_TRANSITION"
+  ],
+  "behavior_description": "0-2s: The shopper studies the product and pauses. 2-5s: The shopper lifts their head and scans the aisle as if trying to find store staff. 5-8s: The shopper glances back at the product, then looks around again for assistance. 8-10s: The shopper stays near the display waiting for possible help.",
+  "behavior_timeline": [
+    {
+      "time": "0-2s",
+      "event": "The shopper studies the product and pauses."
+    },
+    {
+      "time": "2-5s",
+      "event": "The shopper lifts their head and scans the aisle as if trying to find store staff."
+    },
+    {
+      "time": "5-8s",
+      "event": "The shopper glances back at the product, then looks around again for assistance."
+    },
+    {
+      "time": "8-10s",
+      "event": "The shopper stays near the display waiting for possible help."
+    }
+  ],
+  "frame_sampling_plan": [
+    {
+      "index": 0,
+      "timestamp_sec": 2.0,
+      "role": "cue_onset"
+    },
+    {
+      "index": 1,
+      "timestamp_sec": 5.0,
+      "role": "cue_peak"
+    },
+    {
+      "index": 2,
+      "timestamp_sec": 8.0,
+      "role": "cue_resolution"
+    }
+  ],
+  "kling_prompt_sections": {
+    "camera": "10-second fixed in-store surveillance-style shot, slightly elevated oblique angle; customer body trajectory, dwell time, hand movement, product display, and counter area visible; face detail is helpful but not required; one primary shopper, natural movement, no subtitles, no voiceover, no brand logos.",
+    "scene": "a home appliance showroom with wide aisles; visible product setup: two compact appliances on a display island with feature cards.",
+    "behavior_timeline": [
+      {
+        "time": "0-2s",
+        "event": "The shopper studies the product and pauses."
+      },
+      {
+        "time": "2-5s",
+        "event": "The shopper lifts their head and scans the aisle as if trying to find store staff."
+      },
+      {
+        "time": "5-8s",
+        "event": "The shopper glances back at the product, then looks around again for assistance."
+      },
+      {
+        "time": "8-10s",
+        "event": "The shopper stays near the display waiting for possible help."
+      }
+    ],
+    "negative": "no extreme overhead shot, no tiny distant customer, no occluded product area, no extra shoppers, no completed purchase, no salesperson speech, no exaggerated acting, no floating labels, no hidden-category labels, no intervention labels, no scoring text, no UI overlays."
+  },
+  "kling_prompt": "Camera: 10-second fixed in-store surveillance-style shot, slightly elevated oblique angle; customer body trajectory, dwell time, hand movement, product display, and counter area visible; face detail is helpful but not required; one primary shopper, natural movement, no subtitles, no voiceover, no brand logos.\nScene: a home appliance showroom with wide aisles; visible product setup: two compact appliances on a display island with feature cards.\nCustomer behavior style: The shopper has just noticed the display and keeps body movement light and noncommittal.\nBehavior timeline:\n- 0-2s: The shopper studies the product and pauses.\n- 2-5s: The shopper lifts their head and scans the aisle as if trying to find store staff.\n- 5-8s: The shopper glances back at the product, then looks around again for assistance.\n- 8-10s: The shopper stays near the display waiting for possible help.\nNegative constraints: no extreme overhead shot, no tiny distant customer, no occluded product area, no extra shoppers, no completed purchase, no salesperson speech, no exaggerated acting, no floating labels, no hidden-category labels, no intervention labels, no scoring text, no UI overlays.",
+  "sampler": {
+    "version": "phase3_viewpoint_v1",
+    "seed": 20260430,
+    "holdout_products": [
+      "footwear"
+    ],
+    "holdout_personas": [
+      "gift_buyer_uncertain"
+    ],
+    "viewpoint": "surveillance_oblique"
+  },
+  "scenario_metadata": {
+    "sample_index": 235,
+    "derived": {
+      "state_subtype": "ready_to_decide",
+      "intent": "confirm_choice",
+      "proactive_score": 5,
+      "candidate_actions": [
+        "A1_silent_observe",
+        "A6_acknowledge_and_wait"
+      ],
+      "best_action": "A6_acknowledge_and_wait"
+    },
+    "sampler": {
+      "version": "phase3_viewpoint_v1",
+      "seed": 20260430,
+      "holdout_products": [
+        "footwear"
+      ],
+      "holdout_personas": [
+        "gift_buyer_uncertain"
+      ],
+      "viewpoint": "surveillance_oblique"
+    }
+  }
+}

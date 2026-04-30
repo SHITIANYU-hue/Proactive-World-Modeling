@@ -1,0 +1,14 @@
+{
+  "cue_visible_in_video": true,
+  "cue_visible_in_sampled_frames": true,
+  "physical_consistency_pass": true,
+  "extra_subjects": false,
+  "viewpoint_pass": true,
+  "required_visibility": {
+    "body_trajectory_visible": true,
+    "dwell_visible": true,
+    "hands_or_arm_movement_visible": true,
+    "product_area_visible": true
+  },
+  "reviewer_notes": "The fixed oblique aisle view shows the shopper continuously walking past the watch counter with only a brief glance and no stop or product handling; body trajectory and product area are clear."
+}

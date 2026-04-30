@@ -1,0 +1,15 @@
+{
+  "cue_visible_in_video": true,
+  "cue_visible_in_sampled_frames": true,
+  "physical_consistency_pass": true,
+  "extra_subjects": false,
+  "viewpoint_pass": false,
+  "required_visibility": {
+    "face_visible": false,
+    "gaze_visible": false,
+    "hands_visible": true,
+    "product_visible": true,
+    "price_area_visible": true
+  },
+  "reviewer_notes": "FAIL: salesperson_observable viewpoint is invalid; face/gaze are cropped out although product comparison is visible."
+}

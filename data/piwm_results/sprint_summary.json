@@ -1,0 +1,202 @@
+{
+  "artifact": "piwm_sprint_summary",
+  "generated_at_utc": "2026-04-30T12:49:07Z",
+  "inputs": {
+    "dataset_stats": {
+      "nature": "synthetic/rule-derived dataset statistics",
+      "path": "data/piwm_dataset_priority280_unreviewed/_stats.json",
+      "status": "present"
+    },
+    "mock_pipeline_eval": {
+      "nature": "mock pipeline evaluation",
+      "path": "data/piwm_results/pilot24_mock_pipeline_eval.json",
+      "status": "present"
+    },
+    "sft_train_summary": {
+      "nature": "SFT training summary",
+      "path": "data/piwm_results/sft_train_summary.json",
+      "status": "present"
+    },
+    "zero_shot_baselines": {
+      "nature": "zero-shot baseline evaluation",
+      "path": "data/piwm_results/pilot24_zero_shot_baselines.json",
+      "status": "missing"
+    }
+  },
+  "paper_table": {
+    "columns": [
+      "label",
+      "status",
+      "result_nature",
+      "model",
+      "n_records",
+      "strategy_accuracy_vs_label",
+      "train_loss",
+      "eval_loss",
+      "notes"
+    ],
+    "rows": [
+      {
+        "label": "Priority high-throughput synthetic train split",
+        "n_policy_preference_rows": 260,
+        "n_sessions_loaded": 260,
+        "n_sessions_skipped": 0,
+        "n_state_inference_rows": 260,
+        "n_states_with_action_contrast": 260,
+        "n_transition_modeling_rows": 927,
+        "n_world_model_continuation_rows": 0,
+        "notes": "Generated synthetic train split with file-level QA; visual/manual QA is pending, so do not report as QA-pass data.",
+        "product_counts": {
+          "apparel_premium": 29,
+          "cosmetics_skincare": 37,
+          "electronics_laptop": 30,
+          "electronics_phone": 36,
+          "footwear": 26,
+          "home_appliance": 34,
+          "jewelry": 40,
+          "luxury_watch": 28
+        },
+        "result_nature": "high-throughput synthetic train split, pending visual QA",
+        "split_counts": {
+          "dev": 8,
+          "ood_persona": 21,
+          "ood_product": 26,
+          "test": 6,
+          "train": 199
+        },
+        "status": "present",
+        "timestamp_utc": "2026-04-30T11:48:04Z",
+        "viewpoint_counts": {
+          "salesperson_observable": 192,
+          "surveillance_oblique": 68
+        }
+      },
+      {
+        "fallback_count": 0,
+        "is_training_result": false,
+        "label": "MockVLM pipeline eval",
+        "mode": "mock",
+        "model": "MockVLM",
+        "n_records": 24,
+        "n_success": 24,
+        "notes": "MockVLM checks inference plumbing only; do not cite as a trained model result.",
+        "parse_failure_count": 0,
+        "result_nature": "mock",
+        "status": "present",
+        "strategy_accuracy_vs_label": 0.125
+      },
+      {
+        "contains_unreviewed_synthetic": true,
+        "epoch": 2.0,
+        "eval_loss": "unknown",
+        "global_step": "660/660",
+        "is_training_result": true,
+        "label": "Qwen2.5-VL-7B-Instruct + LoRA",
+        "last_checkpoint": "data/piwm_results/ms_swift_sft_qwen25vl7b_sprint_combined_4gpu/v0-20260430-200052/checkpoint-660",
+        "last_step_loss": 0.006106694787740707,
+        "model": "Qwen2.5-VL-7B-Instruct + LoRA",
+        "notes": "SFT metrics are read only from the supplied summary artifact; this is a training run, not an evaluated model result.",
+        "result_nature": "training",
+        "status": "present",
+        "strategy_accuracy_vs_label": "unknown",
+        "token_acc": 0.9972322169941876,
+        "train_loss": 0.0404377
+      },
+      {
+        "label": "Zero-shot baselines",
+        "model": "unknown",
+        "n_records": "unknown",
+        "notes": "no zero-shot baseline summary found; leave paper metrics unknown",
+        "parse_failure_count": "unknown",
+        "result_nature": "baseline",
+        "status": "missing",
+        "strategy_accuracy_vs_label": "unknown"
+      }
+    ]
+  },
+  "result_rows": [
+    {
+      "label": "Priority high-throughput synthetic train split",
+      "n_policy_preference_rows": 260,
+      "n_sessions_loaded": 260,
+      "n_sessions_skipped": 0,
+      "n_state_inference_rows": 260,
+      "n_states_with_action_contrast": 260,
+      "n_transition_modeling_rows": 927,
+      "n_world_model_continuation_rows": 0,
+      "notes": "Generated synthetic train split with file-level QA; visual/manual QA is pending, so do not report as QA-pass data.",
+      "product_counts": {
+        "apparel_premium": 29,
+        "cosmetics_skincare": 37,
+        "electronics_laptop": 30,
+        "electronics_phone": 36,
+        "footwear": 26,
+        "home_appliance": 34,
+        "jewelry": 40,
+        "luxury_watch": 28
+      },
+      "result_nature": "high-throughput synthetic train split, pending visual QA",
+      "split_counts": {
+        "dev": 8,
+        "ood_persona": 21,
+        "ood_product": 26,
+        "test": 6,
+        "train": 199
+      },
+      "status": "present",
+      "timestamp_utc": "2026-04-30T11:48:04Z",
+      "viewpoint_counts": {
+        "salesperson_observable": 192,
+        "surveillance_oblique": 68
+      }
+    },
+    {
+      "fallback_count": 0,
+      "is_training_result": false,
+      "label": "MockVLM pipeline eval",
+      "mode": "mock",
+      "model": "MockVLM",
+      "n_records": 24,
+      "n_success": 24,
+      "notes": "MockVLM checks inference plumbing only; do not cite as a trained model result.",
+      "parse_failure_count": 0,
+      "result_nature": "mock",
+      "status": "present",
+      "strategy_accuracy_vs_label": 0.125
+    },
+    {
+      "contains_unreviewed_synthetic": true,
+      "epoch": 2.0,
+      "eval_loss": "unknown",
+      "global_step": "660/660",
+      "is_training_result": true,
+      "label": "Qwen2.5-VL-7B-Instruct + LoRA",
+      "last_checkpoint": "data/piwm_results/ms_swift_sft_qwen25vl7b_sprint_combined_4gpu/v0-20260430-200052/checkpoint-660",
+      "last_step_loss": 0.006106694787740707,
+      "model": "Qwen2.5-VL-7B-Instruct + LoRA",
+      "notes": "SFT metrics are read only from the supplied summary artifact; this is a training run, not an evaluated model result.",
+      "result_nature": "training",
+      "status": "present",
+      "strategy_accuracy_vs_label": "unknown",
+      "token_acc": 0.9972322169941876,
+      "train_loss": 0.0404377
+    },
+    {
+      "label": "Zero-shot baselines",
+      "model": "unknown",
+      "n_records": "unknown",
+      "notes": "no zero-shot baseline summary found; leave paper metrics unknown",
+      "parse_failure_count": "unknown",
+      "result_nature": "baseline",
+      "status": "missing",
+      "strategy_accuracy_vs_label": "unknown"
+    }
+  ],
+  "use_policy": [
+    "Missing artifacts are reported as missing/unknown and must not be filled by assumption.",
+    "High-throughput synthetic training rows are not QA-pass data unless manual visual QA is explicitly present.",
+    "Synthetic/rule-derived rows describe data generation coverage, not model performance.",
+    "Mock rows validate pipeline mechanics only and must not be cited as trained model results.",
+    "OOM checkpoint evaluation is an inference-resource failure, not a model accuracy number."
+  ]
+}

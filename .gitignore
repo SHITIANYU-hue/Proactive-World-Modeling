@@ -4,6 +4,12 @@ Archive_generated_test/
 Archive_generated_viewpoint_review/
 .pytest_cache/
 .DS_Store
+
+# Local credentials
+.env
+.env.*
+*.env
+kling/.env
 Archive_generated_pilot/
 Archive_generated_pilot30/
 Archive_generated_pilot30_smoke/

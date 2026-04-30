@@ -1,0 +1,122 @@
+{
+  "session_id": "piwm_bf44566d28",
+  "split": "train",
+  "viewpoint": "salesperson_observable",
+  "product_category": "cosmetics_skincare",
+  "persona": {
+    "type": "price_sensitive_cautious",
+    "description": "A careful shopper who repeatedly weighs price and value before engaging."
+  },
+  "aida_stage": "interest",
+  "target_cue": "asking_companion_opinion",
+  "duration_seconds": 10,
+  "training_input_mode": "multi_image_single_turn",
+  "source_rule_ids": [
+    "CAND_003",
+    "CUE2STATE_008",
+    "PROSCORE_002",
+    "PSI_002",
+    "TRANS_006",
+    "TRANS_008",
+    "TRANS_009",
+    "TRANS_010"
+  ],
+  "runtime_fallbacks": [],
+  "behavior_description": "0-2s: The primary shopper stands near the product with one companion nearby. 2-5s: The shopper gestures toward the product and turns to the companion for input. 5-8s: The companion looks at the product while the shopper watches their reaction. 8-10s: The shopper and companion continue quietly comparing the option without purchasing.",
+  "behavior_timeline": [
+    {
+      "time": "0-2s",
+      "event": "The primary shopper stands near the product with one companion nearby."
+    },
+    {
+      "time": "2-5s",
+      "event": "The shopper gestures toward the product and turns to the companion for input."
+    },
+    {
+      "time": "5-8s",
+      "event": "The companion looks at the product while the shopper watches their reaction."
+    },
+    {
+      "time": "8-10s",
+      "event": "The shopper and companion continue quietly comparing the option without purchasing."
+    }
+  ],
+  "frame_sampling_plan": [
+    {
+      "index": 0,
+      "timestamp_sec": 2.0,
+      "role": "cue_onset"
+    },
+    {
+      "index": 1,
+      "timestamp_sec": 5.0,
+      "role": "cue_peak"
+    },
+    {
+      "index": 2,
+      "timestamp_sec": 8.0,
+      "role": "cue_resolution"
+    }
+  ],
+  "kling_prompt_sections": {
+    "camera": "10-second realistic in-store medium shot from a salesperson-observable angle, three-quarter front or side-front view; customer face, gaze direction, subtle expression, upper body, hands, product display, and price area visible; one primary shopper and one quiet companion, natural movement, no subtitles, no voiceover, no brand logos.",
+    "scene": "a skincare aisle with soft shelf lighting; visible product setup: two skincare bottles beside tester pads and small shelf labels.",
+    "behavior_timeline": [
+      {
+        "time": "0-2s",
+        "event": "The primary shopper stands near the product with one companion nearby."
+      },
+      {
+        "time": "2-5s",
+        "event": "The shopper gestures toward the product and turns to the companion for input."
+      },
+      {
+        "time": "5-8s",
+        "event": "The companion looks at the product while the shopper watches their reaction."
+      },
+      {
+        "time": "8-10s",
+        "event": "The shopper and companion continue quietly comparing the option without purchasing."
+      }
+    ],
+    "negative": "no back-only shot, no face hidden, no hands outside frame, no extra shoppers besides the companion, no completed purchase, no salesperson speech, no exaggerated acting, no floating labels, no hidden-category labels, no intervention labels, no scoring text, no UI overlays."
+  },
+  "kling_prompt": "Camera: 10-second realistic in-store medium shot from a salesperson-observable angle, three-quarter front or side-front view; customer face, gaze direction, subtle expression, upper body, hands, product display, and price area visible; one primary shopper and one quiet companion, natural movement, no subtitles, no voiceover, no brand logos.\nScene: a skincare aisle with soft shelf lighting; visible product setup: two skincare bottles beside tester pads and small shelf labels.\nCustomer behavior style: The shopper stays near the display and examines details with visible curiosity.\nBehavior timeline:\n- 0-2s: The primary shopper stands near the product with one companion nearby.\n- 2-5s: The shopper gestures toward the product and turns to the companion for input.\n- 5-8s: The companion looks at the product while the shopper watches their reaction.\n- 8-10s: The shopper and companion continue quietly comparing the option without purchasing.\nNegative constraints: no back-only shot, no face hidden, no hands outside frame, no extra shoppers besides the companion, no completed purchase, no salesperson speech, no exaggerated acting, no floating labels, no hidden-category labels, no intervention labels, no scoring text, no UI overlays.",
+  "sampler": {
+    "version": "phase3_viewpoint_v1",
+    "seed": 20260430,
+    "holdout_products": [
+      "footwear"
+    ],
+    "holdout_personas": [
+      "gift_buyer_uncertain"
+    ],
+    "viewpoint": "salesperson_observable"
+  },
+  "scenario_metadata": {
+    "sample_index": 101,
+    "derived": {
+      "state_subtype": "active_evaluation",
+      "intent": "negotiate_price",
+      "proactive_score": 3,
+      "candidate_actions": [
+        "A4_open_with_question",
+        "A5_provide_demonstration",
+        "A1_silent_observe",
+        "A3_strong_recommend"
+      ],
+      "best_action": "A5_provide_demonstration"
+    },
+    "sampler": {
+      "version": "phase3_viewpoint_v1",
+      "seed": 20260430,
+      "holdout_products": [
+        "footwear"
+      ],
+      "holdout_personas": [
+        "gift_buyer_uncertain"
+      ],
+      "viewpoint": "salesperson_observable"
+    }
+  }
+}

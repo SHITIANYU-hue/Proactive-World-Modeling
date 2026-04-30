@@ -1,0 +1,9 @@
+{
+  "is_training_result": false,
+  "input_path": "data/piwm_dataset_pilot30_with_continuations/policy_preference.jsonl",
+  "output_jsonl": "data/piwm_results/dpo_adapter_smoke_remote/dpo_train_smoke.jsonl",
+  "total_records": 24,
+  "written_pairs": 24,
+  "malformed_count": 0,
+  "malformed_records": []
+}

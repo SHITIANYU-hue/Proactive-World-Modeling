@@ -199,3 +199,67 @@ current frames + action -> continuation reaction caption + continuation frames r
 2. 修正 `A1_silent_observe` 和 `A7_disengage` continuation prompt。
 3. 重新生成 5-10 条弱动作 continuation，确认失败模式下降。
 4. 再决定是否扩大到 100 条 parent，而不是直接上 1920 parent。
+
+## 8. Fix3 Targeted Validation
+
+更新时间：2026-04-30
+
+根据 pilot30 中暴露的弱动作失败模式，已做一次 3 条针对性 Kling 验证。目标不是扩大数据量，而是验证修正后的 `A1_silent_observe` / `A7_disengage` prompt 是否改善。
+
+远端位置：
+
+```text
+/root/lanyun-fs/ProactiveIntentWorldModel/
+├── Archive_generated_fix3/
+│   ├── _fix3_contact_sheet.jpg
+│   └── _fix3_qa_summary.json
+└── data/piwm_dataset_fix3_continuation_validation/
+    ├── main_schema.jsonl
+    ├── transition_modeling.jsonl
+    ├── policy_preference.jsonl
+    ├── world_model_continuation.jsonl
+    └── _stats.json
+```
+
+本机 review sheet：
+
+```text
+_remote_review_sheets_fix3/_fix3_contact_sheet.jpg
+```
+
+### 8.1 三条验证结果
+
+| continuation_id | 目标 | QA | 结论 |
+|---|---|---|---|
+| `piwm_0b17a72423#worst_A1_silent_observe` | `A1_silent_observe -> disengaged` | pass | 修复有效：无导购介入，顾客离开商品区域 |
+| `piwm_59b32db5b6#best_A7_disengage` | `A7_disengage -> disengaged` | pass | 修复有效：顾客停止与商品互动并离开/转离 |
+| `piwm_5da8b90e4a#best_A1_silent_observe` | `A1_silent_observe -> early_browsing` | fail | 无导购介入已修正，但画面仍像近距离 active evaluation，且 surveillance body trajectory 不足 |
+
+### 8.2 验证集统计
+
+`data/piwm_dataset_fix3_continuation_validation/_stats.json`：
+
+| 指标 | 数值 |
+|---|---:|
+| generated continuations | 3 |
+| QA pass continuations | 2 |
+| skipped parents | 1 |
+| `world_model_continuation.jsonl` rows | 2 |
+| negative reward continuations | 1 |
+
+### 8.3 结论
+
+本轮修复不是完全成功，但已经把最严重的问题从“无动作 prompt 被 Kling 自动生成导购介入”推进为：
+
+```text
+A1 -> disengaged: 可用
+A7 -> disengaged: 可用
+A1 -> early_browsing: 仍需继续修
+```
+
+下一轮应针对 `A1_silent_observe -> early_browsing` 单独改 prompt：
+
+- 使用更宽的 surveillance shot；
+- 明确 `keeps walking slowly / does not lean in / does not touch product`；
+- 对 expected `early_browsing` 避免玻璃柜近距离手部操作；
+- 必要时将该组合从主生产优先级降权。

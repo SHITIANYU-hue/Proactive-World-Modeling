@@ -20,8 +20,117 @@
 | [docs/10_readable_data_plan_background.md](docs/10_readable_data_plan_background.md) | 可读版背景说明，非执行入口 |
 | [docs/11_docs_maintenance_rules.md](docs/11_docs_maintenance_rules.md) | docs 维护守则：新增、编号、归档、日志更新规范 |
 | [docs/12_expert_provenance_upgrade_plan.md](docs/12_expert_provenance_upgrade_plan.md) | expert corpus 从 seed_rule 升级到理论/教材/专家来源的补救计划 |
+| [docs/13_pilot30_continuation_review_report.md](docs/13_pilot30_continuation_review_report.md) | Phase 7 continuation pilot 生成、QA、fix3 验证与下一步问题 |
+| [docs/14_priority_generation_policy.md](docs/14_priority_generation_policy.md) | Kling API 受限时的重要样本优先生成策略 |
+| [docs/90_neurips_sprint_master_plan.md](docs/90_neurips_sprint_master_plan.md) | NeurIPS sprint 用户视角总计划，含 projection 边界与诚信红线 |
+| [docs/91_neurips_sprint_codex_plan.md](docs/91_neurips_sprint_codex_plan.md) | Codex sprint 执行计划，禁止 mock/projected-as-real |
+| [docs/92_neurips_sprint_result_snapshot.md](docs/92_neurips_sprint_result_snapshot.md) | 当前 sprint 结果快照：数据、训练、评估口径 |
+| [docs/93_remote_sprint_runbook.md](docs/93_remote_sprint_runbook.md) | 远端数据盘、Kling、ms-swift 运行入口 |
+| [docs/94_current_sprint_status_and_reporting_policy.md](docs/94_current_sprint_status_and_reporting_policy.md) | 当前状态与对外报告口径：QA-reviewed / synthetic train / diagnostic-only 三层 |
 
 ## High-Density Updates
+
+### [2026-04-30 21:08:00 CST] | Phase: Priority QA Sample / Low-Memory Checkpoint Eval
+
+**Key Progress**
+- 从 260 条 priority parent videos 中按 cue/viewpoint/split 分层抽样 40 条，生成 5 张 contact sheet。
+- 完成第一批人工 contact-sheet QA：36 pass / 40 reviewed，4 fail。
+- 失败集中在 `salesperson_observable` 的 face/gaze 裁切，以及 `approaching_counter` / `looking_around_for_help` 在 3 帧中证据不足。
+- 构建 `data/piwm_dataset_priority40_qareviewed_sample/`：36 parent、126 transition、36 policy，18 sales / 18 surveillance。
+- 修复 `scripts/eval_ms_swift_checkpoint.py`：支持 `--image-limit`、`--max-pixels`，并在每条样本后清理 CUDA cache。
+- 低显存 checkpoint smoke eval 完成：1-frame 与 3-frame low-pixel 均为 24/24 parse success；当前主结果采用 3-frame low-pixel：`stage_exact=0.125`、`score_exact=0.75`、`next_stage_exact=1.0`、`reward_exact=1.0`、`caption_exact=1.0`。
+
+**Data Loop Insight**
+- priority280 不再只是 unreviewed training split：已有第一批 QA-reviewed sample 可用于估计 pass rate，但仍不能把 260 条整体写成 manually verified。
+- checkpoint 已证明能按 PIWM tag 契约输出；3-frame low-pixel 已通过，下一步是提高像素或扩大样本量。
+
+**Pending Criticals**
+- DoD-QA80：把 priority split 人工 QA 从 40 条扩到 80-100 条，稳定 cue/viewpoint pass-rate。
+- DoD-EvalHighPix：在显存允许下提高 3-frame 像素或扩大 eval 样本量。
+- DoD-PaperMetricBoundary：把 low-memory smoke 与 full benchmark 在表格中明确分栏。
+
+**Ref Reference**
+- `data/priority_generation_queue/qa_review_priority280_stratified40_manual_decisions.json`
+- `data/piwm_dataset_priority40_qareviewed_sample/_stats.json`
+- `data/piwm_results/sft_checkpoint_eval_balanced24_1frame_lowpix.json`
+- `data/piwm_results/sft_checkpoint_eval_balanced24_3frame_lowpix.json`
+- [docs/94_current_sprint_status_and_reporting_policy.md](docs/94_current_sprint_status_and_reporting_policy.md)
+
+### [2026-04-30 20:50:00 CST] | Phase: Sprint Status Audit / Reporting Policy
+
+**Key Progress**
+- 远端 live audit 确认：Kling 额度约从 86% 降到 46%，换来 260 条唯一 priority parent videos。
+- `Archive_generated_priority24` 与 `Archive_generated_priority256` 共 260 条 parent videos，均有 `qa_report.json`，但 0 条人工 `qa_manual_review.json`。
+- 构建 `data/piwm_dataset_priority280_unreviewed/`：260 parent、927 transition、260 policy；口径固定为 high-throughput synthetic train split, pending visual QA。
+- `data/piwm_dataset_pilot30_with_continuations/` 保持 QA-reviewed pilot：24 parent、44 continuation。
+- ms-swift 4 x 4090 SFT 完成：Qwen2.5-VL-7B-Instruct + LoRA，1321 examples，660/660 steps，train loss 0.0404377，checkpoint-660 落盘。
+- checkpoint eval 已尝试 24 条 balanced input，但全部 CUDA OOM；当前没有有效模型推理指标，不能报告 accuracy=0。
+- 新增 [docs/94_current_sprint_status_and_reporting_policy.md](docs/94_current_sprint_status_and_reporting_policy.md)，并更新 docs/14/90/91/92/93 的数据与口径。
+
+**Data Loop Insight**
+- 大批量数据已经从 prompt queue 转为可训练 synthetic split；当前瓶颈不再是 Kling parent generation，而是 visual QA 抽样、低显存 checkpoint eval 与论文口径控制。
+- priority split 可以支撑赶 SFT，但不能替代 QA-reviewed evaluation set。
+
+**Pending Criticals**
+- DoD-EvalLowMem：生成 1-frame 或 low-image-token eval input，重跑 checkpoint eval，产出有效 JSON metric 或明确记录显存限制。
+- DoD-VisualQASample：对 priority280 做 30-50 条分层人工 QA，估计 visual pass rate。
+- DoD-PaperSafeTables：所有论文表格区分 QA-reviewed subset、synthetic train split、diagnostic-only artifacts。
+
+**Ref Reference**
+- [docs/94_current_sprint_status_and_reporting_policy.md](docs/94_current_sprint_status_and_reporting_policy.md)
+- [docs/92_neurips_sprint_result_snapshot.md](docs/92_neurips_sprint_result_snapshot.md)
+- `/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/sft_train_summary.json`
+
+### [2026-04-30 15:05:31 CST] | Phase: NeurIPS Sprint 91 / Training Skeleton + Mock Eval
+
+**Key Progress**
+- 阅读 `docs/91_neurips_sprint_codex_plan.md` 后确认无阻塞歧义；执行假设：不自动 commit，不写 projected 数字，先做纯 Python Day1/Day2 任务。
+- 新增 `piwm_train/config.py`、`targets.py`、`prompts.py`、`data_collator.py`、`sft.py`，覆盖 perception / deliberation / continuation_caption / action 四头训练文本契约。
+- 新增 `piwm_infer/parsers.py`、`prompts.py`、`decision_loop.py` 与 `MockVLM` fixture，MockVLM 可跑 perception -> deliberation -> continuation caption -> action 的 4 头闭环。
+- 新增 `scripts/run_pilot_eval.py`，生成真实 pipeline artifact `data/piwm_results/pilot24_mock_pipeline_eval.json`；明确 `model=MockVLM`、`is_training_result=false`。
+- 同步远端已有 24/44 pilot 数据到本机 `data/piwm_dataset_pilot30_with_continuations/`，用于训练 adapter 验证，不同步视频大文件。
+- 生成 adapter artifact `data/piwm_results/sft_adapter_smoke/`：`sft_train_smoke.jsonl` 为 134 行，任务分布为 perception 24 / deliberation 66 / continuation_caption 44。
+- 修复 `piwm_data.build_dataset` 回归：即使 continuation 为空也稳定输出 `world_model_continuation.jsonl`，并恢复 `--require-continuation` 与 continuation stats。
+- 全仓 pytest 通过：`138 passed`。
+
+**Data Loop Insight**
+- 训练侧已从 0 行代码推进到可读取四套 JSONL、可生成 SFT/DPO 文本样本、可用 MockVLM 验证推理闭环的状态。
+- 当前 `pilot24_mock_pipeline_eval.json` 只能证明 pipeline 可跑，不能作为训练后模型结果；真实 GPU SFT/DPO 仍未执行。
+
+**Pending Criticals**
+- DoD-GPU-SFT：在远端新建 `piwm-train` 环境，运行非 dry-run SFT smoke；结果必须写入 `data/piwm_results/pilot24_piwm_sft_smoke.json`。
+- DoD-DPO-Smoke：实现并运行最小 DPO adapter/入口，若 GPU 未就绪则结果表保持 `--`。
+- DoD-Paper-Numbers：论文中所有数字只能引用 `data/piwm_results/*.json`；MockVLM artifact 不得写成 PIWM training result。
+
+**Ref Reference**
+- [docs/91_neurips_sprint_codex_plan.md](docs/91_neurips_sprint_codex_plan.md)
+- [data/piwm_results/pilot24_mock_pipeline_eval.json](data/piwm_results/pilot24_mock_pipeline_eval.json)
+- [data/piwm_results/sft_adapter_smoke/sft_smoke_summary.json](data/piwm_results/sft_adapter_smoke/sft_smoke_summary.json)
+
+### [2026-04-30 14:15:00 CST] | Phase: Prompt Fix Validation / Targeted Kling3
+
+**Key Progress**
+- 在远端数据盘隔离目录 `Archive_generated_fix3/` 生成 3 条 targeted continuation，不覆盖 pilot30 原始数据。
+- 三条目标分别覆盖：`A1_silent_observe -> early_browsing`、`A1_silent_observe -> disengaged`、`A7_disengage -> disengaged`。
+- Kling 生成 3/3 成功，人工 contact-sheet QA 后 2/3 pass。
+- `A1 -> disengaged` 通过：无导购介入，顾客离开商品区域。
+- `A7 -> disengaged` 通过：顾客停止产品互动并离开/转离。
+- `A1 -> early_browsing` 失败：无导购介入已修正，但画面仍像近距离 active evaluation，且 surveillance body trajectory 不足。
+- 构建 `data/piwm_dataset_fix3_continuation_validation/`：2 条 parent 入库，`world_model_continuation.jsonl` 为 2 行。
+
+**Data Loop Insight**
+- 弱动作修复已部分有效：最严重的“静默观察自动生成导购介入”问题在 `A1 -> disengaged` 上被消除。
+- 仍不能把 `A1 -> early_browsing` 大规模放进生产；该组合需要单独 prompt 降温或在 priority selector 中进一步降权。
+
+**Pending Criticals**
+- DoD-A1EarlyBrowsingFix：重写 `A1_silent_observe -> early_browsing` continuation 的 timeline，强制 wider shot、slow walking、no product touch。
+- DoD-PriorityGate：下一轮 priority 生产前降低 `A1 -> early_browsing` 的优先级，避免 API 烧在当前不稳定组合上。
+- DoD-SmokeTrain-WM：可先用 pilot30 + fix3 的 pass continuation 运行第 4 头训练入口 smoke。
+
+**Ref Reference**
+- `/root/lanyun-fs/ProactiveIntentWorldModel/Archive_generated_fix3/_fix3_qa_summary.json`
+- `/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_dataset_fix3_continuation_validation/_stats.json`
+- [docs/13_pilot30_continuation_review_report.md](docs/13_pilot30_continuation_review_report.md)
 
 ### [2026-04-30 01:16:00 CST] | Phase: Data Quality Patch / Pilot30 Prompt Pack
 

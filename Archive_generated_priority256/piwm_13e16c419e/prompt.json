@@ -1,0 +1,119 @@
+{
+  "session_id": "piwm_13e16c419e",
+  "split": "train",
+  "viewpoint": "surveillance_oblique",
+  "product_category": "cosmetics_skincare",
+  "persona": {
+    "type": "price_insensitive_decisive",
+    "description": "A decisive shopper who prioritizes fit and quality over price."
+  },
+  "aida_stage": "attention",
+  "target_cue": "approaching_counter",
+  "duration_seconds": 10,
+  "training_input_mode": "multi_image_single_turn",
+  "source_rule_ids": [
+    "CUE2STATE_010",
+    "PROSCORE_003",
+    "PSI_014",
+    "TRANS_014"
+  ],
+  "runtime_fallbacks": [
+    "state_aida_to_candidates->DEFAULT_CANDIDATES",
+    "transition:ready_to_decide:A6_acknowledge_and_wait->DEFAULT_TRANSITION"
+  ],
+  "behavior_description": "0-2s: The shopper holds or closely follows the product display area. 2-5s: The shopper turns toward the service counter or checkout area. 5-8s: The shopper walks closer to the counter while still considering the product. 8-10s: The shopper arrives near the counter but does not complete a purchase.",
+  "behavior_timeline": [
+    {
+      "time": "0-2s",
+      "event": "The shopper holds or closely follows the product display area."
+    },
+    {
+      "time": "2-5s",
+      "event": "The shopper turns toward the service counter or checkout area."
+    },
+    {
+      "time": "5-8s",
+      "event": "The shopper walks closer to the counter while still considering the product."
+    },
+    {
+      "time": "8-10s",
+      "event": "The shopper arrives near the counter but does not complete a purchase."
+    }
+  ],
+  "frame_sampling_plan": [
+    {
+      "index": 0,
+      "timestamp_sec": 2.0,
+      "role": "cue_onset"
+    },
+    {
+      "index": 1,
+      "timestamp_sec": 5.0,
+      "role": "cue_peak"
+    },
+    {
+      "index": 2,
+      "timestamp_sec": 8.0,
+      "role": "cue_resolution"
+    }
+  ],
+  "kling_prompt_sections": {
+    "camera": "10-second fixed in-store surveillance-style shot, slightly elevated oblique angle; customer body trajectory, dwell time, hand movement, product display, and counter area visible; face detail is helpful but not required; one primary shopper, natural movement, no subtitles, no voiceover, no brand logos.",
+    "scene": "a skincare aisle with soft shelf lighting; visible product setup: two skincare bottles beside tester pads and small shelf labels.",
+    "behavior_timeline": [
+      {
+        "time": "0-2s",
+        "event": "The shopper holds or closely follows the product display area."
+      },
+      {
+        "time": "2-5s",
+        "event": "The shopper turns toward the service counter or checkout area."
+      },
+      {
+        "time": "5-8s",
+        "event": "The shopper walks closer to the counter while still considering the product."
+      },
+      {
+        "time": "8-10s",
+        "event": "The shopper arrives near the counter but does not complete a purchase."
+      }
+    ],
+    "negative": "no extreme overhead shot, no tiny distant customer, no occluded product area, no extra shoppers, no completed purchase, no salesperson speech, no exaggerated acting, no floating labels, no hidden-category labels, no intervention labels, no scoring text, no UI overlays."
+  },
+  "kling_prompt": "Camera: 10-second fixed in-store surveillance-style shot, slightly elevated oblique angle; customer body trajectory, dwell time, hand movement, product display, and counter area visible; face detail is helpful but not required; one primary shopper, natural movement, no subtitles, no voiceover, no brand logos.\nScene: a skincare aisle with soft shelf lighting; visible product setup: two skincare bottles beside tester pads and small shelf labels.\nCustomer behavior style: The shopper has just noticed the display and keeps body movement light and noncommittal.\nBehavior timeline:\n- 0-2s: The shopper holds or closely follows the product display area.\n- 2-5s: The shopper turns toward the service counter or checkout area.\n- 5-8s: The shopper walks closer to the counter while still considering the product.\n- 8-10s: The shopper arrives near the counter but does not complete a purchase.\nNegative constraints: no extreme overhead shot, no tiny distant customer, no occluded product area, no extra shoppers, no completed purchase, no salesperson speech, no exaggerated acting, no floating labels, no hidden-category labels, no intervention labels, no scoring text, no UI overlays.",
+  "sampler": {
+    "version": "phase3_viewpoint_v1",
+    "seed": 20260430,
+    "holdout_products": [
+      "footwear"
+    ],
+    "holdout_personas": [
+      "gift_buyer_uncertain"
+    ],
+    "viewpoint": "surveillance_oblique"
+  },
+  "scenario_metadata": {
+    "sample_index": 239,
+    "derived": {
+      "state_subtype": "ready_to_decide",
+      "intent": "confirm_choice",
+      "proactive_score": 5,
+      "candidate_actions": [
+        "A1_silent_observe",
+        "A6_acknowledge_and_wait"
+      ],
+      "best_action": "A6_acknowledge_and_wait"
+    },
+    "sampler": {
+      "version": "phase3_viewpoint_v1",
+      "seed": 20260430,
+      "holdout_products": [
+        "footwear"
+      ],
+      "holdout_personas": [
+        "gift_buyer_uncertain"
+      ],
+      "viewpoint": "surveillance_oblique"
+    }
+  }
+}

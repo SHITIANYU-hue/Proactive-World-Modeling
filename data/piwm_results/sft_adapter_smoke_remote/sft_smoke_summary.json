@@ -1,0 +1,14 @@
+{
+  "data_dir": "data/piwm_dataset_pilot30_with_continuations",
+  "has_continuation_examples": true,
+  "image_path_count": 402,
+  "mode": "dry-run",
+  "n_examples": 134,
+  "note": "dry-run validates the dataset adapter only; it is not a training result.",
+  "output_dir": "data/piwm_results/sft_adapter_smoke_remote",
+  "task_counts": {
+    "continuation_caption": 44,
+    "deliberation": 66,
+    "perception": 24
+  }
+}

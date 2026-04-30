@@ -1,0 +1,30 @@
+{
+  "artifact": "sft_train_summary",
+  "is_training_result": true,
+  "framework": "ms-swift",
+  "model": "Qwen2.5-VL-7B-Instruct + LoRA",
+  "dataset": "data/piwm_results/ms_swift_sprint_combined/ms_swift_sft.jsonl",
+  "contains_unreviewed_synthetic": true,
+  "contains_pilot30_qa_pass_continuation": true,
+  "log": "/root/lanyun-fs/logs/ms_swift_sft_qwen25vl7b_sprint_combined_4gpu_20260430_200026.log",
+  "output_dir": "data/piwm_results/ms_swift_sft_qwen25vl7b_sprint_combined_4gpu",
+  "last_checkpoint": "data/piwm_results/ms_swift_sft_qwen25vl7b_sprint_combined_4gpu/v0-20260430-200052/checkpoint-660",
+  "n_checkpoints": 7,
+  "train_loss": 0.0404377,
+  "token_acc": 0.9972322169941876,
+  "global_step": "660/660",
+  "epoch": 2.0,
+  "train_runtime": {
+    "train_runtime": 1653.8411,
+    "train_samples_per_second": 1.597,
+    "train_steps_per_second": 0.399,
+    "train_loss": 0.0404377,
+    "epoch": 2.0,
+    "global_step/max_steps": "660/660",
+    "elapsed_time": "27m 34s",
+    "remaining_time": "0s",
+    "memory(GiB)": 22.91,
+    "train_speed(s/it)": 2.505514
+  },
+  "last_step_loss": 0.006106694787740707
+}

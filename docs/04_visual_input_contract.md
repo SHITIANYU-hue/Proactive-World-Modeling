@@ -287,7 +287,7 @@ surveillance_oblique: 1 pass / 2 generated
 - `surveillance_oblique` 可以作为 P1 辅助视角，pass 样本能进入数据集，但不应在主训练中过早扩大比例；
 - `brief_glance_walking_past` 这类短时 cue 对 K=3 抽帧更敏感，后续需要更强 timeline 或更密集抽帧 ablation。
 
-## 10. Pilot30 Prompt 审阅包
+## 10. Pilot30 Prompt 审阅包（历史状态）
 
 当前已生成下一轮 Kling 前置审阅包：
 
@@ -310,7 +310,9 @@ splits = train/dev/test/ood_product/ood_persona 全覆盖
 forbidden_label_hits = 0
 ```
 
-这 30 条 prompt 还没有调用 Kling。下一步应先做 prompt 人工审阅，确认：
+历史注记：本节最初记录的是 Kling 调用前的 prompt 审阅状态。截至 2026-04-30 晚，`Archive_generated_pilot30/` 已生成 30 条视频并完成 manual QA；其中 24 条 parent 与 44 条 continuation 进入 `data/piwm_dataset_pilot30_with_continuations/`。当前新的未人工 visual QA 主体是 priority280 high-throughput synthetic split，见 [docs/94_current_sprint_status_and_reporting_policy.md](docs/94_current_sprint_status_and_reporting_policy.md)。
+
+如果后续重新生成 prompt，仍应先做 prompt 人工审阅，确认：
 
 - camera section 是否与 viewpoint 一致；
 - target cue 是否能在 10 秒行为时间轴中被看见；

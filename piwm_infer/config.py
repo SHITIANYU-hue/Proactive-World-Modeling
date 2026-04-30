@@ -1,0 +1,10 @@
+"""Inference defaults for PIWM."""
+
+from __future__ import annotations
+
+FALLBACK_ACTION_ON_PARSE_ERROR = "A6_acknowledge_and_wait"
+MAX_NEW_TOKENS_PERCEPTION = 256
+MAX_NEW_TOKENS_DELIBERATION = 192
+MAX_NEW_TOKENS_CONTINUATION = 128
+MAX_NEW_TOKENS_ACTION = 128
+

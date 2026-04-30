@@ -1,0 +1,14 @@
+{
+  "cue_visible_in_video": true,
+  "cue_visible_in_sampled_frames": false,
+  "physical_consistency_pass": true,
+  "extra_subjects": false,
+  "viewpoint_pass": false,
+  "required_visibility": {
+    "body_trajectory_visible": false,
+    "dwell_visible": true,
+    "hands_or_arm_movement_visible": false,
+    "product_area_visible": true
+  },
+  "reviewer_notes": "FAIL: approaching_counter trajectory is weak in sampled frames; subject is cropped/absent in key frame."
+}

@@ -1,0 +1,122 @@
+{
+  "session_id": "piwm_ad0204b308",
+  "split": "train",
+  "viewpoint": "surveillance_oblique",
+  "product_category": "jewelry",
+  "persona": {
+    "type": "price_insensitive_decisive",
+    "description": "A decisive shopper who prioritizes fit and quality over price."
+  },
+  "aida_stage": "attention",
+  "target_cue": "brief_glance_walking_past",
+  "duration_seconds": 10,
+  "training_input_mode": "multi_image_single_turn",
+  "source_rule_ids": [
+    "CAND_007",
+    "CUE2STATE_006",
+    "FALLBACK_004",
+    "PROSCORE_004",
+    "TRANS_015",
+    "TRANS_016",
+    "TRANS_017"
+  ],
+  "runtime_fallbacks": [
+    "persona_state_to_intent->state_fallback_intent"
+  ],
+  "behavior_description": "0-2s: The shopper enters the aisle already walking past the display, keeping a clear step of distance from the counter. 2-5s: Without stopping, the shopper briefly turns their head toward the product for a quick glance while feet keep moving. 5-8s: The shopper gives one more short side glance from the walkway, with no leaning, no hand reach, and no pause at the display. 8-10s: The shopper continues out of the product area and leaves the display behind without engaging further.",
+  "behavior_timeline": [
+    {
+      "time": "0-2s",
+      "event": "The shopper enters the aisle already walking past the display, keeping a clear step of distance from the counter."
+    },
+    {
+      "time": "2-5s",
+      "event": "Without stopping, the shopper briefly turns their head toward the product for a quick glance while feet keep moving."
+    },
+    {
+      "time": "5-8s",
+      "event": "The shopper gives one more short side glance from the walkway, with no leaning, no hand reach, and no pause at the display."
+    },
+    {
+      "time": "8-10s",
+      "event": "The shopper continues out of the product area and leaves the display behind without engaging further."
+    }
+  ],
+  "frame_sampling_plan": [
+    {
+      "index": 0,
+      "timestamp_sec": 2.0,
+      "role": "cue_onset"
+    },
+    {
+      "index": 1,
+      "timestamp_sec": 5.0,
+      "role": "cue_peak"
+    },
+    {
+      "index": 2,
+      "timestamp_sec": 8.0,
+      "role": "cue_resolution"
+    }
+  ],
+  "kling_prompt_sections": {
+    "camera": "10-second fixed in-store surveillance-style shot, slightly elevated oblique angle; customer body trajectory, dwell time, hand movement, product display, and counter area visible; face detail is helpful but not required; for this pass-by cue, keep the shopper's full body and head direction visible throughout the walkway; use a wider aisle composition with the product display on the side of the frame; one primary shopper, natural movement, no subtitles, no voiceover, no brand logos.",
+    "scene": "a jewelry counter with bright but natural display lighting; visible product setup: two small jewelry pieces in a glass case with discreet tags, positioned beside a clear walking path so the shopper can pass by without stopping.",
+    "behavior_timeline": [
+      {
+        "time": "0-2s",
+        "event": "The shopper enters the aisle already walking past the display, keeping a clear step of distance from the counter."
+      },
+      {
+        "time": "2-5s",
+        "event": "Without stopping, the shopper briefly turns their head toward the product for a quick glance while feet keep moving."
+      },
+      {
+        "time": "5-8s",
+        "event": "The shopper gives one more short side glance from the walkway, with no leaning, no hand reach, and no pause at the display."
+      },
+      {
+        "time": "8-10s",
+        "event": "The shopper continues out of the product area and leaves the display behind without engaging further."
+      }
+    ],
+    "negative": "no extreme overhead shot, no tiny distant customer, no occluded product area, no stopping at the display, no leaning over the counter, no close product inspection, no hand reaching toward the product, no extra shoppers, no completed purchase, no salesperson speech, no exaggerated acting, no floating labels, no hidden-category labels, no intervention labels, no scoring text, no UI overlays."
+  },
+  "kling_prompt": "Camera: 10-second fixed in-store surveillance-style shot, slightly elevated oblique angle; customer body trajectory, dwell time, hand movement, product display, and counter area visible; face detail is helpful but not required; for this pass-by cue, keep the shopper's full body and head direction visible throughout the walkway; use a wider aisle composition with the product display on the side of the frame; one primary shopper, natural movement, no subtitles, no voiceover, no brand logos.\nScene: a jewelry counter with bright but natural display lighting; visible product setup: two small jewelry pieces in a glass case with discreet tags, positioned beside a clear walking path so the shopper can pass by without stopping.\nCustomer behavior style: The shopper has just noticed the display and keeps body movement light and noncommittal.\nBehavior timeline:\n- 0-2s: The shopper enters the aisle already walking past the display, keeping a clear step of distance from the counter.\n- 2-5s: Without stopping, the shopper briefly turns their head toward the product for a quick glance while feet keep moving.\n- 5-8s: The shopper gives one more short side glance from the walkway, with no leaning, no hand reach, and no pause at the display.\n- 8-10s: The shopper continues out of the product area and leaves the display behind without engaging further.\nNegative constraints: no extreme overhead shot, no tiny distant customer, no occluded product area, no stopping at the display, no leaning over the counter, no close product inspection, no hand reaching toward the product, no extra shoppers, no completed purchase, no salesperson speech, no exaggerated acting, no floating labels, no hidden-category labels, no intervention labels, no scoring text, no UI overlays.",
+  "sampler": {
+    "version": "phase3_viewpoint_v1",
+    "seed": 20260430,
+    "holdout_products": [
+      "footwear"
+    ],
+    "holdout_personas": [
+      "gift_buyer_uncertain"
+    ],
+    "viewpoint": "surveillance_oblique"
+  },
+  "scenario_metadata": {
+    "sample_index": 205,
+    "derived": {
+      "state_subtype": "early_browsing",
+      "intent": "explore_options",
+      "proactive_score": 2,
+      "candidate_actions": [
+        "A1_silent_observe",
+        "A6_acknowledge_and_wait",
+        "A3_strong_recommend"
+      ],
+      "best_action": "A1_silent_observe"
+    },
+    "sampler": {
+      "version": "phase3_viewpoint_v1",
+      "seed": 20260430,
+      "holdout_products": [
+        "footwear"
+      ],
+      "holdout_personas": [
+        "gift_buyer_uncertain"
+      ],
+      "viewpoint": "surveillance_oblique"
+    }
+  }
+}

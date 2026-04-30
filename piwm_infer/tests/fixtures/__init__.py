@@ -1,0 +1,2 @@
+"""Inference test fixtures."""
+
