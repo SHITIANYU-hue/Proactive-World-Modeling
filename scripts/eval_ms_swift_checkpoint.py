@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -157,7 +158,10 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
     metric_totals: dict[str, int] = {}
     metric_denoms: dict[str, int] = {}
 
-    for row in rows:
+    start_time = time.time()
+    partial_path = args.out.with_suffix(args.out.suffix + ".partial")
+
+    for index, row in enumerate(rows, start=1):
         task = row.get("task", "unknown")
         task_counts[task] = task_counts.get(task, 0) + 1
         parser = _task_parser(task)
@@ -184,6 +188,36 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
         outputs.append(record)
+
+        if args.progress_every and (index == 1 or index % args.progress_every == 0 or index == len(rows)):
+            elapsed = time.time() - start_time
+            print(
+                json.dumps(
+                    {
+                        "event": "eval_progress",
+                        "index": index,
+                        "total": len(rows),
+                        "task": task,
+                        "parse_success": parse_success,
+                        "elapsed_sec": round(elapsed, 1),
+                    },
+                    ensure_ascii=False,
+                ),
+                flush=True,
+            )
+
+        if args.partial_out_every and (index % args.partial_out_every == 0 or index == len(rows)):
+            partial = {
+                "artifact": "ms_swift_checkpoint_eval_partial",
+                "eval_label": eval_label,
+                "checkpoint": checkpoint,
+                "input_jsonl": str(args.input_jsonl),
+                "processed": index,
+                "total": len(rows),
+                "parse_success": parse_success,
+                "outputs": outputs,
+            }
+            partial_path.write_text(json.dumps(partial, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     metrics = {
         key: (metric_totals.get(key, 0) / denom if denom else None)
@@ -229,6 +263,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-pixels", type=int, default=None)
     parser.add_argument("--torch-dtype", choices=["bfloat16", "float16"], default="bfloat16")
     parser.add_argument("--device-map", default="auto")
+    parser.add_argument("--progress-every", type=int, default=10)
+    parser.add_argument("--partial-out-every", type=int, default=25)
     return parser.parse_args()
 
 

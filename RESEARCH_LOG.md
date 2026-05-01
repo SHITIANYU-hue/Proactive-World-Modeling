@@ -14,6 +14,8 @@
 |---|---|
 | [docs/current/experiment_result_digest.md](docs/current/experiment_result_digest.md) | 当前已落盘实验结果速览：能写什么、还缺什么 |
 | [docs/current/experiment_status_main_table_v2.md](docs/current/experiment_status_main_table_v2.md) | 主表 v2、visual ablation、frame budget、Future Verification 结果 |
+| [docs/current/data_demo_effect_status.md](docs/current/data_demo_effect_status.md) | 数据、demo、效果提升原因的一页状态表 |
+| [docs/current/dataset_inventory.md](docs/current/dataset_inventory.md) | 数据集总账：训练、评估、World Model、未审阅 synthetic、历史 smoke 的边界 |
 | [docs/current/company_openrouter_funding_brief.md](docs/current/company_openrouter_funding_brief.md) | 给公司看的精简预算沟通版：实验进度与 OpenRouter 模型对比投入说明 |
 | [docs/current/company_data_status_for_openrouter.md](docs/current/company_data_status_for_openrouter.md) | 组内技术版：数据资产、当前结果与风险边界 |
 | [docs/current/current_sprint_status_and_reporting_policy.md](docs/current/current_sprint_status_and_reporting_policy.md) | 对外报告口径：QA-reviewed / synthetic train / diagnostic-only 边界 |
@@ -35,6 +37,137 @@
 历史计划、早期状态和解释材料统一放在 `docs/background/`；它们保留参考价值，但不再作为当前 sprint 决策入口。具体定位见 [docs/README.md](docs/README.md)。
 
 ## High-Density Updates
+
+### [2026-05-02 00:20:00 CST] | Phase: Repo Hygiene / GitHub Management
+
+**Key Progress**
+- 完成本地与服务器目录盘点：本地已有 GitHub remote，服务器 `/root/lanyun-fs/ProactiveIntentWorldModel` 当前不是 Git repo。
+- 识别本地 Git 已追踪约 2080 个 generated/media 文件，主要来自早期 `Archive/`、`Archive_generated_priority*`、`Archive_prompts_priority*` 和 `data/piwm_results`。
+- 强化 `.gitignore`，排除 generated archives、dataset outputs、training results、review sheets、logs、`.secrets/` 和 `kling/.env`。
+- 新增 `docs/current/repo_cleanup_github_plan.md`，明确代码进 GitHub、数据留数据盘的目录治理方案。
+
+**Data Loop Insight**
+- 当前不能把数据产物和代码一起推 GitHub；否则 repo 会被视频、frames、checkpoint 和 API 密钥污染。
+- 清理优先级是 Git 索引瘦身，不是删除数据；所有视频与训练产物仍留在数据盘。
+
+**Pending Criticals**
+- DoD-Git-1：确认后执行 `git rm --cached`，把已追踪的大文件从 Git 索引移除但保留在磁盘。
+- DoD-Git-2：服务器采用干净 Git checkout 或在现有目录初始化 Git 前，必须先备份目录清单并确认 `.secrets` 不会进入索引。
+- DoD-Git-3：GitHub 只管理代码、docs、paper、小型 manifest；不管理 video/frame/checkpoint。
+
+**Ref Reference**
+- [docs/current/repo_cleanup_github_plan.md](docs/current/repo_cleanup_github_plan.md)
+
+### [2026-05-01 22:50:00 CST] | Phase: Reporting / Before-After Demo Evidence
+
+**Key Progress**
+- 新增 `docs/current/before_after_demo_examples.md`，按同一输入对比未训练模型与 PIWM-SFT 输出。
+- Demo 1 固定同一段顾客画面，展示 zero-shot 无法结构化输出，训练后能输出 stage / BDI / score / candidate actions。
+- Demo 2 固定同一画面与同一动作 `A3_strong_recommend`，展示训练后能输出风险、收益和负向 reward。
+- 在 `docs/current/data_demo_effect_status.md` 与 `docs/README.md` 中加入 before-after demo 入口。
+
+**Data Loop Insight**
+- 对外展示不能只靠总表，必须给出同一输入下的输出差异；这能更直接证明训练改变了模型行为。
+- 当前最有说服力的 demo 是“未训练模型自由发挥/解析失败”对比“训练后进入 PIWM 固定决策格式”。
+
+**Pending Criticals**
+- DoD-Demo-1：所有 demo 样本必须能追溯到落盘 eval JSON 与可视化 contact sheet。
+- DoD-Demo-2：展示时避免把 rule-conditioned 100% 包装成完整真实销售理解。
+
+**Ref Reference**
+- [docs/current/before_after_demo_examples.md](docs/current/before_after_demo_examples.md)
+- [docs/current/data_demo_effect_status.md](docs/current/data_demo_effect_status.md)
+
+### [2026-05-01 22:20:00 CST] | Phase: Reporting / NeurIPS Effect Table Audit
+
+**Key Progress**
+- 重写 `docs/current/data_demo_effect_status.md` 的效果表，采用 NeurIPS 更稳的 strict exact 口径：解析失败直接计为错误。
+- 移除“无法稳定统计”和“完整导购决策正确率”表述，避免主表混入不一致口径。
+- 将主结构化评估与端到端闭环诊断拆成两张表：主表用于论文叙事，e2e 仅作内部/appendix 诊断。
+- 固化 zero-shot 对照：未训练模型在 strict 口径下 parse=23.5%，perception 三项为 0.0%，deliberation strict 指标为 next-stage 6.3%、risk 16.7%、benefit 8.7%、reward 0.0%。
+- 复审后将 transition 的四个 100% 指标合并为“规则化动作后果标签”，并显式标注为 coarse symbolic / saturated；新增“顾客心理描述文字”细粒度指标，暴露当前模型 BDI 文本仍弱。
+- 根据对外汇报需求，移除数据表中的“不可以怎么说”列；效果表改为字段级平滑分数，避免小样本 0% / 100% 极值主导叙事。
+- 增补 Future Verification 视觉匹配诊断：只看当前画面 48.8%，加入后续反应画面 59.5%，用于说明 continuation frames 提供额外视觉信息。
+
+**Data Loop Insight**
+- 当前最可信的论文主结论是：PIWM-SFT 将自由回答模型转成稳定的结构化视觉导购判断器。
+- 端到端 action selection 仍是瓶颈，不能包装成主效果提升；应报告为 final action formatting/fallback issue。
+- 过多 100% 会让 reviewer 怀疑评估粒度；主文应压缩 saturated rule-label metrics，把空间留给 perception、BDI/fine-grained state、Future Verification 和 e2e 诊断。
+
+**Pending Criticals**
+- DoD-Report-4：论文主表只使用 strict exact 或清楚注明 parse-filtered 的指标，不混用。
+- DoD-Report-5：e2e 指标必须标成 diagnostic，不使用“sales success”或“complete decision accuracy”口径。
+
+**Ref Reference**
+- [docs/current/data_demo_effect_status.md](docs/current/data_demo_effect_status.md)
+
+### [2026-05-01 21:30:00 CST] | Phase: Reporting / Data Demo Effect Table
+
+**Key Progress**
+- 新增 `docs/current/data_demo_effect_status.md`，把正式数据、可展示 demo、主表提升、e2e 短板、Future Verification 视觉增益合并成一页表。
+- 固化对外解释：训练规模扩大提升 perception/candidate；transition/reward 已饱和；e2e 未涨主要因 action-selection parse/fallback。
+- 将 demo 入口分成数据结构 demo、QA contact sheet、主表效果、e2e decision loop、World Model continuation、Future Verification、frame-budget ablation。
+
+**Data Loop Insight**
+- 现在需要展示的不是“还有多少视频”，而是“现有正式数据如何支撑训练、评估、World Model 证据和 demo”。
+- 效果提升叙事必须区分 perception 增益、rule-conditioned transition 饱和、future verification 的视觉增益和 e2e action-selection 瓶颈。
+
+**Pending Criticals**
+- DoD-Report-1：论文写作优先引用正式数据名 `PIWM-Train-Synth-v1` / `PIWM-Eval-QA-v1` / `PIWM-WorldModel-v1`。
+- DoD-Report-2：所有 demo 指向落盘文件，不展示未生成或未审阅为 QA-pass 的资产。
+- DoD-Report-3：若继续提升 e2e，必须先处理 action-selection parse/fallback。
+
+**Ref Reference**
+- [docs/current/data_demo_effect_status.md](docs/current/data_demo_effect_status.md)
+- [docs/current/dataset_inventory.md](docs/current/dataset_inventory.md)
+
+### [2026-05-01 21:15:00 CST] | Phase: Dataset Governance / Inventory
+
+**Key Progress**
+- 新增 `docs/current/dataset_inventory.md`，将远端数据盘上的 QA-reviewed eval、synthetic train、World Model continuation、ms-swift export、checkpoint、生成队列和历史 smoke 分层。
+- 新增 `data/README.md`，给 `data/` 目录提供快速入口和口径红线。
+- 将当前主训练输入固定为 `ms_swift_priority1000_unreviewed/ms_swift_sft.jsonl`，当前主评估固定为 `priority40_qareviewed_sample`。
+- 明确 `priority1000_unreviewed` 当前为 543 parent / 2554 SFT examples，不能写成 1000 条已完成或 QA-pass。
+- Kling API 已耗尽后，新增 `data/official/` 正式数据集别名：`PIWM-Train-Synth-v1`、`PIWM-Eval-QA-v1`、`PIWM-WorldModel-v1`、`PIWM-FutureVerification-v1`。
+
+**Data Loop Insight**
+- 现在最容易出错的不是缺数据，而是把 training-only synthetic、QA-reviewed eval、World Model pilot 和 smoke artifact 混用。
+- 数据总账把“能训练”和“能写进论文评估”的边界分开，避免后续论文表格口径污染。
+- 正式名与 source path 分离：论文和新脚本使用 `PIWM-*` 正式名，旧 `priority*` / `pilot30*` 名称只作为复现来源保留。
+
+**Pending Criticals**
+- DoD-Data-1：后续新增数据必须先归入 `dataset_inventory.md` 的一个 tier，再进入训练或评估。
+- DoD-Data-2：新增 QA-reviewed sample 必须记录 reviewed / pass / fail 数量。
+- DoD-Data-3：Kling API 恢复前，missing-video queue 不得自动运行。
+
+**Ref Reference**
+- [docs/current/dataset_inventory.md](docs/current/dataset_inventory.md)
+- [data/README.md](data/README.md)
+- [data/official/DATASET_MANIFEST.json](data/official/DATASET_MANIFEST.json)
+
+### [2026-05-01 09:45:00 CST] | Phase: NeurIPS Sprint / Priority1000 Training And Eval
+
+**Key Progress**
+- Kling API 已耗尽；停止新增视频生成，缺失队列只保留为待补。
+- 使用当前可用 `priority1000_unreviewed` 部分数据完成 ms-swift LoRA SFT：543 parent / 2554 examples / 8 x 4090 / 638 steps。
+- 新 checkpoint：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/ms_swift_sft_qwen25vl7b_priority1000_current_len8192_8gpu/v0-20260501-082114/checkpoint-638`。
+- QA-reviewed priority40 主表完成：parse `1.000`，stage `0.917`，score `0.833`，candidates `0.833`，transition fields 全 `1.000`。
+- End-to-end decision loop 完成：strategy accuracy `0.500`，delib parse `1.000`，action parse `0.667`。
+- 给 eval 脚本加入 progress / partial 输出，避免长评估无可观测进度。
+
+**Data Loop Insight**
+- 更大 synthetic SFT 对 perception 有正向收益，但端到端最终动作仍受 action-selection parse/fallback 限制。
+- 当前不应继续消耗 Kling；最优下一步是修 action-selection 输出约束、parser/fallback 口径，以及补论文表格叙事。
+
+**Pending Criticals**
+- DoD-Exp-1：将 priority1000-current 作为当前主结果候选，与 v2 结果明确区分。
+- DoD-Exp-2：所有写作必须标注 `priority1000_unreviewed` 为 synthetic train split，不能写成 QA-pass。
+- DoD-Exp-3：若继续提升 e2e，优先处理 action parse 与 fallback，而不是继续扩视频生成。
+
+**Ref Reference**
+- [docs/current/experiment_result_digest.md](docs/current/experiment_result_digest.md)
+- [docs/current/experiment_status_main_table_v2.md](docs/current/experiment_status_main_table_v2.md)
+- [docs/current/current_sprint_status_and_reporting_policy.md](docs/current/current_sprint_status_and_reporting_policy.md)
 
 ### [2026-05-01 06:06:30 CST] | Phase: NeurIPS Sprint / Training Data Scale-Up
 

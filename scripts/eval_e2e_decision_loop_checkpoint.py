@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -203,7 +204,10 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
     n_delib_attempted = 0
     n_delib_parsed = 0
 
-    for row in rows:
+    start_time = time.time()
+    partial_path = args.out.with_suffix(args.out.suffix + ".partial")
+
+    for index, row in enumerate(rows, start=1):
         state_id = row.get("state_id", "unknown")
         gold = _gold(row)
         images = _resolve_images(row["input"].get("frames", []), root, args.image_limit)
@@ -242,6 +246,8 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
             record["used_fallback"] = True
             totals["fallback"] += 1
             outputs.append(record)
+            _maybe_log_progress(index, len(rows), totals, n_delib_attempted, n_delib_parsed, start_time, args)
+            _maybe_write_partial(partial_path, index, len(rows), label, checkpoint, outputs, totals, n_delib_attempted, n_delib_parsed, args)
             continue
 
         predicted_candidates = list(perception["candidate_actions"])
@@ -253,6 +259,8 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
             totals["chosen_in_gold_candidates"] += int(chosen in set(gold["candidate_actions"]))
             totals["strategy_correct"] += int(chosen == gold["best_action"])
             outputs.append(record)
+            _maybe_log_progress(index, len(rows), totals, n_delib_attempted, n_delib_parsed, start_time, args)
+            _maybe_write_partial(partial_path, index, len(rows), label, checkpoint, outputs, totals, n_delib_attempted, n_delib_parsed, args)
             continue
 
         candidate_rows: list[dict[str, Any]] = []
@@ -294,6 +302,8 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
             totals["chosen_in_gold_candidates"] += int(chosen in set(gold["candidate_actions"]))
             totals["strategy_correct"] += int(chosen == gold["best_action"])
             outputs.append(record)
+            _maybe_log_progress(index, len(rows), totals, n_delib_attempted, n_delib_parsed, start_time, args)
+            _maybe_write_partial(partial_path, index, len(rows), label, checkpoint, outputs, totals, n_delib_attempted, n_delib_parsed, args)
             continue
 
         try:
@@ -324,6 +334,8 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         outputs.append(record)
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
+        _maybe_log_progress(index, len(rows), totals, n_delib_attempted, n_delib_parsed, start_time, args)
+        _maybe_write_partial(partial_path, index, len(rows), label, checkpoint, outputs, totals, n_delib_attempted, n_delib_parsed, args)
 
     n = len(rows)
     result = {
@@ -363,6 +375,63 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
     return result
 
 
+def _maybe_log_progress(
+    index: int,
+    total: int,
+    totals: dict[str, int],
+    n_delib_attempted: int,
+    n_delib_parsed: int,
+    start_time: float,
+    args: argparse.Namespace,
+) -> None:
+    if not args.progress_every or (index != 1 and index % args.progress_every != 0 and index != total):
+        return
+    print(
+        json.dumps(
+            {
+                "event": "e2e_eval_progress",
+                "index": index,
+                "total": total,
+                "perception_parse_ok": totals["perception_parse_ok"],
+                "action_parse_ok": totals["action_parse_ok"],
+                "deliberation_parsed": n_delib_parsed,
+                "deliberation_attempted": n_delib_attempted,
+                "elapsed_sec": round(time.time() - start_time, 1),
+            },
+            ensure_ascii=False,
+        ),
+        flush=True,
+    )
+
+
+def _maybe_write_partial(
+    partial_path: Path,
+    index: int,
+    total: int,
+    label: str,
+    checkpoint: str | None,
+    outputs: list[dict[str, Any]],
+    totals: dict[str, int],
+    n_delib_attempted: int,
+    n_delib_parsed: int,
+    args: argparse.Namespace,
+) -> None:
+    if not args.partial_out_every or (index % args.partial_out_every != 0 and index != total):
+        return
+    partial = {
+        "artifact": "e2e_decision_loop_checkpoint_eval_partial",
+        "eval_label": label,
+        "checkpoint": checkpoint,
+        "processed": index,
+        "total": total,
+        "totals": totals,
+        "n_deliberation_attempted": n_delib_attempted,
+        "n_deliberation_parsed": n_delib_parsed,
+        "outputs": outputs,
+    }
+    partial_path.write_text(json.dumps(partial, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", type=Path, required=True)
@@ -381,6 +450,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-new-tokens-action", type=int, default=128)
     parser.add_argument("--torch-dtype", choices=["bfloat16", "float16"], default="float16")
     parser.add_argument("--device-map", default="auto")
+    parser.add_argument("--progress-every", type=int, default=5)
+    parser.add_argument("--partial-out-every", type=int, default=10)
     return parser.parse_args()
 
 

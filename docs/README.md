@@ -16,22 +16,30 @@
 |---:|---|---|
 | 1 | [current/experiment_result_digest.md](current/experiment_result_digest.md) | 当前已落盘实验结果速览：能写什么、还缺什么 |
 | 2 | [current/experiment_status_main_table_v2.md](current/experiment_status_main_table_v2.md) | 主表 v2、visual ablation、frame budget、Future Verification 结果 |
-| 3 | [current/company_openrouter_funding_brief.md](current/company_openrouter_funding_brief.md) | 精简预算说明（完整版见 `company_data_status_for_openrouter.md`） |
-| 4 | [current/company_data_status_for_openrouter.md](current/company_data_status_for_openrouter.md) | 完整版：进度、数据、效果、OpenRouter 机型与额度、附录主表（口径与精简版一致） |
-| 5 | [current/current_sprint_status_and_reporting_policy.md](current/current_sprint_status_and_reporting_policy.md) | 对外报告口径：QA-reviewed / synthetic train / diagnostic-only 边界 |
-| 6 | [current/priority_generation_policy.md](current/priority_generation_policy.md) | 新增 Kling 额度如何扩到 500/1000 parent synthetic |
-| 7 | [current/remote_sprint_runbook.md](current/remote_sprint_runbook.md) | 远端数据盘、ms-swift、Kling、状态检查命令 |
+| 3 | [current/data_demo_effect_status.md](current/data_demo_effect_status.md) | 数据 / demo / 效果提升原因的一页状态表 |
+| 4 | [current/before_after_demo_examples.md](current/before_after_demo_examples.md) | 同一输入下，训练前 vs 训练后的输出对比 demo |
+| 5 | [current/dataset_inventory.md](current/dataset_inventory.md) | 数据集总账：训练、评估、World Model、未审阅 synthetic、历史 smoke 的边界 |
+| 6 | [current/company_openrouter_funding_brief.md](current/company_openrouter_funding_brief.md) | 精简预算说明（完整版见 `company_data_status_for_openrouter.md`） |
+| 7 | [current/company_data_status_for_openrouter.md](current/company_data_status_for_openrouter.md) | 完整版：进度、数据、效果、OpenRouter 机型与额度、附录主表（口径与精简版一致） |
+| 8 | [current/current_sprint_status_and_reporting_policy.md](current/current_sprint_status_and_reporting_policy.md) | 对外报告口径：QA-reviewed / synthetic train / diagnostic-only 边界 |
+| 9 | [current/priority_generation_policy.md](current/priority_generation_policy.md) | 新增 Kling 额度如何扩到 500/1000 parent synthetic |
+| 10 | [current/remote_sprint_runbook.md](current/remote_sprint_runbook.md) | 远端数据盘、ms-swift、Kling、状态检查命令 |
+| 11 | [current/repo_cleanup_github_plan.md](current/repo_cleanup_github_plan.md) | 本地/服务器目录清理与 GitHub 管理计划 |
 
 ## 2. 当前执行线
 
 | 任务 | 主文档 | 备注 |
 |---|---|---|
 | 扩训练数据 | [current/priority_generation_policy.md](current/priority_generation_policy.md) | 先跑 `priority500_new_after280`，再视额度追加 `priority1000_new_after280` |
+| 数据集整理 | [current/dataset_inventory.md](current/dataset_inventory.md) | 训练集、评估集、World Model 数据和历史 smoke 的唯一总账 |
+| Demo 和提升解释 | [current/data_demo_effect_status.md](current/data_demo_effect_status.md) | 给导师/合作者快速解释“有什么数据、能 demo 什么、为什么变好” |
+| Before / After 输出对比 | [current/before_after_demo_examples.md](current/before_after_demo_examples.md) | 给 lead 展示“同一输入，训练前后输出有什么区别” |
 | 主实验结果冻结 | [current/experiment_status_main_table_v2.md](current/experiment_status_main_table_v2.md) | 表格数字必须来自落盘 JSON/Markdown |
 | 结果摘要与写作入口 | [current/experiment_result_digest.md](current/experiment_result_digest.md) | 适合给写作对话或导师快速阅读 |
 | 公司预算沟通 | [current/company_openrouter_funding_brief.md](current/company_openrouter_funding_brief.md) | 一页摘要；细节与表格见完整版 |
 | 组内技术汇报 | [current/company_data_status_for_openrouter.md](current/company_data_status_for_openrouter.md) | 完整叙述 + 预算档位 + 附录数字 |
 | 远端运行 | [current/remote_sprint_runbook.md](current/remote_sprint_runbook.md) | 所有大数据和视频放 `/root/lanyun-fs`，不要放系统盘 |
+| Repo 清理与 GitHub 管理 | [current/repo_cleanup_github_plan.md](current/repo_cleanup_github_plan.md) | 本地和服务器如何只用 Git 管代码/文档，数据留数据盘 |
 | 文档维护 | [contracts/docs_maintenance_rules.md](contracts/docs_maintenance_rules.md) | 新增或归档文档前先看 |
 
 ## 3. 研究契约
@@ -67,9 +75,9 @@
 
 | 概念 | 正确用法 |
 |---|---|
-| `priority280_unreviewed` | training-only synthetic，不写成 QA-pass |
-| `priority40_qareviewed_sample` | 当前最干净的 QA-reviewed parent eval subset |
-| `pilot30_with_continuations` | World Model / Future Verification 小规模视觉监督，不是主训练规模来源 |
+| `PIWM-Train-Synth-v1` | 正式主训练集，旧名 `priority1000_unreviewed`；training-only synthetic，不写成 QA-pass |
+| `PIWM-Eval-QA-v1` | 正式主评估集，旧名 `priority40_qareviewed_sample`；当前最干净的 QA-reviewed parent eval subset |
+| `PIWM-WorldModel-v1` | 正式 World Model 数据，旧名 `pilot30_with_continuations`；Future Verification 小规模视觉监督，不是主训练规模来源 |
 | `Future Verification full84` | action-conditioned future verification 证据，不是完整 benchmark |
 | DPO | 当前 sprint 暂停，不作为主实验阻塞项 |
 

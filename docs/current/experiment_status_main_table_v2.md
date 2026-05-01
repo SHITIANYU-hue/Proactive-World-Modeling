@@ -271,3 +271,48 @@ Full-84 结果：
 - K=3 相比 K=1 提供主要收益。
 - K=5 在当前样本和像素预算下没有继续提升。
 - 因此默认 K=3 可以解释为最小行为片段预算：保留 onset--peak--settle，同时控制推理成本和 QA 成本。
+
+## 14. Priority1000-Current Checkpoint Update
+
+更新时间：2026-05-01 09:45 CST
+
+Kling API 已耗尽，本轮不再继续生成视频。已用当前可用的 partial priority1000 synthetic 数据完成一次更大规模 ms-swift SFT，并在 QA-reviewed `priority40` 上完成主表与端到端评估。
+
+训练数据与 checkpoint：
+
+- 训练 JSONL：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/ms_swift_priority1000_unreviewed/ms_swift_sft.jsonl`
+- 训练样本：2554 条 SFT examples
+- Parent rows：543
+- 数据口径：high-throughput synthetic train split，未人工视觉审阅；不能写成 QA-pass
+- 训练框架：ms-swift + Qwen2.5-VL-7B-Instruct + LoRA
+- GPU：8 x 4090
+- Checkpoint：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/ms_swift_sft_qwen25vl7b_priority1000_current_len8192_8gpu/v0-20260501-082114/checkpoint-638`
+- 训练结束：2 epochs，638 steps，`train_loss=0.02578463`，`token_acc=0.99722675`
+
+主表评估：
+
+- 结果 JSON：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/main_table_piwm_sft_priority1000_current_len8192_priority40_all.json`
+- Eval set：`priority40_qareviewed_all`
+- Rows：162
+- Parse：1.000
+
+| Eval set | Rows | Model | Parse | Stage | Score | Candidates | Next Stage | Risk | Benefit | Reward |
+|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| priority40_qareviewed_all | 162 | PIWM-SFT priority1000-current | 1.000 | 0.917 | 0.833 | 0.833 | 1.000 | 1.000 | 1.000 | 1.000 |
+
+端到端决策评估：
+
+- 结果 JSON：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/e2e_piwm_sft_priority1000_current_len8192_priority40_decision_loop.json`
+- Eval set：`priority40_qareviewed`
+- Rows：36
+
+| Eval set | N | Perception parse | Stage | Score | Candidate exact | Delib parse | Action parse | Chosen in gold candidates | Strategy acc |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| priority40_qareviewed | 36 | 1.000 | 0.917 | 0.833 | 0.833 | 1.000 | 0.667 | 0.833 | 0.500 |
+
+解读：
+
+- 更大 synthetic SFT 规模让 priority40 的 perception 从 v2 的 `stage=0.889 / score=0.750 / candidates=0.750` 提升到 `0.917 / 0.833 / 0.833`。
+- Transition/reward 继续保持满分，说明更大训练没有破坏 rule-conditioned world-model head。
+- 端到端 strategy accuracy 仍为 `0.500`，主要原因不再是 perception parse，而是 action-selection parse 只有 `0.667`，fallback rate 为 `0.333`。
+- 下一步如果继续优化主表，不应再消耗 Kling；应优先修 action-selection 输出约束或做 inference-time robust parser/fallback ablation。

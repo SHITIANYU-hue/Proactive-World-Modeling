@@ -1,0 +1,80 @@
+{
+  "artifact": "piwm_official_dataset_manifest",
+  "version": "v1",
+  "updated_at_cst": "2026-05-01 21:20:00",
+  "canonical_root": "data/official",
+  "remote_root": "/root/lanyun-fs/ProactiveIntentWorldModel/data/official",
+  "note": "Canonical names are stable aliases. Original source directories are preserved to avoid breaking training/eval artifacts.",
+  "datasets": [
+    {
+      "canonical_name": "PIWM-Train-Synth-v1",
+      "canonical_path": "data/official/piwm_train_synth_v1",
+      "source_path": "data/piwm_dataset_priority1000_unreviewed",
+      "remote_only_in_current_local_mirror": true,
+      "role": "main_sft_training",
+      "qa_status": "synthetic_train_pending_visual_qa",
+      "loaded_parent": 543,
+      "state_rows": 543,
+      "transition_rows": 2011,
+      "policy_rows": 543,
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_synth_v1.jsonl",
+      "ms_swift_rows": 2554,
+      "paper_usage": "Can be described as high-throughput synthetic training data, not QA-pass."
+    },
+    {
+      "canonical_name": "PIWM-Eval-QA-v1",
+      "canonical_path": "data/official/piwm_eval_qa_v1",
+      "source_path": "data/piwm_dataset_priority40_qareviewed_sample",
+      "role": "main_qa_reviewed_evaluation",
+      "qa_status": "qa_reviewed_pass_subset",
+      "reviewed_parent": 40,
+      "loaded_parent": 36,
+      "skipped_parent": 4,
+      "state_rows": 36,
+      "transition_rows": 126,
+      "policy_rows": 36,
+      "ms_swift_eval_jsonl": "data/official/ms_swift/piwm_eval_qa_all_v1.jsonl",
+      "ms_swift_eval_rows": 162,
+      "paper_usage": "Main QA-reviewed evaluation subset."
+    },
+    {
+      "canonical_name": "PIWM-WorldModel-v1",
+      "canonical_path": "data/official/piwm_world_model_v1",
+      "source_path": "data/piwm_dataset_pilot30_with_continuations",
+      "role": "world_model_continuation_and_future_verification",
+      "qa_status": "qa_reviewed_pilot_continuation",
+      "loaded_parent": 24,
+      "skipped_parent": 6,
+      "state_rows": 24,
+      "transition_rows": 66,
+      "policy_rows": 24,
+      "continuation_rows": 44,
+      "future_verification_rows": 84,
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_world_model_sft_v1.jsonl",
+      "ms_swift_rows": 218,
+      "paper_usage": "World Model / Future Verification pilot evidence."
+    },
+    {
+      "canonical_name": "PIWM-FutureVerification-v1",
+      "canonical_path": "data/official/piwm_world_model_v1/future_verification.jsonl",
+      "source_path": "data/piwm_dataset_pilot30_with_continuations/future_verification.jsonl",
+      "role": "action_conditioned_future_verification",
+      "qa_status": "derived_from_qa_reviewed_continuations",
+      "rows": 84,
+      "positive_rows": 44,
+      "negative_rows": 40,
+      "ms_swift_eval_jsonl": "data/official/ms_swift/piwm_future_verification_eval_all_v1.jsonl",
+      "paper_usage": "Ablation/evidence for continuation frames as future visual evidence."
+    }
+  ],
+  "deprecated_public_names": [
+    "priority1000_unreviewed",
+    "priority40_qareviewed_sample",
+    "pilot30_with_continuations"
+  ],
+  "hard_red_lines": [
+    "Do not call PIWM-Train-Synth-v1 QA-pass.",
+    "Do not claim 1000 completed videos; current formal train set has 543 loaded parent records.",
+    "Do not use smoke or DPO adapter directories as official dataset names."
+  ]
+}

@@ -1,6 +1,6 @@
 # Current Sprint Status and Reporting Policy
 
-更新时间：2026-04-30 20:50 CST
+更新时间：2026-05-01 09:45 CST
 
 本文件固定当前 PIWM NeurIPS sprint 的事实状态与对外报告口径。核心原则：
 
@@ -45,7 +45,7 @@
 | `Archive_generated_pilot30` | 30 | 30 | 30 | QA-reviewed pilot |
 | `Archive_generated_fix3` | 3 | 3 | 3 | targeted QA validation |
 
-Kling API 额度从约 86% 降到约 46%，换来 260 条唯一 priority parent videos。后续不应继续盲目扩生成；优先消化现有 260 条的 QA 抽样、训练与评估。
+早期 snapshot 中 Kling API 额度从约 86% 降到约 46%，换来 260 条唯一 priority parent videos。2026-05-01 09:45 更新：Kling API 已耗尽，后续不得继续自动生成；当前训练使用的是已落盘的 partial priority500/priority1000 synthetic 资产。
 
 ### 2.2 数据集资产
 
@@ -169,3 +169,75 @@ Priority split 覆盖：
 2. **扩大 priority split 抽样 QA**：已完成 40 条，下一步可补到 80-100 条以稳定 pass-rate 估计。
 3. **升级 checkpoint eval**：3-frame low-pixel 已通过；下一步逐步提高像素或样本量，观察显存边界。
 4. **继续训练侧产物整理**：把 ms-swift run、checkpoint、训练日志、数据口径写入 paper-safe 表格。
+
+## 7. 2026-05-01 Priority1000-Current 更新
+
+Kling API 当前已经耗尽，本轮停止所有新增视频生成。已有 `priority500` / `priority1000` 部分生成资产已全部按“未人工审阅 synthetic train split”口径使用；未完成的视频队列只保留为待补，不再自动运行。
+
+### 7.1 已用数据
+
+| Dataset | Parent rows | SFT examples | 口径 |
+|---|---:|---:|---|
+| `priority280_unreviewed` + pilot continuation | 284 parent effective | 1321 | sprint-scale synthetic train split |
+| `priority1000_unreviewed` 当前可用部分 | 543 parent | 2554 | larger synthetic train split, pending visual QA |
+
+`priority1000_unreviewed` 来源包括：
+
+- priority24：24 parent
+- priority256：235 parent
+- priority500 new：168 parent
+- priority1000 remaining：116 parent
+
+这些数据可以用于训练和工程验证；不能写成 QA-reviewed / manually verified。
+
+### 7.2 新训练 checkpoint
+
+| 项 | 值 |
+|---|---|
+| Framework | ms-swift |
+| Base model | Qwen2.5-VL-7B-Instruct |
+| Method | LoRA SFT |
+| Data | `data/piwm_results/ms_swift_priority1000_unreviewed/ms_swift_sft.jsonl` |
+| Examples | 2554 |
+| GPUs | 8 x 4090 |
+| Steps | 638 / 638 |
+| Epoch | 2.0 |
+| Train loss | 0.02578463 |
+| Token acc | 0.99722675 |
+| Checkpoint | `/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/ms_swift_sft_qwen25vl7b_priority1000_current_len8192_8gpu/v0-20260501-082114/checkpoint-638` |
+
+### 7.3 新评估结果
+
+主表：
+
+- JSON：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/main_table_piwm_sft_priority1000_current_len8192_priority40_all.json`
+- Eval set：`priority40_qareviewed_all`
+- Rows：162
+
+| Parse | Stage | Score | Candidates | Next Stage | Risk | Benefit | Reward |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.000 | 0.917 | 0.833 | 0.833 | 1.000 | 1.000 | 1.000 | 1.000 |
+
+End-to-end decision loop：
+
+- JSON：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/e2e_piwm_sft_priority1000_current_len8192_priority40_decision_loop.json`
+- Eval set：`priority40_qareviewed`
+- Rows：36
+
+| Perception parse | Stage | Score | Candidate exact | Delib parse | Action parse | Chosen in gold candidates | Strategy acc |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.000 | 0.917 | 0.833 | 0.833 | 1.000 | 0.667 | 0.833 | 0.500 |
+
+### 7.4 当前对外口径
+
+可以写：
+
+- “We train on 2554 high-throughput synthetic SFT examples, with evaluation on a separate QA-reviewed priority subset.”
+- “The larger synthetic SFT run improves perception fields on QA-reviewed priority40 from `0.889/0.750/0.750` to `0.917/0.833/0.833`.”
+- “End-to-end decision accuracy remains limited by action-selection formatting/fallback, not by transition parsing.”
+
+不能写：
+
+- “1000 videos completed”：实际当前可用 parent 为 543，Kling API 已耗尽。
+- “priority1000 is QA-pass”：该数据是未人工视觉审阅 synthetic train split。
+- “strategy accuracy improved”：当前仍为 `0.500`，改进在 perception/candidate，不在 final strategy。

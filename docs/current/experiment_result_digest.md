@@ -223,8 +223,51 @@ Future verification：
    - smoke / diagnostic-only artifact；
    - full available evaluation rows。
 
-## 7. 最重要的三条实验结论
+## 7. Priority1000-Current 追加结果
+
+更新时间：2026-05-01 09:45 CST
+
+Kling API 已耗尽，本轮停止所有新增视频生成；当前可用的 partial priority1000 synthetic 数据已经用于一次更大规模 SFT。
+
+训练产物：
+
+- 训练数据：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/ms_swift_priority1000_unreviewed/ms_swift_sft.jsonl`
+- SFT examples：2554
+- Parent rows：543
+- Checkpoint：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/ms_swift_sft_qwen25vl7b_priority1000_current_len8192_8gpu/v0-20260501-082114/checkpoint-638`
+- 训练：8 x 4090，2 epochs，638 steps，`train_loss=0.02578463`，`token_acc=0.99722675`
+- 数据口径：未人工视觉审阅 synthetic train split，不能写成 QA-pass
+
+主表结果：
+
+- JSON：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/main_table_piwm_sft_priority1000_current_len8192_priority40_all.json`
+- Eval：`priority40_qareviewed_all`
+- Rows：162，parse：1.000
+
+| Model | Stage | Score | Candidates | Next Stage | Risk | Benefit | Reward |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| PIWM-SFT v2, 1321 examples | 0.889 | 0.750 | 0.750 | 1.000 | 1.000 | 1.000 | 1.000 |
+| PIWM-SFT priority1000-current, 2554 examples | 0.917 | 0.833 | 0.833 | 1.000 | 1.000 | 1.000 | 1.000 |
+
+端到端 decision loop：
+
+- JSON：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/e2e_piwm_sft_priority1000_current_len8192_priority40_decision_loop.json`
+- Eval：`priority40_qareviewed`
+- Rows：36
+
+| Model | Perception parse | Stage | Score | Candidate exact | Delib parse | Action parse | Chosen in gold candidates | Strategy acc |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| PIWM-SFT v2, 1321 examples | 1.000 | 0.889 | 0.750 | 0.750 | 1.000 | 0.806 | 0.778 | 0.500 |
+| PIWM-SFT priority1000-current, 2554 examples | 1.000 | 0.917 | 0.833 | 0.833 | 1.000 | 0.667 | 0.833 | 0.500 |
+
+解读：
+
+- 扩大 synthetic SFT 对 perception 有正向效果，尤其 `score/candidates` 从 `0.750` 升到 `0.833`。
+- 端到端 strategy accuracy 没升，原因转移到 action-selection parse：新 checkpoint action parse 为 `0.667`，fallback 为 `0.333`。
+- 下一步最划算的是修 action-selection 输出约束和 robust parser/fallback，而不是继续消耗 Kling。
+
+## 8. 最重要的三条实验结论
 
 1. **PIWM-SFT 解决了结构化输出和 action-conditioned transition/reward 对齐**：parse 达到 `1.000`，transition/reward 多数达到 `0.970-1.000`，这是当前最稳的主结果。
 2. **视觉输入确实必要，但 perception 仍是瓶颈**：text-only ablation 让 perception 明显崩塌；高像素 smoke 又说明瓶颈不是简单的低像素问题。
-3. **端到端决策主要受 candidate quality 限制**：priority40 的 candidate exact `0.750` 对应 strategy accuracy `0.500`，pilot30 candidate exact `0.333` 只对应 strategy accuracy `0.208`。
+3. **端到端决策瓶颈已从 perception/candidate 部分转向 action selection 稳定性**：v2 时 priority40 的 candidate exact `0.750` 对应 strategy accuracy `0.500`；priority1000-current 把 candidate exact 提到 `0.833`，但 action parse 降到 `0.667`，strategy accuracy 仍停在 `0.500`。
