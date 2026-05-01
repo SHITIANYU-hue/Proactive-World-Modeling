@@ -25,6 +25,7 @@
 | 9 | [current/priority_generation_policy.md](current/priority_generation_policy.md) | 新增 Kling 额度如何扩到 500/1000 parent synthetic |
 | 10 | [current/remote_sprint_runbook.md](current/remote_sprint_runbook.md) | 远端数据盘、ms-swift、Kling、状态检查命令 |
 | 11 | [current/repo_cleanup_github_plan.md](current/repo_cleanup_github_plan.md) | 本地/服务器目录清理与 GitHub 管理计划 |
+| 12 | [current/local_artifacts_layout.md](current/local_artifacts_layout.md) | 本机根目录生成产物整理后的存放位置 |
 
 ## 2. 当前执行线
 
@@ -40,6 +41,7 @@
 | 组内技术汇报 | [current/company_data_status_for_openrouter.md](current/company_data_status_for_openrouter.md) | 完整叙述 + 预算档位 + 附录数字 |
 | 远端运行 | [current/remote_sprint_runbook.md](current/remote_sprint_runbook.md) | 所有大数据和视频放 `/root/lanyun-fs`，不要放系统盘 |
 | Repo 清理与 GitHub 管理 | [current/repo_cleanup_github_plan.md](current/repo_cleanup_github_plan.md) | 本地和服务器如何只用 Git 管代码/文档，数据留数据盘 |
+| 本机产物整理 | [current/local_artifacts_layout.md](current/local_artifacts_layout.md) | 根目录下的 `Archive*` / prompt / review sheet 已集中到 `local_artifacts/` |
 | 文档维护 | [contracts/docs_maintenance_rules.md](contracts/docs_maintenance_rules.md) | 新增或归档文档前先看 |
 
 ## 3. 研究契约

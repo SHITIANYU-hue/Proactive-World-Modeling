@@ -30,6 +30,9 @@ _remote_review_sheets_fix3/
 docs_current_sync_tmp/
 logs/
 
+# Local-only generated artifacts collected from the repo root
+local_artifacts/
+
 # Generated dataset artifacts: track manifests/readmes only
 data/piwm_dataset*/
 data/piwm_results/
