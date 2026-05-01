@@ -16,8 +16,8 @@
 |---:|---|---|
 | 1 | [current/experiment_result_digest.md](current/experiment_result_digest.md) | 当前已落盘实验结果速览：能写什么、还缺什么 |
 | 2 | [current/experiment_status_main_table_v2.md](current/experiment_status_main_table_v2.md) | 主表 v2、visual ablation、frame budget、Future Verification 结果 |
-| 3 | [current/company_openrouter_funding_brief.md](current/company_openrouter_funding_brief.md) | 给公司看的精简预算沟通版：实验进度 + 为什么投 OpenRouter |
-| 4 | [current/company_data_status_for_openrouter.md](current/company_data_status_for_openrouter.md) | 组内技术版：数据资产、当前结果与 OpenRouter 模型对比投入说明 |
+| 3 | [current/company_openrouter_funding_brief.md](current/company_openrouter_funding_brief.md) | 精简预算说明（完整版见 `company_data_status_for_openrouter.md`） |
+| 4 | [current/company_data_status_for_openrouter.md](current/company_data_status_for_openrouter.md) | 完整版：进度、数据、效果、OpenRouter 机型与额度、附录主表（口径与精简版一致） |
 | 5 | [current/current_sprint_status_and_reporting_policy.md](current/current_sprint_status_and_reporting_policy.md) | 对外报告口径：QA-reviewed / synthetic train / diagnostic-only 边界 |
 | 6 | [current/priority_generation_policy.md](current/priority_generation_policy.md) | 新增 Kling 额度如何扩到 500/1000 parent synthetic |
 | 7 | [current/remote_sprint_runbook.md](current/remote_sprint_runbook.md) | 远端数据盘、ms-swift、Kling、状态检查命令 |
@@ -29,8 +29,8 @@
 | 扩训练数据 | [current/priority_generation_policy.md](current/priority_generation_policy.md) | 先跑 `priority500_new_after280`，再视额度追加 `priority1000_new_after280` |
 | 主实验结果冻结 | [current/experiment_status_main_table_v2.md](current/experiment_status_main_table_v2.md) | 表格数字必须来自落盘 JSON/Markdown |
 | 结果摘要与写作入口 | [current/experiment_result_digest.md](current/experiment_result_digest.md) | 适合给写作对话或导师快速阅读 |
-| 公司预算沟通 | [current/company_openrouter_funding_brief.md](current/company_openrouter_funding_brief.md) | 精简版，只讲实验进度和为什么继续投 OpenRouter |
-| 组内技术汇报 | [current/company_data_status_for_openrouter.md](current/company_data_status_for_openrouter.md) | 详细版，含数据资产、指标解释和风险边界 |
+| 公司预算沟通 | [current/company_openrouter_funding_brief.md](current/company_openrouter_funding_brief.md) | 一页摘要；细节与表格见完整版 |
+| 组内技术汇报 | [current/company_data_status_for_openrouter.md](current/company_data_status_for_openrouter.md) | 完整叙述 + 预算档位 + 附录数字 |
 | 远端运行 | [current/remote_sprint_runbook.md](current/remote_sprint_runbook.md) | 所有大数据和视频放 `/root/lanyun-fs`，不要放系统盘 |
 | 文档维护 | [contracts/docs_maintenance_rules.md](contracts/docs_maintenance_rules.md) | 新增或归档文档前先看 |
 
