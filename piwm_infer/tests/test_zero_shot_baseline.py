@@ -26,7 +26,7 @@ def test_run_zero_shot_baseline_writes_offline_artifact(tmp_path: Path) -> None:
             "-m",
             "scripts.run_zero_shot_baseline",
             "--data-dir",
-            str(ROOT / "data/piwm_dataset_pilot30_with_continuations"),
+            str(ROOT / "data/official/piwm_world_model_v1"),
             "--out",
             str(out),
             "--models",

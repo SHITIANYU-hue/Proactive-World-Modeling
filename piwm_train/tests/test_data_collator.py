@@ -18,7 +18,7 @@ from piwm_train.data_collator import (
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT / "data/piwm_dataset_pilot30"
-DATA_DIR_WITH_CONTINUATIONS = ROOT / "data/piwm_dataset_pilot30_with_continuations"
+DATA_DIR_WITH_CONTINUATIONS = ROOT / "data/piwm_dataset_pilot30_with_continuations_compact_v2"
 
 
 def test_build_sft_examples_from_pilot30_without_continuation() -> None:

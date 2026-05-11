@@ -8,7 +8,7 @@ from piwm_train import sft
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT / "data/piwm_dataset_pilot30"
-DATA_DIR_WITH_CONTINUATIONS = ROOT / "data/piwm_dataset_pilot30_with_continuations"
+DATA_DIR_WITH_CONTINUATIONS = ROOT / "data/piwm_dataset_pilot30_with_continuations_compact_v2"
 
 
 def test_sft_dry_run_writes_smoke_artifacts(tmp_path: Path) -> None:

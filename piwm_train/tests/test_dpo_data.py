@@ -15,7 +15,7 @@ def _first_jsonl(path: str) -> dict:
 
 
 def test_preference_to_dpo_pair_uses_structured_action_targets() -> None:
-    row = _first_jsonl("data/piwm_dataset_pilot30_with_continuations/policy_preference.jsonl")
+    row = _first_jsonl("data/piwm_dataset_pilot30_with_continuations_compact_v2/policy_preference.jsonl")
     pair = preference_to_dpo_pair(row)
     assert "<rationale>" in pair["chosen"]
     assert "<chosen>" in pair["rejected"]
@@ -26,7 +26,7 @@ def test_preference_to_dpo_pair_uses_structured_action_targets() -> None:
 
 
 def test_validate_preference_record_catches_bad_reward_and_equal_actions() -> None:
-    row = _first_jsonl("data/piwm_dataset_pilot30_with_continuations/policy_preference.jsonl")
+    row = _first_jsonl("data/piwm_dataset_pilot30_with_continuations_compact_v2/policy_preference.jsonl")
     row["reward_gap"] = 0
     row["rejected"] = row["chosen"]
     errors = validate_preference_record(row)
@@ -35,7 +35,7 @@ def test_validate_preference_record_catches_bad_reward_and_equal_actions() -> No
 
 
 def test_build_dpo_dataset_writes_summary_with_malformed_count(tmp_path: Path) -> None:
-    valid = _first_jsonl("data/piwm_dataset_pilot30_with_continuations/policy_preference.jsonl")
+    valid = _first_jsonl("data/piwm_dataset_pilot30_with_continuations_compact_v2/policy_preference.jsonl")
     invalid = dict(valid)
     invalid["state_id"] = "bad-row"
     invalid["chosen"] = ""
