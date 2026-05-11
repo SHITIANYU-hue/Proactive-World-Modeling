@@ -21,7 +21,7 @@
 当前已完成：
 
 - `data/official/`：PIWM v1 official aliases 已固定。
-- Action Space / data schema v2 已推送到 GitHub 分支 `codex/piwm-action-space-v2-integration`，远端完整 Git checkout 当前同步到 `0ff62f7`。
+- Action Space / data schema v2 已推送到 GitHub 分支 `codex/piwm-action-space-v2-integration`，远端完整 Git checkout 当前同步到 `9b7c603`。
 - 单文件拍摄脚本已固定：`docs/current/piwm_real_shooting_scripts_S01_S12.md`；旧分散脚本目录不再作为入口。
 - `PIWM-RealShoot-v1` manifest 样例已生成：24 rows，覆盖 S01-S12 的 A/B 响应。
 - 本地与远端完整测试均通过：`python3 -m pytest piwm_data/tests piwm_train/tests piwm_infer/tests` = `170 passed`。
