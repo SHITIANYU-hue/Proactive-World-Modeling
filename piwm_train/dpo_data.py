@@ -12,7 +12,7 @@ from .prompts import build_action_prompt
 from .targets import build_action_target
 
 
-DEFAULT_INPUT = Path("data/piwm_dataset_pilot30_with_continuations/policy_preference.jsonl")
+DEFAULT_INPUT = Path("data/official/piwm_world_model_v1/policy_preference.jsonl")
 DEFAULT_OUTPUT_DIR = Path("data/piwm_results/dpo_adapter_smoke")
 DEFAULT_OUTPUT_JSONL = DEFAULT_OUTPUT_DIR / "dpo_train_smoke.jsonl"
 DEFAULT_SUMMARY_JSON = DEFAULT_OUTPUT_DIR / "summary.json"

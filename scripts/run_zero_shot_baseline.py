@@ -23,7 +23,7 @@ from piwm_infer.baselines import (
 )
 
 
-DEFAULT_DATA_DIR = Path("data/piwm_dataset_pilot30_with_continuations")
+DEFAULT_DATA_DIR = Path("data/official/piwm_world_model_v1")
 DEFAULT_OUT = Path("data/piwm_results/pilot24_zero_shot_baselines.json")
 DEFAULT_MODELS = ["rule_oracle", "gpt4v", "gemini", "claude", "qwen_vl"]
 

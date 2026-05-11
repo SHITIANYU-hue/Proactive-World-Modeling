@@ -24,6 +24,12 @@ def parse_perception_output(raw: str) -> dict:
     candidates = _parse_candidates(values["cands"])
     return {
         "aida_stage": stage,
+        "visual_state": {
+            "summary": values["visual_summary"],
+            "engagement_pattern": values["engagement_pattern"],
+            "gaze_and_attention": values["gaze_and_attention"],
+            "body_and_hands": values["body_and_hands"],
+        },
         "bdi": {
             "belief": values["belief"],
             "desire": values["desire"],
@@ -31,6 +37,10 @@ def parse_perception_output(raw: str) -> dict:
         },
         "proactive_score": score,
         "candidate_actions": candidates,
+        "best_action_realization": {
+            "physical_action": values["intervention_action"],
+            "utterance": values["intervention_utterance"],
+        },
     }
 
 
@@ -79,10 +89,9 @@ def parse_future_verification_output(raw: str) -> dict:
         "match": match,
         "expected_next_state": expected_state,
         "visible_reaction": {
-            "body_change": values["body_change"],
-            "gaze_change": values["gaze_change"],
-            "hand_change": values["hand_change"],
-            "movement_change": values["movement_change"],
+            "engagement_pattern_change": values["engagement_pattern_change"],
+            "gaze_and_attention_change": values["gaze_and_attention_change"],
+            "body_and_hands_change": values["body_and_hands_change"],
         },
         "reason": values["reason"],
     }
@@ -94,7 +103,12 @@ def parse_action_output(raw: str, valid_actions: Iterable[str] | None = None) ->
     valid = set(valid_actions or rules.ACTIONS)
     if chosen not in valid:
         raise MalformedOutputError(f"chosen action is not valid: {chosen}")
-    return {"rationale": values["rationale"], "chosen": chosen}
+    return {
+        "rationale": values["rationale"],
+        "chosen": chosen,
+        "intervention_action": values["intervention_action"],
+        "intervention_utterance": values["intervention_utterance"],
+    }
 
 
 def _extract_tags(raw: str, tags: tuple[config.TagPair, ...]) -> dict[str, str]:

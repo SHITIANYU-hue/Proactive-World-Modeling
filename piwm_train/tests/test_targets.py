@@ -86,7 +86,7 @@ def test_build_continuation_caption_target_from_shape() -> None:
 
 
 def test_build_future_verification_target() -> None:
-    row = _first_jsonl("data/piwm_dataset_pilot30_with_continuations/future_verification.jsonl")
+    row = _first_jsonl("data/piwm_dataset_pilot30_with_continuations_compact_v2/future_verification.jsonl")
     target = build_future_verification_target(row)
     for tag in config.FUTURE_VERIFICATION_TAGS:
         assert target.count(tag.open) == 1
@@ -96,7 +96,7 @@ def test_build_future_verification_target() -> None:
 
 
 def test_build_sft_target_future_verification() -> None:
-    row = _first_jsonl("data/piwm_dataset_pilot30_with_continuations/future_verification.jsonl")
+    row = _first_jsonl("data/piwm_dataset_pilot30_with_continuations_compact_v2/future_verification.jsonl")
     target = build_sft_target(row, "future_verification")
     assert target.count(config.TAG_REASON_OPEN) == 1
 

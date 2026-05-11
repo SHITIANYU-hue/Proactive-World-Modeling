@@ -23,6 +23,14 @@ REWARD_FORMAT = "{:.2f}"
 # Perception tags.
 TAG_STAGE_OPEN = "<stage>"
 TAG_STAGE_CLOSE = "</stage>"
+TAG_VISUAL_SUMMARY_OPEN = "<visual_summary>"
+TAG_VISUAL_SUMMARY_CLOSE = "</visual_summary>"
+TAG_ENGAGEMENT_PATTERN_OPEN = "<engagement_pattern>"
+TAG_ENGAGEMENT_PATTERN_CLOSE = "</engagement_pattern>"
+TAG_GAZE_AND_ATTENTION_OPEN = "<gaze_and_attention>"
+TAG_GAZE_AND_ATTENTION_CLOSE = "</gaze_and_attention>"
+TAG_BODY_AND_HANDS_OPEN = "<body_and_hands>"
+TAG_BODY_AND_HANDS_CLOSE = "</body_and_hands>"
 TAG_BELIEF_OPEN = "<belief>"
 TAG_BELIEF_CLOSE = "</belief>"
 TAG_DESIRE_OPEN = "<desire>"
@@ -33,6 +41,10 @@ TAG_SCORE_OPEN = "<score>"
 TAG_SCORE_CLOSE = "</score>"
 TAG_CANDS_OPEN = "<cands>"
 TAG_CANDS_CLOSE = "</cands>"
+TAG_INTERVENTION_ACTION_OPEN = "<intervention_action>"
+TAG_INTERVENTION_ACTION_CLOSE = "</intervention_action>"
+TAG_INTERVENTION_UTTERANCE_OPEN = "<intervention_utterance>"
+TAG_INTERVENTION_UTTERANCE_CLOSE = "</intervention_utterance>"
 
 # Deliberation tags.
 TAG_NEXT_STAGE_OPEN = "<next_stage>"
@@ -59,14 +71,12 @@ TAG_MATCH_OPEN = "<match>"
 TAG_MATCH_CLOSE = "</match>"
 TAG_EXPECTED_STATE_OPEN = "<expected_state>"
 TAG_EXPECTED_STATE_CLOSE = "</expected_state>"
-TAG_BODY_CHANGE_OPEN = "<body_change>"
-TAG_BODY_CHANGE_CLOSE = "</body_change>"
-TAG_GAZE_CHANGE_OPEN = "<gaze_change>"
-TAG_GAZE_CHANGE_CLOSE = "</gaze_change>"
-TAG_HAND_CHANGE_OPEN = "<hand_change>"
-TAG_HAND_CHANGE_CLOSE = "</hand_change>"
-TAG_MOVEMENT_CHANGE_OPEN = "<movement_change>"
-TAG_MOVEMENT_CHANGE_CLOSE = "</movement_change>"
+TAG_ENGAGEMENT_PATTERN_CHANGE_OPEN = "<engagement_pattern_change>"
+TAG_ENGAGEMENT_PATTERN_CHANGE_CLOSE = "</engagement_pattern_change>"
+TAG_GAZE_AND_ATTENTION_CHANGE_OPEN = "<gaze_and_attention_change>"
+TAG_GAZE_AND_ATTENTION_CHANGE_CLOSE = "</gaze_and_attention_change>"
+TAG_BODY_AND_HANDS_CHANGE_OPEN = "<body_and_hands_change>"
+TAG_BODY_AND_HANDS_CHANGE_CLOSE = "</body_and_hands_change>"
 TAG_REASON_OPEN = "<reason>"
 TAG_REASON_CLOSE = "</reason>"
 
@@ -91,11 +101,17 @@ class TagPair:
 
 PERCEPTION_TAGS = (
     TagPair(TAG_STAGE_OPEN, TAG_STAGE_CLOSE, "stage"),
+    TagPair(TAG_VISUAL_SUMMARY_OPEN, TAG_VISUAL_SUMMARY_CLOSE, "visual_summary"),
+    TagPair(TAG_ENGAGEMENT_PATTERN_OPEN, TAG_ENGAGEMENT_PATTERN_CLOSE, "engagement_pattern"),
+    TagPair(TAG_GAZE_AND_ATTENTION_OPEN, TAG_GAZE_AND_ATTENTION_CLOSE, "gaze_and_attention"),
+    TagPair(TAG_BODY_AND_HANDS_OPEN, TAG_BODY_AND_HANDS_CLOSE, "body_and_hands"),
     TagPair(TAG_BELIEF_OPEN, TAG_BELIEF_CLOSE, "belief"),
     TagPair(TAG_DESIRE_OPEN, TAG_DESIRE_CLOSE, "desire"),
     TagPair(TAG_INTENTION_OPEN, TAG_INTENTION_CLOSE, "intention"),
     TagPair(TAG_SCORE_OPEN, TAG_SCORE_CLOSE, "score"),
     TagPair(TAG_CANDS_OPEN, TAG_CANDS_CLOSE, "cands"),
+    TagPair(TAG_INTERVENTION_ACTION_OPEN, TAG_INTERVENTION_ACTION_CLOSE, "intervention_action"),
+    TagPair(TAG_INTERVENTION_UTTERANCE_OPEN, TAG_INTERVENTION_UTTERANCE_CLOSE, "intervention_utterance"),
 )
 
 DELIBERATION_TAGS = (
@@ -115,16 +131,17 @@ CONTINUATION_TAGS = (
 FUTURE_VERIFICATION_TAGS = (
     TagPair(TAG_MATCH_OPEN, TAG_MATCH_CLOSE, "match"),
     TagPair(TAG_EXPECTED_STATE_OPEN, TAG_EXPECTED_STATE_CLOSE, "expected_state"),
-    TagPair(TAG_BODY_CHANGE_OPEN, TAG_BODY_CHANGE_CLOSE, "body_change"),
-    TagPair(TAG_GAZE_CHANGE_OPEN, TAG_GAZE_CHANGE_CLOSE, "gaze_change"),
-    TagPair(TAG_HAND_CHANGE_OPEN, TAG_HAND_CHANGE_CLOSE, "hand_change"),
-    TagPair(TAG_MOVEMENT_CHANGE_OPEN, TAG_MOVEMENT_CHANGE_CLOSE, "movement_change"),
+    TagPair(TAG_ENGAGEMENT_PATTERN_CHANGE_OPEN, TAG_ENGAGEMENT_PATTERN_CHANGE_CLOSE, "engagement_pattern_change"),
+    TagPair(TAG_GAZE_AND_ATTENTION_CHANGE_OPEN, TAG_GAZE_AND_ATTENTION_CHANGE_CLOSE, "gaze_and_attention_change"),
+    TagPair(TAG_BODY_AND_HANDS_CHANGE_OPEN, TAG_BODY_AND_HANDS_CHANGE_CLOSE, "body_and_hands_change"),
     TagPair(TAG_REASON_OPEN, TAG_REASON_CLOSE, "reason"),
 )
 
 ACTION_TAGS = (
     TagPair(TAG_RATIONALE_OPEN, TAG_RATIONALE_CLOSE, "rationale"),
     TagPair(TAG_CHOSEN_OPEN, TAG_CHOSEN_CLOSE, "chosen"),
+    TagPair(TAG_INTERVENTION_ACTION_OPEN, TAG_INTERVENTION_ACTION_CLOSE, "intervention_action"),
+    TagPair(TAG_INTERVENTION_UTTERANCE_OPEN, TAG_INTERVENTION_UTTERANCE_CLOSE, "intervention_utterance"),
 )
 
 
