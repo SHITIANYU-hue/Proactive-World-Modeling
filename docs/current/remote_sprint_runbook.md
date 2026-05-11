@@ -12,9 +12,19 @@
 /root/lanyun-fs/ProactiveIntentWorldModel
 ```
 
+远端完整 Git checkout：
+
+```text
+/root/lanyun-fs/ProactiveIntentWorldModel_git
+```
+
 当前已完成：
 
 - `data/official/`：PIWM v1 official aliases 已固定。
+- Action Space / data schema v2 已推送到 GitHub 分支 `codex/piwm-action-space-v2-integration`，远端完整 Git checkout 当前同步到 `0ff62f7`。
+- 单文件拍摄脚本已固定：`docs/current/piwm_real_shooting_scripts_S01_S12.md`；旧分散脚本目录不再作为入口。
+- `PIWM-RealShoot-v1` manifest 样例已生成：24 rows，覆盖 S01-S12 的 A/B 响应。
+- 本地与远端完整测试均通过：`python3 -m pytest piwm_data/tests piwm_train/tests piwm_infer/tests` = `170 passed`。
 - `data/official/ms_swift/piwm_train_synth_v1.jsonl`：543 parent / 2554 SFT examples，synthetic train，未全量人工视觉 QA。
 - `data/official/ms_swift/piwm_train_full_v2.jsonl`：3339 SFT examples，包含 perception / deliberation / action-selection / continuation caption / Future Verification。
 - `data/official/ms_swift/piwm_eval_qa_all_v1.jsonl`：36 QA-pass parent / 162 eval rows。
@@ -39,7 +49,8 @@ PIWM-WorldModel-v1 = QA-reviewed pilot continuation / Future Verification subset
 
 | 用途 | 路径 |
 |---|---|
-| 远端仓库与数据盘工作目录 | `/root/lanyun-fs/ProactiveIntentWorldModel` |
+| 远端数据盘工作目录 | `/root/lanyun-fs/ProactiveIntentWorldModel` |
+| 远端完整 Git checkout | `/root/lanyun-fs/ProactiveIntentWorldModel_git` |
 | 远端数据管线虚拟环境 | `/root/lanyun-fs/venvs/piwm` |
 | 远端训练虚拟环境 | `/root/lanyun-fs/venvs/piwm-train-fast` |
 | official 数据入口 | `data/official/` |
@@ -74,12 +85,15 @@ local_artifacts/remote_sync/piwm_action_space_v2_filelist_20260511.txt
 
 - 已通过 `ssh -p 37150 root@qhdlink.lanyun.net` 连接远端。
 - 已上传并解包到 `/root/lanyun-fs/ProactiveIntentWorldModel`。
+- 已建立完整 Git checkout：`/root/lanyun-fs/ProactiveIntentWorldModel_git`。由于远端直接 GitHub clone/fetch 偶发挂起，当前采用本地 Git bundle 增量同步并在远端 `git merge --ff-only FETCH_HEAD`。
 - 远端 checksum 已通过；最新哈希以 `/root/lanyun-fs/piwm_action_space_v2_20260511.tgz.sha256` 为准。
 - 已清理第一次 macOS tar 产生的 `._*` AppleDouble 元数据文件。
 - 已删除远端旧分散脚本目录 `docs/current/shooting_scripts/`，现在只保留单文件脚本 `docs/current/piwm_real_shooting_scripts_S01_S12.md`。
 - 已同步 `PIWM-RealShoot-v1` manifest 样例：24 rows。
 - 已把远端 official symlink 目标目录同步到 v2：`data/official/piwm_train_synth_v1`、`data/official/piwm_eval_qa_v1`、`data/official/piwm_world_model_v1` 的 `main_schema.jsonl` 均含 `dialogue_act / act_params / co_acts / realization`。
 - 远端 v2 相关轻量测试通过：`57 passed`。
+- 远端完整 Git checkout 已补齐测试夹具 symlink：`Archive_generated_pilot30`、`data/piwm_dataset_pilot30`、`data/piwm_dataset_pilot30_with_continuations_compact_v2`、`data/official/piwm_world_model_v1`。
+- 远端完整测试通过：`/root/lanyun-fs/venvs/piwm/bin/python -m pytest piwm_data/tests piwm_train/tests piwm_infer/tests` = `170 passed in 9.14s`。
 
 复同步命令：
 
@@ -103,7 +117,15 @@ PATH=/root/lanyun-fs/venvs/piwm/bin:$PATH
 python3 -m pytest piwm_data/tests/test_rules.py piwm_data/tests/test_schemas.py piwm_data/tests/test_exporters.py
 ```
 
-注意：远端 `/root/lanyun-fs/ProactiveIntentWorldModel` 当前不是完整 Git checkout，且缺少 `piwm_infer/` 和 `piwm_train/tests/`。因此远端全量 `piwm_data/tests piwm_train/tests piwm_infer/tests` 不能作为完整仓库校验；完整 170-test 校验目前以本地仓库为准。
+完整仓库校验在 Git checkout 下运行：
+
+```bash
+cd /root/lanyun-fs/ProactiveIntentWorldModel_git
+PATH=/root/lanyun-fs/venvs/piwm/bin:$PATH
+python3 -m pytest piwm_data/tests piwm_train/tests piwm_infer/tests
+```
+
+若 GitHub fetch 不稳定，用本地 bundle 增量同步，不要在数据盘目录里手工覆盖 tracked 源码文件。
 
 ## 2. 数据盘规则
 
