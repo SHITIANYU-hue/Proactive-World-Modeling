@@ -1,6 +1,6 @@
 # PIWM Visual Input Contract
 
-更新时间：2026-04-30（Viewpoint V1-V5 后）
+更新时间：2026-05-16（加入 target_frontcam 后）
 
 本文当前视觉设定为：
 
@@ -13,6 +13,7 @@ PIWM 支持多视角店内视觉输入，用于主动导购 world model。
 ```text
 主线：salesperson_observable
 辅助：surveillance_oblique
+target 域：target_frontcam
 暂缓：first_person_pov
 ```
 
@@ -46,8 +47,17 @@ training_input_mode = multi_image_single_turn
 | `surveillance_oblique` | 固定高位或斜角监控/第三方视角，身体轨迹和商品区域清楚 | P1 |
 | `third_party_side` | 旁观者侧面中景，脸部部分可见，手和商品可见 | P2 |
 | `first_person_pov` | 导购第一人称 POV，顾客可能看向镜头 | 暂缓 |
+| `target_frontcam` | 设备前置摄像头单视角，顾客正面/半正面面对智能售货柜或终端屏幕 | target 域 |
 
 当前训练 JSONL 中 `viewpoint` 只进入 `meta`，不进入主 `input`，避免模型过度依赖视角标签。
+
+`target_frontcam` 是 domain-specialization 视角，不替代主线 `salesperson_observable`。它的合规边界：
+
+- 摄像机固定在设备/售货柜前侧，允许轻微仰角或广角变形；
+- 必须能看到顾客头部朝向、身体是否前倾、是否靠近屏幕或取货口；
+- 不要求看到真人导购，因为执行主体是 `target_terminal_logic`；
+- 标签中必须保留 `viewpoint=target_frontcam`，并在 official payload 中写出 `view_class=target_frontcam`；
+- 当前 `PIWM-Target-Frontcam-v1` 是 synthetic_unreviewed，人工 QA 前不能作为 QA-reviewed in-domain benchmark。
 
 ## 2. 为什么不直接主用单图或视频
 

@@ -10,7 +10,13 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 from . import rules
 
 AIDAStage = Literal["attention", "interest", "desire", "action"]
-Viewpoint = Literal["salesperson_observable", "surveillance_oblique", "third_party_side", "first_person_pov"]
+Viewpoint = Literal[
+    "salesperson_observable",
+    "surveillance_oblique",
+    "third_party_side",
+    "first_person_pov",
+    "target_frontcam",
+]
 ProactiveScore = Literal[1, 2, 3, 4, 5]
 IntentTier = Literal["low_intent_browsing", "exploring", "ready_to_buy"]
 OutcomeType = Literal["success", "failure"]
@@ -571,16 +577,16 @@ class MainSchemaRecord(BaseModel):
     @field_validator("candidate_actions")
     @classmethod
     def validate_candidate_actions(cls, value: list[str]) -> list[str]:
-        invalid = [action for action in value if action not in rules.ACTIONS]
+        invalid = [action for action in value if not action or not isinstance(action, str)]
         if invalid:
-            raise ValueError(f"invalid action(s): {invalid}")
+            raise ValueError(f"invalid empty action key(s): {invalid}")
         return value
 
     @field_validator("best_action")
     @classmethod
     def validate_best_action_enum(cls, value: str) -> str:
-        if value not in rules.ACTIONS:
-            raise ValueError(f"invalid best action: {value}")
+        if not value:
+            raise ValueError("best_action must be a non-empty action key")
         return value
 
     @field_validator("dialogue_act")
@@ -599,6 +605,13 @@ class MainSchemaRecord(BaseModel):
             raise ValueError("best_action must be in candidate_actions")
         if self.candidate_action_specs and len(self.candidate_action_specs) != len(self.candidate_actions):
             raise ValueError("candidate_action_specs must align with candidate_actions")
+        if self.candidate_action_specs:
+            for action, spec in zip(self.candidate_actions, self.candidate_action_specs):
+                if action in rules.ACTIONS:
+                    continue
+                expected = rules.action_spec_key(spec.act, spec.params)
+                if action != expected:
+                    raise ValueError(f"v2-native candidate action key {action} must match action spec key {expected}")
         if not next_state_keys.issuperset(candidate_set):
             raise ValueError("next_state_by_action keys must include all candidate_actions")
         if reward_keys != next_state_keys:

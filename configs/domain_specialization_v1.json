@@ -1,0 +1,87 @@
+{
+  "artifact": "piwm_domain_specialization_config_v1",
+  "is_training_result": false,
+  "created_at_cst": "2026-05-16 21:25:17",
+  "base_model": "Qwen/Qwen2.5-VL-7B-Instruct",
+  "method": "two_stage_sft_with_lora_stage2",
+  "datasets": {
+    "stage1_general": {
+      "name": "PIWM-Train-Synth-v2",
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
+      "rows": 2554,
+      "corpus_role": "general_retail_guidance"
+    },
+    "stage2_target": {
+      "name": "PIWM-Target-Frontcam-v1",
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
+      "rows": 708,
+      "corpus_role": "target_frontcam_smart_vending",
+      "qa_status": "synthetic_unreviewed"
+    },
+    "joint_baseline": {
+      "name": "PIWM-GeneralPlusTarget-v1",
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_general_plus_target_v1.jsonl",
+      "rows": 3262,
+      "corpus_role": "mixed_view_joint_sft"
+    }
+  },
+  "training_stages": [
+    {
+      "stage": "stage1_general",
+      "input_model": "Qwen/Qwen2.5-VL-7B-Instruct",
+      "dataset": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
+      "output_name": "checkpoint_general",
+      "tuning": "lora",
+      "lora_rank": 16,
+      "lora_alpha": 32,
+      "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+    },
+    {
+      "stage": "stage2_target",
+      "input_model": "checkpoint_general",
+      "dataset": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
+      "output_name": "checkpoint_target",
+      "tuning": "lora_continued",
+      "lora_rank": 16,
+      "lora_alpha": 32,
+      "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+    },
+    {
+      "stage": "joint_baseline",
+      "input_model": "Qwen/Qwen2.5-VL-7B-Instruct",
+      "dataset": "data/official/ms_swift/piwm_train_general_plus_target_v1.jsonl",
+      "output_name": "checkpoint_joint_general_target",
+      "tuning": "lora",
+      "lora_rank": 16,
+      "lora_alpha": 32,
+      "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+    }
+  ],
+  "evaluation_matrix": [
+    {
+      "checkpoint": "checkpoint_general",
+      "eval_set": "data/official/ms_swift/piwm_eval_qa_all_v1.jsonl",
+      "purpose": "general eval after stage1"
+    },
+    {
+      "checkpoint": "checkpoint_general",
+      "eval_set": "data/official/piwm_target_v1",
+      "purpose": "zero-shot target transfer; target test split requires QA before paper claim"
+    },
+    {
+      "checkpoint": "checkpoint_target",
+      "eval_set": "data/official/piwm_target_v1",
+      "purpose": "target specialization"
+    },
+    {
+      "checkpoint": "checkpoint_target",
+      "eval_set": "data/official/ms_swift/piwm_eval_qa_all_v1.jsonl",
+      "purpose": "catastrophic forgetting check on general eval"
+    }
+  ],
+  "red_lines": [
+    "Do not call PIWM-Target-Frontcam-v1 QA-reviewed until manual target QA is complete.",
+    "Do not report checkpoint_target results as final EMNLP evidence without running the evaluation matrix.",
+    "Use joint_baseline only as an ablation; the main story is two-stage specialization."
+  ]
+}

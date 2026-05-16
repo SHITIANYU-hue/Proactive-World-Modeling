@@ -23,6 +23,10 @@ DEFAULT_HOLDOUT_PRODUCTS = ["footwear"]
 DEFAULT_HOLDOUT_PERSONAS = ["gift_buyer_uncertain"]
 DEFAULT_VIEWPOINTS = ["salesperson_observable", "surveillance_oblique"]
 DEFAULT_VIEWPOINT_RATIO = [0.8, 0.2]
+DEFAULT_PRODUCT_CATEGORIES = [
+    product for product in rules.PRODUCT_CATEGORIES
+    if product != "smart_vending_retail"
+]
 
 PERSONA_DESCRIPTIONS = {
     "price_sensitive_cautious": "A careful shopper who repeatedly weighs price and value before engaging.",
@@ -40,12 +44,14 @@ def build_all_scenarios(
     holdout_personas: list[str] | None = None,
     viewpoints: list[str] | None = None,
     viewpoint_ratio: list[float] | None = None,
+    product_categories: list[str] | None = None,
 ) -> list[dict[str, Any]]:
     holdout_products = holdout_products if holdout_products is not None else DEFAULT_HOLDOUT_PRODUCTS
     holdout_personas = holdout_personas if holdout_personas is not None else DEFAULT_HOLDOUT_PERSONAS
+    product_categories = product_categories if product_categories is not None else DEFAULT_PRODUCT_CATEGORIES
     viewpoints, viewpoint_ratio = _validate_viewpoint_config(viewpoints, viewpoint_ratio)
     base_specs: list[dict[str, str]] = []
-    for product in rules.PRODUCT_CATEGORIES:
+    for product in product_categories:
         for persona in rules.PERSONA_TYPES:
             for cue in rules.CUES:
                 for aida_stage in rules.AIDA_STAGES:

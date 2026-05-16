@@ -30,6 +30,7 @@ PRODUCT_CATEGORIES = [
     "home_appliance",
     "jewelry",
     "footwear",
+    "smart_vending_retail",
 ]
 
 PERSONA_TYPES = [
@@ -386,6 +387,7 @@ PRODUCT_CATEGORY_ZH: dict[str, str] = {
     "home_appliance": "家电",
     "jewelry": "珠宝",
     "footwear": "鞋类商品",
+    "smart_vending_retail": "智能售货柜商品",
 }
 
 PRODUCT_ACTION_PROFILES: dict[str, dict[str, str]] = {
@@ -452,6 +454,14 @@ PRODUCT_ACTION_PROFILES: dict[str, dict[str, str]] = {
         "demo_focus": "鞋底弯折、脚跟包裹、鞋面软硬或尺码贴合",
         "open_question": "尺码脚感、通勤场景、支撑性，还是价格",
         "value_frame": "脚感、材质、耐穿度和使用场景",
+    },
+    "smart_vending_retail": {
+        "scene": "智能售货柜前置摄像头视角",
+        "decision_focus": "屏幕信息、商品价格、功能差异、购买步骤和取货确认",
+        "comparison_focus": "价格、功能、适合场景、库存状态和购买路径",
+        "demo_focus": "屏幕交互、商品亮点和取货流程",
+        "open_question": "价格、功能、场景，还是购买步骤",
+        "value_frame": "价格、功能、适用场景、库存和取货便利性",
     },
 }
 
@@ -609,6 +619,7 @@ VIEWPOINTS = [
     "surveillance_oblique",
     "third_party_side",
     "first_person_pov",
+    "target_frontcam",
 ]
 
 DEFAULT_VIEWPOINT = "salesperson_observable"
@@ -1051,6 +1062,7 @@ def derive_visual_state(
         "surveillance_oblique": "斜角监控/第三方视角",
         "third_party_side": "旁观者侧面视角",
         "first_person_pov": "导购第一人称视角",
+        "target_frontcam": "设备前置摄像头单视角",
     }.get(viewpoint or "", "店内观察视角")
     summary = (
         f"{template['summary']} 当前场景是{product_profile['scene']}，"

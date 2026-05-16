@@ -1,10 +1,10 @@
 {
   "artifact": "piwm_official_dataset_manifest",
   "version": "v2.2",
-  "updated_at_cst": "2026-05-15 16:30:12",
+  "updated_at_cst": "2026-05-16 21:25:17",
   "canonical_root": "data/official",
   "remote_root": "/root/lanyun-fs/ProactiveIntentWorldModel/data/official",
-  "note": "Official PIWM datasets now include v1 frozen aliases plus independent v2.2 exports. PIWM-Train-Synth-v1 remains the frozen human-salesperson synthetic train alias. PIWM-Train-Synth-v2 is the independent schema v2.2 export with candidate_action_specs, best_action_spec, next_state_by_action_v2, compatibility tiers, and legacy aliases preserved. PIWM-PolicySlice-v2 is the explicit candidate-rule policy manifest; target terminal data will be built separately. Real-shooting PIWM-RealShoot-v1 currently contains a manifest template/sample, not QA-reviewed real videos.",
+  "note": "Official PIWM datasets now include v1 frozen aliases plus independent v2.2 exports. PIWM-Train-Synth-v1 remains the frozen human-salesperson synthetic train alias. PIWM-Train-Synth-v2 is the independent schema v2.2 export with candidate_action_specs, best_action_spec, next_state_by_action_v2, compatibility tiers, and legacy aliases preserved. PIWM-PolicySlice-v2 is the explicit candidate-rule policy manifest; target terminal data now has an initial imported frontcam pilot in PIWM-Target-Frontcam-v1; it remains synthetic_unreviewed. Real-shooting PIWM-RealShoot-v1 currently contains a manifest template/sample, not QA-reviewed real videos.",
   "datasets": [
     {
       "canonical_name": "PIWM-Train-Synth-v1",
@@ -88,6 +88,51 @@
         "Reassure": 40,
         "Recommend": 360
       }
+    },
+    {
+      "canonical_name": "PIWM-Target-Frontcam-v1",
+      "canonical_path": "data/official/piwm_target_v1",
+      "source_path": "/Users/mutsumi/Desktop/WorkSpace/piwm",
+      "role": "target_domain_frontcam_specialization",
+      "viewpoint": "target_frontcam",
+      "actor_profile": "target_terminal_logic",
+      "qa_status": "synthetic_unreviewed",
+      "records": 118,
+      "sampled_frames": 354,
+      "state_rows": 118,
+      "transition_rows": 472,
+      "policy_rows": 118,
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
+      "ms_swift_rows": 708,
+      "task_counts": {
+        "perception": 118,
+        "deliberation": 472,
+        "action_selection": 118
+      },
+      "split_counts": {
+        "train": 88,
+        "test": 30
+      },
+      "best_dialogue_act_counts": {
+        "Elicit": 20,
+        "Greet": 17,
+        "Hold": 6,
+        "Inform": 47,
+        "Reassure": 17,
+        "Recommend": 11
+      },
+      "paper_usage": "Initial target-domain front-camera smart vending corpus for domain-specialization pilot. The final 30 test rows are unreviewed eval candidates and must not be called QA-reviewed until manual QA is complete.",
+      "schema_version": "dialogue_act_human_salesperson_v2.2",
+      "v2_2_fields": [
+        "target_frontcam",
+        "target_terminal_logic",
+        "candidate_action_specs",
+        "best_action_spec",
+        "next_state_by_action_v2",
+        "view_class",
+        "qa_status",
+        "source_session_id"
+      ]
     },
     {
       "canonical_name": "PIWM-Eval-QA-v1",
@@ -181,7 +226,8 @@
     "Do not call PIWM-Train-Synth-v1 target terminal data; it keeps human-salesperson logic.",
     "Do not claim 1000 completed videos; current formal train set has 543 loaded parent records.",
     "Do not use smoke or DPO adapter directories as official dataset names.",
-    "Do not call PIWM-RealShoot-v1 a collected real dataset until video assets and QA pass are filled."
+    "Do not call PIWM-RealShoot-v1 a collected real dataset until video assets and QA pass are filled.",
+    "Do not call PIWM-Target-Frontcam-v1 QA-reviewed; it is synthetic_unreviewed until manual target QA is complete."
   ],
   "recommended_next_training_entrypoint": "data/official/ms_swift/piwm_train_full_v2.jsonl",
   "current_schema_v2_2_training_entrypoint": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
@@ -211,5 +257,23 @@
     "artifact_type": "lora_adapter"
   },
   "v2_reexport_summary": "data/official/V2_REEXPORT_SUMMARY.json",
-  "v2_2_export_summary": "data/official/V2_2_EXPORT_SUMMARY.json"
+  "v2_2_export_summary": "data/official/V2_2_EXPORT_SUMMARY.json",
+  "target_specialization_entrypoint": {
+    "name": "PIWM-Target-Frontcam-v1",
+    "ms_swift_jsonl": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
+    "ms_swift_rows": 708,
+    "task_counts": {
+      "perception": 118,
+      "deliberation": 472,
+      "action_selection": 118
+    },
+    "status": "pilot_imported_synthetic_unreviewed"
+  },
+  "domain_specialization_entrypoints": {
+    "stage1_general": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
+    "stage2_target": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
+    "mixed_view_joint_sft": "data/official/ms_swift/piwm_train_general_plus_target_v1.jsonl",
+    "mixed_view_joint_rows": 3262,
+    "warning": "target rows are synthetic_unreviewed until manual target QA is complete"
+  }
 }

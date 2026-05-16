@@ -22,7 +22,9 @@ def main_schema_record_payload(record: MainSchemaRecord) -> dict[str, Any]:
 
     payload = record.model_dump(mode="json")
     payload["schema_version"] = rules.ACTION_SCHEMA_VERSION
-    payload["actor_profile"] = "human_salesperson_logic"
+    payload["actor_profile"] = _actor_profile(record)
+    if record.viewpoint == "target_frontcam":
+        payload["view_class"] = "target_frontcam"
     payload["act_params"] = rules.merge_supporting_acts(payload.get("act_params", {}), payload.get("co_acts", []))
     legacy_co_acts = payload.pop("co_acts", [])
     if legacy_co_acts:
@@ -89,7 +91,7 @@ def build_policy_preference_row(record: MainSchemaRecord) -> dict[str, Any] | No
         rejected_pool,
         key=lambda action: (
             record.reward_by_action[action],
-            rules.ACTIONS.index(action),
+            record.candidate_actions.index(action),
         ),
     )
     rejected_reward = record.reward_by_action[rejected]
@@ -101,7 +103,7 @@ def build_policy_preference_row(record: MainSchemaRecord) -> dict[str, Any] | No
         "chosen_json": {
             "action": best_action,
             "action_spec": _candidate_spec_for_action(record, best_action),
-            "dialogue_act": _act_spec(best_action),
+            "dialogue_act": _dialogue_act_for_action(record, best_action),
             "rationale": _outcome_rationale(record, best_action),
             "action_realization": _action_realization(record, best_action).model_dump(),
             "terminal_realization": _terminal_realization(record, best_action),
@@ -109,7 +111,7 @@ def build_policy_preference_row(record: MainSchemaRecord) -> dict[str, Any] | No
         "rejected_json": {
             "action": rejected,
             "action_spec": _candidate_spec_for_action(record, rejected),
-            "dialogue_act": _act_spec(rejected),
+            "dialogue_act": _dialogue_act_for_action(record, rejected),
             "rationale": _outcome_rationale(record, rejected),
             "action_realization": _action_realization(record, rejected).model_dump(),
             "terminal_realization": _terminal_realization(record, rejected),
@@ -119,6 +121,7 @@ def build_policy_preference_row(record: MainSchemaRecord) -> dict[str, Any] | No
             "product_category": record.product_category,
             "split": record.split,
             "viewpoint": record.viewpoint,
+            "actor_profile": _actor_profile(record),
             "frames": _frame_paths(record),
             "is_anchor": record.is_anchor,
             "rule_version": rules.RULE_VERSION,
@@ -169,6 +172,7 @@ def _state_inference_row(record: MainSchemaRecord, include_observable_cues: bool
             "product_category": record.product_category,
             "split": record.split,
             "viewpoint": record.viewpoint,
+            "actor_profile": _actor_profile(record),
             "observable_cues": record.observable_cues,
             "visual_only_input": not include_observable_cues,
             "aida_stage": record.aida_stage,
@@ -194,7 +198,7 @@ def _transition_rows(record: MainSchemaRecord) -> list[dict[str, Any]]:
                     "candidate_action": action,
                     "candidate_action_key": _candidate_action_key_for_action(record, action),
                     "candidate_action_spec": _candidate_spec_for_action(record, action),
-                    "candidate_dialogue_act": _act_spec(action),
+                    "candidate_dialogue_act": _dialogue_act_for_action(record, action),
                     "candidate_action_realization": _action_realization(record, action).model_dump(),
                     "candidate_terminal_realization": _terminal_realization(record, action),
                 },
@@ -220,6 +224,7 @@ def _transition_rows(record: MainSchemaRecord) -> list[dict[str, Any]]:
                     "product_category": record.product_category,
                     "split": record.split,
                     "viewpoint": record.viewpoint,
+                    "actor_profile": _actor_profile(record),
                     "parent_state_id": record.state_id,
                     "compatibility_tier": record.compatibility_tier,
                     "legacy_mismatch_flags": record.legacy_mismatch_flags,
@@ -273,6 +278,7 @@ def _world_model_continuation_rows(record: MainSchemaRecord) -> list[dict[str, A
                     "product_category": record.product_category,
                     "split": record.split,
                     "viewpoint": record.viewpoint,
+                    "actor_profile": _actor_profile(record),
                     "continuation_role": continuation.continuation_role.value,
                     "reaction_template_id": continuation.reaction_template_id,
                     "parent_state_id": record.state_id,
@@ -331,7 +337,7 @@ def _candidate_block(record: MainSchemaRecord) -> list[dict[str, Any]]:
             "risk": record.next_state_by_action[action].risk,
             "benefit": record.next_state_by_action[action].benefit,
             "action_spec": _candidate_spec_for_action(record, action),
-            "dialogue_act": _act_spec(action),
+            "dialogue_act": _dialogue_act_for_action(record, action),
             "risk_tags": record.next_state_by_action[action].risk_tags,
             "failure_mode": record.next_state_by_action[action].failure_mode,
             "outcome_type": record.next_state_by_action[action].outcome_type,
@@ -356,6 +362,15 @@ def _outcome_rationale(record: MainSchemaRecord, action: str) -> str | None:
 def _action_realization(record: MainSchemaRecord, action: str) -> ActionRealization:
     if action == record.best_action:
         return record.best_action_realization
+    if action not in rules.ACTIONS:
+        terminal = _terminal_realization(record, action)
+        surface_text = terminal.get("surface_text") or "（静默）"
+        return ActionRealization(
+            utterance=surface_text,
+            physical_action="智能售货柜按屏幕、语音、灯效执行该候选响应。",
+            timing="设备前置摄像头检测到当前顾客状态后触发。",
+            rationale=f"target terminal realization for {action}",
+        )
     return ActionRealization(
         **rules.derive_action_realization(
             action,
@@ -373,6 +388,16 @@ def _act_spec(action: str) -> dict[str, Any]:
         "act": spec["act"],
         "params": spec["params"],
         "legacy_co_acts": spec.get("co_acts", []),
+    }
+
+
+def _dialogue_act_for_action(record: MainSchemaRecord, action: str) -> dict[str, Any]:
+    spec = _candidate_spec_for_action(record, action)
+    params = rules.merge_supporting_acts(spec.get("params", {}))
+    return {
+        "act": spec["act"],
+        "params": params,
+        "legacy_co_acts": rules.legacy_co_acts_from_params(params),
     }
 
 
@@ -396,6 +421,8 @@ def _candidate_spec_for_action(record: MainSchemaRecord, action: str) -> dict[st
     if action in record.candidate_actions and record.candidate_action_specs:
         index = record.candidate_actions.index(action)
         return record.candidate_action_specs[index].model_dump(mode="json")
+    if action not in rules.ACTIONS:
+        raise ValueError(f"missing candidate_action_specs for v2 action key: {action}")
     spec = rules.legacy_action_to_act(action)
     return {"act": spec["act"], "params": rules.merge_supporting_acts(spec.get("params"), spec.get("co_acts"))}
 
@@ -408,6 +435,11 @@ def _candidate_action_key_for_action(record: MainSchemaRecord, action: str) -> s
 def _terminal_realization(record: MainSchemaRecord, action: str) -> dict[str, Any]:
     if action == record.best_action and record.realization is not None:
         return _terminal_realization_payload(record.realization)
+    if action not in rules.ACTIONS:
+        spec = _candidate_spec_for_action(record, action)
+        return _terminal_realization_payload(
+            rules.derive_terminal_realization_from_act(spec["act"], spec.get("params", {}))
+        )
     return _terminal_realization_payload(rules.derive_terminal_realization(
         action,
         record.latent_state,
@@ -431,6 +463,12 @@ def _terminal_realization_payload(realization: Any) -> dict[str, Any]:
 
 def _frame_paths(record: MainSchemaRecord) -> list[str]:
     return [frame.relative_path for frame in record.images]
+
+
+def _actor_profile(record: MainSchemaRecord) -> str:
+    if record.viewpoint == "target_frontcam":
+        return "target_terminal_logic"
+    return "human_salesperson_logic"
 
 
 def _write_jsonl(rows: list[dict[str, Any]], out: Path) -> int:
