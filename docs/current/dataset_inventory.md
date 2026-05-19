@@ -24,7 +24,7 @@
 | frozen 主 SFT 训练（轻量） | `data/official/ms_swift/piwm_train_synth_v1.jsonl` | `PIWM-Train-Synth-v1`，high-throughput synthetic train split，未人工视觉审阅；保留真人导购逻辑，动作语义约束为 6-act |
 | schema v2.2 主 SFT 训练 | `data/official/ms_swift/piwm_train_synth_v2.jsonl` | `PIWM-Train-Synth-v2`，2554 examples；独立 v2.2 导出，不覆盖 v1 |
 | v2 policy 生成入口 | `data/official/piwm_policy_slice_v2/policy_manifest.jsonl` | `PIWM-PolicySlice-v2`，864 条 explicit candidate-rule scenarios；不是视频数据 |
-| target 域专项训练 | `data/official/ms_swift/piwm_train_target_specialization_v1.jsonl` | `PIWM-Target-Frontcam-v1`，118 target-frontcam records / 708 examples；30 test records 已完成 Codex visual QA |
+| target 域专项训练 | `data/official/ms_swift/piwm_train_target_specialization_v1.jsonl` | `PIWM-Target-Frontcam-v1`，118 target-frontcam records / 708 examples；30 test records 已完成项目负责人 QA 复核，88 train records 仍是 synthetic_unreviewed |
 | target 域扩展队列 | `data/official/piwm_target_promptready_v1/promptready_index.jsonl` | `PIWM-Target-PromptReady-v1`，318 prompt-ready records；118 video-backed，200 video-pending；不是 ms-swift SFT 文件 |
 | mixed-view 联合训练 | `data/official/ms_swift/piwm_train_general_plus_target_v1.jsonl` | general v2 + target frontcam；3262 examples；用于 joint SFT 对照，不替代 two-stage 入口 |
 | 下一次从 base 重训 | `data/official/ms_swift/piwm_train_full_v2.jsonl` | `PIWM-Train-Full-v2`，3339 examples；在主训练基础上加入 action-selection、continuation caption、Future Verification |
@@ -40,7 +40,7 @@
 - `PIWM-Train-Synth-v1` 可以训练，但不能写成 QA-pass。`priority1000_unreviewed*` 只能作为 backing/source path 或历史复现实验路径出现，不能当公开数据名。
 - `PIWM-Train-Synth-v2` 是同一批 543 parent 的 schema v2.2 独立导出，不代表新增视频。
 - `PIWM-PolicySlice-v2` 只能写成规则支撑的 policy manifest / 生成入口，不能写成 filmed dataset 或 QA-reviewed dataset。
-- `PIWM-Target-Frontcam-v1` 是从 `guochenmeinian/piwm` 导入的 target 域设备前置摄像头数据；它有视频抽帧和 v2.2 action specs。30 条 test records 已完成 Codex visual QA，整体 118 仍不是 full human QA-reviewed corpus。
+- `PIWM-Target-Frontcam-v1` 是从 `guochenmeinian/piwm` 导入的 target 域设备前置摄像头数据；它有视频抽帧和 v2.2 action specs。30 条 test records 已完成项目负责人 QA 复核并写回 target 主数据，整体 118 仍不是 full human QA-reviewed corpus。
 - `PIWM-Target-PromptReady-v1` 是 target 域上游扩展队列；它有 318 条 `seed / manifest / labeled / prompt`，但其中 200 条没有 Kling 视频和抽帧，不能计入 video-backed multimodal training scale。
 - `PIWM-Eval-QA-v1` 可以评估，但规模是 36 loaded parent，不是 full benchmark。旧名为 `priority40_qareviewed_sample`。
 - `PIWM-WorldModel-v1` 是 World Model 视觉证据，不是主 SFT 规模来源。旧名为 `pilot30_with_continuations`。
@@ -53,7 +53,7 @@
 | `PIWM-Train-Synth-v1` | `data/official/piwm_train_synth_v1` | `data/piwm_dataset_priority1000_unreviewed_compact_v2` | frozen 主 SFT 训练，compact visual-state/action-realization schema；字段文本已加入产品类别、视觉线索和具体导购动作细化 |
 | `PIWM-Train-Synth-v2` | `data/official/piwm_train_synth_v2` | `data/official/piwm_train_synth_v1` | schema v2.2 独立导出：`candidate_action_specs / best_action_spec / next_state_by_action_v2 / compatibility_tier` |
 | `PIWM-PolicySlice-v2` | `data/official/piwm_policy_slice_v2` | `scripts.scenario_sampler --candidate-rule-only` | 864 条 explicit candidate-rule policy manifest；用于后续生成/均衡动作分析，不作为 filmed data |
-| `PIWM-Target-Frontcam-v1` | `data/official/piwm_target_v1` | `/Users/mutsumi/Desktop/WorkSpace/piwm` | target 域智能售货柜前置摄像头数据；118 records，354 sampled frames，708 ms-swift examples；30 test records Codex visual QA pass |
+| `PIWM-Target-Frontcam-v1` | `data/official/piwm_target_v1` | `/Users/mutsumi/Desktop/WorkSpace/piwm` | target 域智能售货柜前置摄像头数据；118 records，354 sampled frames，708 ms-swift examples；30 test records project-lead QA pass，88 train records synthetic_unreviewed |
 | `PIWM-Target-PromptReady-v1` | `data/official/piwm_target_promptready_v1` | `/Users/mutsumi/Desktop/WorkSpace/piwm/data/{seed,manifest,labeled,prompts}` | target 域上游扩展队列；318 prompt-ready records，200 video-pending |
 | `PIWM-Eval-QA-v1` | `data/official/piwm_eval_qa_v1` | `data/piwm_dataset_priority40_qareviewed_sample_compact_v2_exact` | 主表 / e2e QA 评估，compact visual-state/action-realization schema；与主训练字段语义对齐 |
 | `PIWM-WorldModel-v1` | `data/official/piwm_world_model_v1` | `data/piwm_dataset_pilot30_with_continuations_compact_v2` | continuation / World Model 视觉证据，共享三轴 current/future visual schema |
@@ -77,7 +77,7 @@
 
 `PIWM-RealShoot-v1` 已有 `ShootingClipRecord` manifest 模板与 24 行 S01-S12 A/B 样例。在素材通过 QA 并补齐 assets 前，论文只能写成 planned real-shooting validation protocol，不能写成已完成数据规模。
 
-`PIWM-Target-Frontcam-v1` 已于 2026-05-16 从轻量 `piwm` 仓库导入主项目。该数据把 13 个 `response_id` 映射到 v2.2 canonical `(act, params)`，使用 `target_frontcam` 视角，抽取每条视频 3 帧。它可用于 target-domain specialization pilot。30 条 test split 已完成 Codex visual QA：30 pass / 0 fail / 2 warning records；如果论文口径要求 human benchmark，仍建议项目成员复核。
+`PIWM-Target-Frontcam-v1` 已于 2026-05-16 从轻量 `piwm` 仓库导入主项目。该数据把 13 个 `response_id` 映射到 v2.2 canonical `(act, params)`，使用 `target_frontcam` 视角，抽取每条视频 3 帧。它用于 low-resource target-domain specialization：88 条 train records 做 target adaptation，30 条 test split 做 in-domain QA eval。30 条 test split 已于 2026-05-17 完成项目负责人 QA 复核：30 pass / 0 fail / 2 warning records，并已写回 `main_schema.jsonl` 和 target ms-swift 导出；88 条 train records 仍是 `synthetic_unreviewed`。
 
 `PIWM-Target-PromptReady-v1` 同日建立为 target 扩展队列。轻量 `piwm` 现有 318 条 `seed / manifest / labeled / prompts`，best DialogueAct 分布为每类 53 条；其中 200 条是 `video_pending`，需要 Kling 成片和抽帧后才能进入多模态训练。
 

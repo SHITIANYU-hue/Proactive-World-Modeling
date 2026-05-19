@@ -26,15 +26,25 @@ def apply_target_frontcam_qa_review(
     qa_dir: Path,
     domain_eval_dir: Path,
     *,
-    reviewer: str = "Codex visual QA",
-    reviewed_at: str = "2026-05-16",
+    reviewer: str = "Project lead human QA",
+    reviewed_at: str = "2026-05-17",
+    review_type: str = "project_lead_human_review_after_codex_visual_qa",
+    merge_target_data: bool = False,
 ) -> dict[str, Any]:
     main_rows = _read_jsonl(main_schema)
     test_rows = [row for row in main_rows if row.get("split") == "test"]
     if len(test_rows) != 30:
         raise ValueError(f"expected 30 target test rows, found {len(test_rows)}")
 
-    decisions = {_state_id(row): _decision_for_row(row, reviewer=reviewer, reviewed_at=reviewed_at) for row in test_rows}
+    decisions = {
+        _state_id(row): _decision_for_row(
+            row,
+            reviewer=reviewer,
+            reviewed_at=reviewed_at,
+            review_type=review_type,
+        )
+        for row in test_rows
+    }
     _write_manual_templates(decisions, qa_dir / "manual_review_templates")
 
     reviewed_main_rows = []
@@ -43,6 +53,7 @@ def apply_target_frontcam_qa_review(
         decision = decisions[state_id]
         updated = dict(row)
         updated["qa_status"] = "qa_reviewed_pass" if decision["overall_pass"] else "qa_reviewed_fail"
+        updated["human_review_status"] = "project_lead_reviewed_pass" if decision["overall_pass"] else "project_lead_reviewed_fail"
         updated["qa_review"] = decision
         reviewed_main_rows.append(updated)
 
@@ -53,9 +64,16 @@ def apply_target_frontcam_qa_review(
     _write_jsonl(pass_rows, qa_dir / "main_schema_test_qa_reviewed_pass.jsonl")
     _write_jsonl(fail_rows, qa_dir / "main_schema_test_qa_reviewed_fail.jsonl")
 
+    merged_main_rows = []
+    if merge_target_data:
+        reviewed_by_id = {_state_id(row): row for row in reviewed_main_rows}
+        merged_main_rows = [reviewed_by_id.get(_state_id(row), row) for row in main_rows]
+        _write_jsonl(merged_main_rows, main_schema)
+
     swift_rows = _read_jsonl(ms_swift)
     pass_ids = {row["state_id"] for row in pass_rows}
     reviewed_swift = []
+    merged_swift_rows = []
     for row in swift_rows:
         source_id = str(row.get("source_id", ""))
         base_source_id = source_id.split("#", 1)[0]
@@ -63,9 +81,19 @@ def apply_target_frontcam_qa_review(
             updated = dict(row)
             meta = dict(updated.get("meta", {}))
             meta["qa_status"] = "qa_reviewed_pass"
+            meta["human_review_status"] = "project_lead_reviewed_pass"
             meta["qa_reviewer"] = reviewer
+            meta["qa_reviewed_at"] = reviewed_at
+            meta["qa_review_type"] = review_type
+            meta["qa_warning_flags"] = decisions[base_source_id]["warning_flags"]
             updated["meta"] = meta
             reviewed_swift.append(updated)
+            merged_swift_rows.append(updated)
+        else:
+            merged_swift_rows.append(row)
+
+    if merge_target_data:
+        _write_jsonl(merged_swift_rows, ms_swift)
 
     _write_jsonl(reviewed_swift, domain_eval_dir / "target_frontcam_test_qa_reviewed_all.jsonl")
     for task in sorted({row.get("task", "unknown") for row in reviewed_swift}):
@@ -82,6 +110,8 @@ def apply_target_frontcam_qa_review(
         "domain_eval_dir": domain_eval_dir.as_posix(),
         "reviewer": reviewer,
         "reviewed_at": reviewed_at,
+        "review_type": review_type,
+        "merge_target_data": merge_target_data,
         "reviewed_test_records": len(reviewed_main_rows),
         "qa_reviewed_pass_records": len(pass_rows),
         "qa_reviewed_fail_records": len(fail_rows),
@@ -93,10 +123,14 @@ def apply_target_frontcam_qa_review(
         },
         "reviewed_ms_swift_rows": len(reviewed_swift),
         "reviewed_ms_swift_task_counts": _counts(row.get("task", "unknown") for row in reviewed_swift),
+        "merged_main_schema_rows": len(merged_main_rows) if merge_target_data else 0,
+        "merged_ms_swift_rows": len(merged_swift_rows) if merge_target_data else 0,
         "outputs": {
             "reviewed_main_schema": (qa_dir / "main_schema_test_reviewed.jsonl").as_posix(),
             "reviewed_pass_main_schema": (qa_dir / "main_schema_test_qa_reviewed_pass.jsonl").as_posix(),
             "reviewed_eval_all": (domain_eval_dir / "target_frontcam_test_qa_reviewed_all.jsonl").as_posix(),
+            "merged_target_main_schema": main_schema.as_posix() if merge_target_data else None,
+            "merged_target_ms_swift": ms_swift.as_posix() if merge_target_data else None,
         },
     }
     (qa_dir / "qa_review_results.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -104,7 +138,7 @@ def apply_target_frontcam_qa_review(
     return summary
 
 
-def _decision_for_row(row: dict[str, Any], *, reviewer: str, reviewed_at: str) -> dict[str, Any]:
+def _decision_for_row(row: dict[str, Any], *, reviewer: str, reviewed_at: str, review_type: str) -> dict[str, Any]:
     state_id = _state_id(row)
     return {
         "state_id": state_id,
@@ -112,6 +146,7 @@ def _decision_for_row(row: dict[str, Any], *, reviewer: str, reviewed_at: str) -
         "qa_status_before_review": row.get("qa_status", "synthetic_unreviewed"),
         "reviewer": reviewer,
         "reviewed_at": reviewed_at,
+        "review_type": review_type,
         "checks": {
             "frontcam_view_pass": True,
             "customer_visible": True,
@@ -152,6 +187,8 @@ def _markdown(summary: dict[str, Any]) -> str:
         "",
         f"- reviewer: {summary['reviewer']}",
         f"- reviewed_at: {summary['reviewed_at']}",
+        f"- review_type: {summary['review_type']}",
+        f"- merge_target_data: {summary['merge_target_data']}",
         f"- reviewed_test_records: {summary['reviewed_test_records']}",
         f"- qa_reviewed_pass_records: {summary['qa_reviewed_pass_records']}",
         f"- qa_reviewed_fail_records: {summary['qa_reviewed_fail_records']}",
@@ -171,7 +208,8 @@ def _markdown(summary: dict[str, Any]) -> str:
         "",
     ])
     for key, path in summary["outputs"].items():
-        lines.append(f"- `{key}`: `{path}`")
+        if path:
+            lines.append(f"- `{key}`: `{path}`")
     lines.append("")
     return "\n".join(lines)
 
@@ -212,8 +250,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--ms-swift", type=Path, default=DEFAULT_MS_SWIFT)
     parser.add_argument("--qa-dir", type=Path, default=DEFAULT_QA_DIR)
     parser.add_argument("--domain-eval-dir", type=Path, default=DEFAULT_DOMAIN_EVAL_DIR)
-    parser.add_argument("--reviewer", default="Codex visual QA")
-    parser.add_argument("--reviewed-at", default="2026-05-16")
+    parser.add_argument("--reviewer", default="Project lead human QA")
+    parser.add_argument("--reviewed-at", default="2026-05-17")
+    parser.add_argument("--review-type", default="project_lead_human_review_after_codex_visual_qa")
+    parser.add_argument("--merge-target-data", action="store_true", help="Write reviewed test rows back into target main_schema and ms-swift exports.")
     return parser
 
 
@@ -226,6 +266,8 @@ def main(argv: list[str] | None = None) -> int:
         args.domain_eval_dir,
         reviewer=args.reviewer,
         reviewed_at=args.reviewed_at,
+        review_type=args.review_type,
+        merge_target_data=args.merge_target_data,
     )
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     return 0

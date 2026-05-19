@@ -1,0 +1,108 @@
+\section{Data}
+\label{sec:data}
+
+PIWM requires supervision that is different from standard visual question answering or dialogue-response data. A training example must connect a short visual observation to a customer state, a set of permissible proactive actions, and the expected consequence of each action. We therefore construct a \emph{general-to-target} data suite with two complementary domains. The general corpus teaches broad retail guidance from third-person, salesperson-observable scenes; the target corpus tests whether that guidance can specialize to a device-front-camera smart-vending setting with limited in-domain supervision.
+
+\paragraph{Design principle: low-resource target specialization, not target-scale pretraining.}
+The target corpus is intentionally compact. Its role is not to replace the general corpus with hundreds of additional videos, but to create a controlled domain shift: the model first learns proactive retail guidance in the general corpus, then adapts to a single fixed camera mounted on an intelligent vending terminal. This mirrors the deployment setting of a proactive service agent: broad sales knowledge is learned once, while each store, device, or product line provides only a small amount of domain-specific data. Our main data claim is therefore \emph{sample-efficient target specialization} rather than target-domain scale.
+
+\subsection{From expert knowledge to structured outputs}
+
+The PIWM outputs are not free-form labels written independently for each video. They are generated from an auditable expert-knowledge layer. We start from sales and consumer-behavior sources, including AIDA, OpenStax marketing chapters on consumer decision processes and personal selling, SPIN Selling, psychological reactance theory, and shopping-motivation work on hedonic, utilitarian, recreational, and gift-shopping behavior. Copyrighted sources are used only as citation-level anchors and compact paraphrases; the original long-form texts are not copied into the training set.
+
+The knowledge base is organized in three stages. First, source passages are distilled into compact principles, such as when to ask an open need-focused question, when a recommendation should remain low-pressure, or when a firm recommendation risks psychological reactance. Second, these principles are promoted into conditional rules. The current corpus contains 27 distilled principles and 78 source-linked conditional rules, including cue-to-state priors, persona-to-intent rules, state-and-AIDA candidate-action rules, and action-conditioned transition rules. Third, the rules are compiled into deterministic output fields for each data record.
+
+Concretely, a generated record follows the pipeline:
+\[
+\text{scene cues} \rightarrow
+\text{customer state} \rightarrow
+\text{intent tier} \rightarrow
+\text{candidate actions} \rightarrow
+\text{action outcomes} \rightarrow
+\text{training targets}.
+\]
+The customer state includes the AIDA stage and a belief--desire--intention summary. The candidate-action rules produce a finite action set in the shared six-act schema. The transition rules then produce, for each candidate action, a next state, reward, risk level, benefit level, and optional failure mode. The best action is the candidate with the strongest rule-supported outcome under a deterministic tie-break. Surface realizations are then filled from action templates: in the general corpus they correspond to human-salesperson guidance, while in the target corpus they correspond to terminal behavior such as screen text, voice style, light cue, or waiting state.
+
+This construction matters for reviewability. If a label is wrong, the error can be traced back to a rule and its source link rather than to an opaque model output. It also gives counterfactual coverage: for the same visual state, the dataset can supervise not only the chosen action but also what would happen under inferior alternatives. This is the reason PIWM can train deliberation rows even when only one action is ultimately selected.
+
+\subsection{Data sources and splits}
+
+Table~\ref{tab:data-composition} summarizes the current data surface used by the EMNLP-style experiments. The general training split, \textsc{PIWM-Train-Synth-v2}, contains 543 synthetic video-backed parent states exported into 2,554 supervised examples. The target split, \textsc{PIWM-Target-Frontcam-v1}, contains 118 device-front-camera records from the smart-vending domain. We use 88 target records for adaptation and reserve 30 records as a held-out in-domain evaluation set. The target evaluation records are reviewed by the project lead after a visual QA pass; all 30 pass, with two warning flags retained for auditability.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{llrrrrl}
+\toprule
+Split & Domain / view & Records & Frames & Examples & QA status & Role \\
+\midrule
+General train & Retail, third-person & 543 & -- & 2,554 & synthetic train & Stage-1 SFT \\
+Target train & Smart-vending, frontcam & 88 & 264 & 528 & synthetic train & Stage-2 adaptation \\
+Target eval & Smart-vending, frontcam & 30 & 90 & 180 & project-lead QA pass & in-domain test \\
+General eval & Retail, third-person & 36 & -- & 162 & QA-reviewed subset & forgetting check \\
+\bottomrule
+\end{tabular}
+\caption{Current PIWM data composition. Target examples use three sampled frames per record. The target evaluation split is human-reviewed; the target training split remains synthetic training data.}
+\label{tab:data-composition}
+\end{table}
+
+\paragraph{General retail corpus.}
+The general corpus covers ordinary in-store guidance from a salesperson-observable perspective. Each parent state is represented as a short visual window and a structured customer-state record. The supervision follows the PIWM decision loop: infer the current state, evaluate candidate interventions, and predict the next state and reward under each candidate action. This split preserves human-salesperson guidance logic and is used for Stage-1 training.
+
+\paragraph{Target front-camera corpus.}
+The target corpus comes from a fixed camera located at the intelligent vending terminal. This changes both the visual domain and the actor profile: the agent must infer customer intent from a device-front-camera view, and the response is a terminal behavior rather than a human salesperson's body movement. Each target record is sampled into three frames and mapped into the same v2.2 action schema as the general corpus. The 88/30 train-test split is by record, so no target test record appears in adaptation training.
+
+\subsection{Supervision format}
+
+Each record is exported into one or more supervised examples, depending on which decision-loop component it trains. Table~\ref{tab:task-counts} reports the task decomposition. The perception task predicts the visible customer state and purchase stage. The deliberation task conditions on a candidate action and predicts next-state, risk, benefit, and reward. The action-selection task asks the model to choose the best intervention from the candidate set. The target corpus includes all three tasks; the current general v2.2 training export uses perception and deliberation, while action-selection supervision is available in the target specialization and policy-slice exports.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrrrr}
+\toprule
+Split & Perception & Deliberation & Action selection & Total \\
+\midrule
+General train & 543 & 2,011 & 0 & 2,554 \\
+Target train & 88 & 352 & 88 & 528 \\
+Target eval & 30 & 120 & 30 & 180 \\
+General eval & 36 & 126 & 0 & 162 \\
+\bottomrule
+\end{tabular}
+\caption{Task-level decomposition of the current training and evaluation files. Deliberation rows expand each parent state over candidate actions.}
+\label{tab:task-counts}
+\end{table}
+
+\paragraph{Action schema.}
+Both corpora use a shared six-act schema: \textsc{Greet}, \textsc{Elicit}, \textsc{Inform}, \textsc{Recommend}, \textsc{Reassure}, and \textsc{Hold}. Each act is parameterized rather than treated as a flat label; for example, \textsc{Recommend} distinguishes soft and firm pressure, and \textsc{Inform} distinguishes comparison, demo, attribute, and price content. This keeps the policy space small enough to audit while still preserving behaviorally meaningful variation.
+
+The target corpus is especially important for action coverage. It contains all six acts as best actions (Table~\ref{tab:target-actions}), including \textsc{Greet} and \textsc{Recommend}, which are underrepresented or absent as best actions in the legacy general training labels. No target act dominates the set: the largest class, \textsc{Inform}, accounts for 47 of 118 records.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrr}
+\toprule
+Best act in target corpus & Records & Percent \\
+\midrule
+\textsc{Inform} & 47 & 39.8 \\
+\textsc{Elicit} & 20 & 16.9 \\
+\textsc{Greet} & 17 & 14.4 \\
+\textsc{Reassure} & 17 & 14.4 \\
+\textsc{Recommend} & 11 & 9.3 \\
+\textsc{Hold} & 6 & 5.1 \\
+\bottomrule
+\end{tabular}
+\caption{Best-action distribution in the 118-record target front-camera corpus. The target domain supplies all six action types and introduces closing/opening behavior that is not naturally frequent in the general browsing corpus.}
+\label{tab:target-actions}
+\end{table}
+
+\subsection{Quality assurance}
+
+We use QA as a data-split property rather than a blanket corpus label. For target evaluation, each of the 30 held-out front-camera records is inspected through a contact sheet containing its three sampled frames. A record passes only if the customer is visible, gaze or head direction is interpretable, body posture is visible, terminal context is present, the three frames form a consistent temporal window, and the structured action label is supported by the visual evidence. All 30 target evaluation records pass. Two records retain warning flags: one has visible glass reflection but an identifiable customer, and one attention-stage record begins with partial pre-entry context. Both warnings are retained in the metadata and are not used to hide uncertainty.
+
+This QA policy is deliberately conservative. The 30 target test records are reported as project-lead-QA-reviewed and form the in-domain evaluation set. The 88 target training records remain synthetic training data: they are suitable for adaptation, but we do not describe the full 118-record target corpus as a fully human-reviewed benchmark. This separation prevents training-data scale from being confused with benchmark quality.
+
+\subsection{Experimental use}
+
+The data suite supports four comparisons. First, training on the general corpus and evaluating on the target QA split measures zero-shot transfer from general retail guidance to the front-camera smart-vending domain. Second, continuing training on the 88 target records measures low-resource target specialization. Third, training a joint model on general plus target data tests whether simple pooling matches staged specialization. Fourth, evaluating the target-specialized model back on the general QA set measures catastrophic forgetting. These comparisons are the reason the target split can be compact: its purpose is to expose a controlled domain shift with a reviewed in-domain test set, not to serve as a large standalone pretraining corpus.

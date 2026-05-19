@@ -6,7 +6,7 @@
 
 ## Active Document Index
 
-当前唯一阅读入口： [docs/README.md](docs/README.md)。
+当前唯一阅读入口： [docs/README.md](docs/README.md)。该入口按读者目标组织：数据现状、EMNLP / domain-specialization 实验、schema/action 契约、v2.2 审计报告、真实拍摄和目录运行。
 
 ### Current Sprint Entry Points
 
@@ -15,6 +15,8 @@
 | [docs/current/experiment_result_digest.md](docs/current/experiment_result_digest.md) | 当前已落盘实验结果速览：能写什么、还缺什么 |
 | [docs/current/experiment_status_main_table_v2.md](docs/current/experiment_status_main_table_v2.md) | 主表 v2、visual ablation、frame budget、Future Verification 结果 |
 | [docs/current/dataset_inventory.md](docs/current/dataset_inventory.md) | 数据集总账：official v2 数据、真实拍摄 manifest、训练/评估/World Model 边界 |
+| [docs/current/project_progress_report_2026-05-17.md](docs/current/project_progress_report_2026-05-17.md) | 给项目负责人和外部协作者看的单文档当前进度报告 |
+| [docs/current/domain_specialization_experiment_plan.md](docs/current/domain_specialization_experiment_plan.md) | general -> target-frontcam smart-vending 的 two-stage SFT、joint baseline 和 eval matrix |
 | [docs/current/company_openrouter_funding_brief.md](docs/current/company_openrouter_funding_brief.md) | 给公司看的精简预算沟通版：实验进度与 OpenRouter 模型对比投入说明 |
 | [docs/current/company_data_status_for_openrouter.md](docs/current/company_data_status_for_openrouter.md) | 组内技术版：数据资产、当前结果与风险边界 |
 | [docs/current/current_sprint_status_and_reporting_policy.md](docs/current/current_sprint_status_and_reporting_policy.md) | 对外报告口径：QA-reviewed / synthetic train / diagnostic-only 边界 |
@@ -43,6 +45,69 @@
 历史计划、早期状态和解释材料统一放在 `docs/background/`；它们保留参考价值，但不再作为当前 sprint 决策入口。具体定位见 [docs/README.md](docs/README.md)。
 
 ## High-Density Updates
+
+### [2026-05-17 19:00:00 CST] | Phase: EMNLP Data Story Reframing
+
+**Key Progress**
+- Locked the current paper data story as strong EMNLP-style low-resource domain specialization, not pilot-only target expansion.
+- Added `paper/data_section_emnlp.tex`, a paper-ready LaTeX data section using only currently video-backed data: `PIWM-Train-Synth-v2`, `PIWM-Target-Frontcam-v1`, `PIWM-Eval-QA-v1`, and the fixed domain-specialization eval entrypoints.
+- Updated active docs so 118 target videos are framed as 88-record target adaptation plus 30-record project-lead-QA in-domain eval, rather than as a failed attempt to reach 300+ target videos.
+
+**Data Loop Insight**
+- The strong claim is no longer "we have hundreds of target videos." The strong claim is "general retail guidance can specialize to a different camera/actor domain with a small reviewed target split."
+- The 200 `PIWM-Target-PromptReady-v1` video-pending rows remain useful future data, but they are not required for the current EMNLP data story and should not appear in reported video-backed counts.
+
+**Pending Criticals**
+- The strong story now depends on results: Stage-1 general SFT, Stage-2 target SFT, joint baseline, target zero-shot eval, target-specialized eval, and general forgetting check.
+
+**Ref Reference**
+- `paper/data_section_emnlp.tex`
+- `docs/current/domain_specialization_experiment_plan.md`
+- `docs/current/project_progress_report_2026-05-17.md`
+
+### [2026-05-17 18:20:00 CST] | Phase: Target QA Merge Into Official Target Data
+
+**Key Progress**
+- Merged the project-lead-reviewed 30-record target test QA split back into `data/official/piwm_target_v1/main_schema.jsonl`.
+- Updated `data/official/ms_swift/piwm_train_target_specialization_v1.jsonl` so the 180 test-split SFT rows carry `qa_status=qa_reviewed_pass`, `human_review_status=project_lead_reviewed_pass`, reviewer, review date, review type, and warning flags.
+- Refreshed the fixed target eval entrypoints under `data/official/domain_specialization_eval_v1/`: 180 rows from 30 target records, all QA pass, with 2 warning records retained.
+- Updated `DATASET_MANIFEST.json`, `data/official/README.md`, `docs/current/dataset_inventory.md`, `docs/current/domain_specialization_experiment_plan.md`, and the target import report to distinguish the reviewed 30-record test split from the 88 synthetic-unreviewed train records.
+
+**Data Loop Insight**
+- Target QA is now part of the official target data surface, not just a sidecar review sheet.
+- The correct paper wording is: `PIWM-Target-Frontcam-v1` has 118 video-backed records; its 30-record test split is project-lead QA-reviewed, while the 88 train records remain synthetic-unreviewed.
+- The QA review validates the current-state observation labels and target action choice. It does not prove causal post-action reactions; for example, smiling in a `Greet(close)` third frame should be read as current visual evidence, not as the result caused by the Greeting action.
+
+**Pending Criticals**
+- Generate Kling videos and sampled frames for the 200 `PIWM-Target-PromptReady-v1` video-pending records before claiming 300+ target video-backed samples.
+- Run Stage-1 general SFT, Stage-2 target SFT, joint baseline, zero-shot target eval, target-specialized eval, and general forgetting check.
+
+**Ref Reference**
+- `data/official/piwm_target_v1/main_schema.jsonl`
+- `data/official/ms_swift/piwm_train_target_specialization_v1.jsonl`
+- `data/official/piwm_target_v1/qa_review_target30/qa_review_results.md`
+- `data/official/DATASET_MANIFEST.json`
+
+### [2026-05-17 17:30:00 CST] | Phase: Documentation Entrypoint Cleanup
+
+**Key Progress**
+- Reorganized [docs/README.md](docs/README.md) from a long flat link list into a goal-routed documentation map.
+- Added a top-level current-state table that distinguishes `PIWM-Train-Synth-v2`, `PIWM-Target-Frontcam-v1`, `PIWM-Target-PromptReady-v1`, domain eval entrypoints, and `PIWM-RealShoot-v1`.
+- Added explicit reading routes for data status, EMNLP / domain-specialization experiments, schema/action contracts, v2.2 audit reports, real-shooting materials, and lightweight `piwm` target-data docs.
+- Updated this Active Document Index to include [docs/current/domain_specialization_experiment_plan.md](docs/current/domain_specialization_experiment_plan.md) as a first-class current entrypoint.
+
+**Data Loop Insight**
+- Documentation now reflects the current project shape: main PIWM owns official data, training/eval entrypoints, contracts, and paper story; lightweight `piwm` owns target data generation.
+- The main red lines are visible at the top-level docs entry: prompt-ready is not video-backed, v2.2 schema export is not new video scale, and real-shooting remains a protocol until assets and QA exist.
+
+**Pending Criticals**
+- Update the README again after the 200 target prompt-ready rows become video-backed or after two-stage SFT/eval logs land.
+- If the paper narrative fully moves away from NeurIPS history, archive or demote older sprint result docs after confirming they are no longer cited by `paper/`.
+
+**Ref Reference**
+- [docs/README.md](docs/README.md)
+- [docs/current/domain_specialization_experiment_plan.md](docs/current/domain_specialization_experiment_plan.md)
+- [data/official/README.md](data/official/README.md)
 
 ### [2026-05-15 18:05:00 CST] | Phase: Schema v2.2 / Independent Official Export Completion
 
@@ -850,8 +915,8 @@
 
 **Ref Reference**
 - [docs/background/neurips_sprint_codex_plan.md](docs/background/neurips_sprint_codex_plan.md)
-- [data/piwm_results/pilot24_mock_pipeline_eval.json](data/piwm_results/pilot24_mock_pipeline_eval.json)
-- [data/piwm_results/sft_adapter_smoke/sft_smoke_summary.json](data/piwm_results/sft_adapter_smoke/sft_smoke_summary.json)
+- Historical local artifact path, not present in the current checkout: `data/piwm_results/pilot24_mock_pipeline_eval.json`
+- Historical local artifact path, not present in the current checkout: `data/piwm_results/sft_adapter_smoke/sft_smoke_summary.json`
 
 ### [2026-04-30 14:15:00 CST] | Phase: Prompt Fix Validation / Targeted Kling3
 

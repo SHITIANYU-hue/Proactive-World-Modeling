@@ -1,10 +1,10 @@
 {
   "artifact": "piwm_official_dataset_manifest",
   "version": "v2.2",
-  "updated_at_cst": "2026-05-16 21:25:17",
+  "updated_at_cst": "2026-05-17 00:00:00",
   "canonical_root": "data/official",
   "remote_root": "/root/lanyun-fs/ProactiveIntentWorldModel/data/official",
-  "note": "Official PIWM datasets now include v1 frozen aliases plus independent v2.2 exports. PIWM-Train-Synth-v1 remains the frozen human-salesperson synthetic train alias. PIWM-Train-Synth-v2 is the independent schema v2.2 export with candidate_action_specs, best_action_spec, next_state_by_action_v2, compatibility tiers, and legacy aliases preserved. PIWM-PolicySlice-v2 is the explicit candidate-rule policy manifest; target terminal data now has an initial imported frontcam pilot in PIWM-Target-Frontcam-v1; it remains synthetic_unreviewed. Real-shooting PIWM-RealShoot-v1 currently contains a manifest template/sample, not QA-reviewed real videos.",
+  "note": "Official PIWM datasets include frozen v1 aliases, independent v2.2 exports, target-frontcam domain data, and prompt-ready target expansion. PIWM-Target-Frontcam-v1 has 118 video-backed records; its 30-record test split has now been project-lead human QA reviewed after Codex visual QA and merged back into the target main schema/ms-swift export. PIWM-Target-PromptReady-v1 contains 318 upstream records, including 200 video-pending rows that are not yet filmed multimodal training data.",
   "datasets": [
     {
       "canonical_name": "PIWM-Train-Synth-v1",
@@ -93,14 +93,14 @@
       "canonical_name": "PIWM-Target-Frontcam-v1",
       "canonical_path": "data/official/piwm_target_v1",
       "source_path": "/Users/mutsumi/Desktop/WorkSpace/piwm",
-            "role": "target_domain_frontcam_specialization",
-            "viewpoint": "target_frontcam",
-            "actor_profile": "target_terminal_logic",
-            "qa_status": "mixed_synthetic_train_with_codex_visual_qa_test_pass",
-            "records": 118,
-            "sampled_frames": 354,
-            "state_rows": 118,
-            "transition_rows": 472,
+      "role": "target_domain_frontcam_specialization",
+      "viewpoint": "target_frontcam",
+      "actor_profile": "target_terminal_logic",
+      "qa_status": "mixed_synthetic_train_with_project_lead_qa_reviewed_test_pass",
+      "records": 118,
+      "sampled_frames": 354,
+      "state_rows": 118,
+      "transition_rows": 472,
       "policy_rows": 118,
       "ms_swift_jsonl": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
       "ms_swift_rows": 708,
@@ -109,40 +109,45 @@
         "deliberation": 472,
         "action_selection": 118
       },
-            "split_counts": {
-                "train": 88,
-                "test": 30
-            },
-            "qa_review_artifacts": {
-                "review_split": "test",
-                "review_rows": 30,
-                "rows_with_all_sampled_frames": 30,
-                "missing_frames": 0,
-                "qa_review_index": "data/official/piwm_target_v1/qa_review_target30/qa_review_index.md",
-                "qa_review_rows": "data/official/piwm_target_v1/qa_review_target30/qa_review_rows.jsonl",
-                "contact_sheets": [
-                    "data/official/piwm_target_v1/qa_review_target30/target_frontcam_qa_sheet_00.jpg",
-                    "data/official/piwm_target_v1/qa_review_target30/target_frontcam_qa_sheet_01.jpg",
-                    "data/official/piwm_target_v1/qa_review_target30/target_frontcam_qa_sheet_02.jpg"
-                ],
-                "qa_review_status": "codex_visual_qa_completed",
-                "qa_review_results": "data/official/piwm_target_v1/qa_review_target30/qa_review_results.md",
-                "qa_reviewed_pass_records": 30,
-                "qa_reviewed_fail_records": 0,
-                "warning_records": 2,
-                "reviewed_eval_jsonl": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl",
-                "reviewed_eval_rows": 180
-            },
-            "best_dialogue_act_counts": {
-                "Elicit": 20,
-                "Greet": 17,
-                "Hold": 6,
+      "split_counts": {
+        "train": 88,
+        "test": 30
+      },
+      "qa_review_artifacts": {
+        "review_split": "test",
+        "review_rows": 30,
+        "rows_with_all_sampled_frames": 30,
+        "missing_frames": 0,
+        "qa_review_index": "data/official/piwm_target_v1/qa_review_target30/qa_review_index.md",
+        "qa_review_rows": "data/official/piwm_target_v1/qa_review_target30/qa_review_rows.jsonl",
+        "contact_sheets": [
+          "data/official/piwm_target_v1/qa_review_target30/target_frontcam_qa_sheet_00.jpg",
+          "data/official/piwm_target_v1/qa_review_target30/target_frontcam_qa_sheet_01.jpg",
+          "data/official/piwm_target_v1/qa_review_target30/target_frontcam_qa_sheet_02.jpg"
+        ],
+        "qa_review_status": "project_lead_human_qa_completed_after_codex_visual_qa",
+        "qa_review_results": "data/official/piwm_target_v1/qa_review_target30/qa_review_results.md",
+        "qa_reviewed_pass_records": 30,
+        "qa_reviewed_fail_records": 0,
+        "warning_records": 2,
+        "reviewed_eval_jsonl": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl",
+        "reviewed_eval_rows": 180,
+        "reviewer": "Project lead human QA",
+        "reviewed_at": "2026-05-17",
+        "review_type": "project_lead_human_review_after_codex_visual_qa",
+        "merged_into_main_schema": true,
+        "merged_into_ms_swift": true
+      },
+      "best_dialogue_act_counts": {
+        "Elicit": 20,
+        "Greet": 17,
+        "Hold": 6,
         "Inform": 47,
         "Reassure": 17,
         "Recommend": 11
       },
-            "paper_usage": "Initial target-domain front-camera smart vending corpus for domain-specialization pilot. The 30 test records have Codex visual QA pass status with warning flags retained; the full 118-record corpus is not a full human QA-reviewed benchmark.",
-            "schema_version": "dialogue_act_human_salesperson_v2.2",
+      "paper_usage": "Target-domain front-camera smart-vending corpus for low-resource domain specialization. Use 88 train records for target adaptation and the 30 project-lead-QA-reviewed test records for in-domain evaluation; the 88 train records remain synthetic_unreviewed.",
+      "schema_version": "dialogue_act_human_salesperson_v2.2",
       "v2_2_fields": [
         "target_frontcam",
         "target_terminal_logic",
@@ -151,51 +156,53 @@
         "next_state_by_action_v2",
         "view_class",
         "qa_status",
-                "source_session_id"
-            ]
-        },
-        {
-            "canonical_name": "PIWM-Target-PromptReady-v1",
-            "canonical_path": "data/official/piwm_target_promptready_v1",
-            "source_path": "/Users/mutsumi/Desktop/WorkSpace/piwm/data/{seed,manifest,labeled,prompts}",
-            "role": "target_domain_prompt_ready_generation_index",
-            "viewpoint": "target_frontcam",
-            "actor_profile": "target_terminal_logic",
-            "qa_status": "upstream_generation_index_not_video_dataset",
-            "records": 318,
-            "video_backed_records": 118,
-            "video_pending_records": 200,
-            "seed_records": 318,
-            "manifest_records": 318,
-            "labeled_records": 318,
-            "prompt_records": 318,
-            "video_records": 118,
-            "promptready_index_jsonl": "data/official/piwm_target_promptready_v1/promptready_index.jsonl",
-            "stats_json": "data/official/piwm_target_promptready_v1/_stats.json",
-            "best_dialogue_act_counts": {
-                "Elicit": 53,
-                "Greet": 53,
-                "Hold": 53,
-                "Inform": 53,
-                "Reassure": 53,
-                "Recommend": 53
-            },
-            "aida_stage_counts": {
-                "attention": 50,
-                "interest": 91,
-                "desire": 144,
-                "action": 33
-            },
-            "generation_status_counts": {
-                "video_backed_existing": 118,
-                "prompt_ready_video_pending": 200
-            },
-            "paper_usage": "Use as an upstream target-domain generation queue showing 300+ prompt-ready state/action records. Do not report the 200 video-pending rows as filmed multimodal training data until Kling videos and sampled frames exist.",
-            "schema_version": "target_prompt_ready_index_v1"
-        },
-        {
-            "canonical_name": "PIWM-Eval-QA-v1",
-            "canonical_path": "data/official/piwm_eval_qa_v1",
+        "source_session_id",
+        "human_review_status",
+        "qa_review.review_type"
+      ]
+    },
+    {
+      "canonical_name": "PIWM-Target-PromptReady-v1",
+      "canonical_path": "data/official/piwm_target_promptready_v1",
+      "source_path": "/Users/mutsumi/Desktop/WorkSpace/piwm/data/{seed,manifest,labeled,prompts}",
+      "role": "target_domain_prompt_ready_generation_index",
+      "viewpoint": "target_frontcam",
+      "actor_profile": "target_terminal_logic",
+      "qa_status": "upstream_generation_index_not_video_dataset",
+      "records": 318,
+      "video_backed_records": 118,
+      "video_pending_records": 200,
+      "seed_records": 318,
+      "manifest_records": 318,
+      "labeled_records": 318,
+      "prompt_records": 318,
+      "video_records": 118,
+      "promptready_index_jsonl": "data/official/piwm_target_promptready_v1/promptready_index.jsonl",
+      "stats_json": "data/official/piwm_target_promptready_v1/_stats.json",
+      "best_dialogue_act_counts": {
+        "Elicit": 53,
+        "Greet": 53,
+        "Hold": 53,
+        "Inform": 53,
+        "Reassure": 53,
+        "Recommend": 53
+      },
+      "aida_stage_counts": {
+        "attention": 50,
+        "interest": 91,
+        "desire": 144,
+        "action": 33
+      },
+      "generation_status_counts": {
+        "video_backed_existing": 118,
+        "prompt_ready_video_pending": 200
+      },
+      "paper_usage": "Upstream target-domain generation queue for future expansion. Do not include the 200 video-pending rows in current EMNLP video-backed data counts or core experimental claims.",
+      "schema_version": "target_prompt_ready_index_v1"
+    },
+    {
+      "canonical_name": "PIWM-Eval-QA-v1",
+      "canonical_path": "data/official/piwm_eval_qa_v1",
       "source_path": "data/piwm_dataset_priority40_qareviewed_sample_compact_v2_exact",
       "role": "main_qa_reviewed_evaluation",
       "qa_status": "qa_reviewed_pass_subset",
@@ -215,39 +222,39 @@
         "act_params.supporting_acts",
         "legacy_co_acts",
         "realization",
-                "actor_profile"
-            ]
-        },
-        {
-            "canonical_name": "PIWM-DomainSpecializationEval-v1",
-            "canonical_path": "data/official/domain_specialization_eval_v1",
-            "source_path": [
-                "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
-                "data/official/ms_swift/piwm_eval_qa_all_v1.jsonl"
-            ],
-            "role": "domain_specialization_eval_entrypoints",
-            "qa_status": "mixed_general_qa_reviewed_and_target_codex_visual_qa",
-            "target_frontcam_test_rows": 180,
-            "target_frontcam_test_qa_reviewed_rows": 180,
-            "target_frontcam_test_qa_reviewed_jsonl": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl",
-            "target_frontcam_test_task_counts": {
-                "perception": 30,
-                "deliberation": 120,
-                "action_selection": 30
-            },
-            "general_qa_rows": 162,
-            "general_qa_task_counts": {
-                "perception": 36,
-                "deliberation": 126
-            },
-            "eval_sets_summary": "data/official/domain_specialization_eval_v1/eval_sets_summary.md",
-            "result_summary_entrypoint": "scripts.summarize_domain_specialization_results",
-            "paper_usage": "Fixed evaluation entrypoints for general-to-target domain specialization. Target split has Codex visual QA pass status; if a human benchmark is required, run an additional project-member review.",
-            "schema_version": "ms_swift_eval_entrypoints_v1"
-        },
-        {
-            "canonical_name": "PIWM-WorldModel-v1",
-            "canonical_path": "data/official/piwm_world_model_v1",
+        "actor_profile"
+      ]
+    },
+    {
+      "canonical_name": "PIWM-DomainSpecializationEval-v1",
+      "canonical_path": "data/official/domain_specialization_eval_v1",
+      "source_path": [
+        "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
+        "data/official/ms_swift/piwm_eval_qa_all_v1.jsonl"
+      ],
+      "role": "domain_specialization_eval_entrypoints",
+      "qa_status": "mixed_general_qa_reviewed_and_target_project_lead_qa_reviewed",
+      "target_frontcam_test_rows": 180,
+      "target_frontcam_test_qa_reviewed_rows": 180,
+      "target_frontcam_test_qa_reviewed_jsonl": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl",
+      "target_frontcam_test_task_counts": {
+        "perception": 30,
+        "deliberation": 120,
+        "action_selection": 30
+      },
+      "general_qa_rows": 162,
+      "general_qa_task_counts": {
+        "perception": 36,
+        "deliberation": 126
+      },
+      "eval_sets_summary": "data/official/domain_specialization_eval_v1/eval_sets_summary.md",
+      "result_summary_entrypoint": "scripts.summarize_domain_specialization_results",
+      "paper_usage": "Fixed evaluation entrypoints for general-to-target domain specialization. Target split rows come from 30 target-frontcam test records that passed project-lead human QA after Codex visual QA; general rows come from the existing QA-reviewed general subset.",
+      "schema_version": "ms_swift_eval_entrypoints_v1"
+    },
+    {
+      "canonical_name": "PIWM-WorldModel-v1",
+      "canonical_path": "data/official/piwm_world_model_v1",
       "source_path": "data/piwm_dataset_pilot30_with_continuations_compact_v2",
       "role": "world_model_continuation_and_future_verification",
       "qa_status": "qa_reviewed_pilot_continuation",
@@ -313,7 +320,7 @@
     "Do not claim 1000 completed videos; current formal train set has 543 loaded parent records.",
     "Do not use smoke or DPO adapter directories as official dataset names.",
     "Do not call PIWM-RealShoot-v1 a collected real dataset until video assets and QA pass are filled.",
-    "Do not call PIWM-Target-Frontcam-v1 QA-reviewed; it is synthetic_unreviewed until manual target QA is complete."
+    "Do not call all PIWM-Target-Frontcam-v1 full-corpus QA-reviewed: only the 30-record test split is project-lead QA-reviewed; the 88 train records remain synthetic_unreviewed."
   ],
   "recommended_next_training_entrypoint": "data/official/ms_swift/piwm_train_full_v2.jsonl",
   "current_schema_v2_2_training_entrypoint": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
@@ -353,13 +360,16 @@
       "deliberation": 472,
       "action_selection": 118
     },
-    "status": "pilot_imported_synthetic_unreviewed"
+    "status": "low_resource_target_specialization_entrypoint_with_project_lead_qa_reviewed_test_split",
+    "qa_reviewed_test_records": 30,
+    "synthetic_unreviewed_train_records": 88
   },
   "domain_specialization_entrypoints": {
     "stage1_general": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
     "stage2_target": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
     "mixed_view_joint_sft": "data/official/ms_swift/piwm_train_general_plus_target_v1.jsonl",
     "mixed_view_joint_rows": 3262,
-    "warning": "target rows are synthetic_unreviewed until manual target QA is complete"
+    "warning": "target test split is project-lead QA-reviewed; target train rows remain synthetic_unreviewed; do not count video-pending rows as current multimodal data",
+    "paper_framing": "strong_low_resource_target_specialization_with_current_video_backed_data"
   }
 }

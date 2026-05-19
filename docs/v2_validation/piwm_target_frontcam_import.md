@@ -1,6 +1,6 @@
 # PIWM Target Frontcam Import Report
 
-更新时间：2026-05-16 CST
+更新时间：2026-05-17 CST
 
 本文记录轻量仓库 `guochenmeinian/piwm` 导入主项目 v2.2 的结果。该数据在论文口径中作为 target 域智能导购语料，区别于主项目 `PIWM-Train-Synth-v2` 的 general retail guidance 语料。
 
@@ -66,7 +66,7 @@ Dataset split:
 | train | 88 |
 | test | 30 |
 
-The 30 test rows have now been reviewed by Codex visual QA. All 30 pass, with 2 warning flags retained for auditability.
+The 30 test rows have now passed project-lead human QA after Codex visual QA. All 30 pass, with 2 warning flags retained for auditability. The reviewed rows have been merged back into the target main schema and target ms-swift export.
 
 ## Target QA Review Artifacts
 
@@ -81,7 +81,7 @@ The current manual-review queue has been generated from the 30 test rows:
 | Rows staged | 30 |
 | Rows with all sampled frames | 30 |
 | Missing frames | 0 |
-| Status | `templates_generated_pending_manual_review` |
+| Status | `project_lead_human_qa_completed_and_merged` |
 
 Generation command:
 
@@ -89,10 +89,14 @@ Generation command:
 python3 -m scripts.build_target_frontcam_qa_review
 ```
 
-QA promotion command:
+QA promotion and merge command:
 
 ```bash
-python3 -m scripts.apply_target_frontcam_qa_review
+python3 scripts/apply_target_frontcam_qa_review.py \
+  --merge-target-data \
+  --reviewer "Project lead human QA" \
+  --reviewed-at 2026-05-17 \
+  --review-type project_lead_human_review_after_codex_visual_qa
 ```
 
 QA result:
@@ -111,7 +115,7 @@ Reviewed eval entrypoint:
 data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl
 ```
 
-The contact sheets are only review aids. The audited promotion step writes reviewed rows to separate QA artifacts, leaving the raw imported `main_schema.jsonl` intact.
+The contact sheets are only review aids. The audited promotion step writes reviewed rows to QA artifacts and now also merges the 30 reviewed test records into `data/official/piwm_target_v1/main_schema.jsonl` and the target ms-swift export. The 88 train records remain `synthetic_unreviewed`.
 
 ## Best Act Distribution
 
@@ -189,7 +193,7 @@ data/official/piwm_target_v1/frames/<session_id>/
 
 ## Current Red Lines
 
-- Do not call `PIWM-Target-Frontcam-v1` QA-reviewed.
+- Do not call all of `PIWM-Target-Frontcam-v1` full-corpus QA-reviewed; only the 30-record test split is project-lead QA-reviewed.
 - Do not merge it silently into `PIWM-Train-Synth-v2`; keep it as a named target-domain corpus.
-- Do not use the 30 test rows as final in-domain benchmark until manual QA is complete.
+- Do use the 30 test rows as the current QA-reviewed in-domain eval split; keep the warning flags visible and do not claim the 88 train records are QA-reviewed.
 - Do not describe this as real-shooting data; it is imported synthetic target-frontcam data from the lightweight repo.
