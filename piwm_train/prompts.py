@@ -119,6 +119,51 @@ def build_deliberation_prompt(record: dict) -> str:
     )
 
 
+def build_next_state_prediction_prompt(record: dict) -> str:
+    """Build the path-C next-state prompt without gold current-state labels."""
+    frames = record["input"].get("frames", [])
+    action = record["input"]["candidate_action"]
+    realization = record["input"].get("candidate_action_realization") or {}
+    act_spec = record["input"].get("candidate_dialogue_act") or {}
+    terminal = record["input"].get("candidate_terminal_realization") or {}
+    return (
+        "You are observing a customer in a retail store. Below are "
+        f"{len(frames)} frames sampled from a streaming camera, in chronological order.\n\n"
+        f"{image_placeholders(len(frames))}\n\n"
+        "Use the frames to infer the customer's current state internally. "
+        "The current stage, intent, and BDI state are not provided.\n\n"
+        f"Consider one candidate intervention: {action}\n\n"
+        + (
+            "Dialogue-act layer for this candidate:\n"
+            f"- act: {act_spec.get('act')}\n"
+            f"- params: {act_spec.get('params')}\n\n"
+            if act_spec else ""
+        )
+        + (
+            "Terminal realization for this candidate:\n"
+            f"- surface_text: {terminal.get('surface_text', '')}\n"
+            f"- screen: {terminal.get('screen', {})}\n"
+            f"- voice_style: {terminal.get('voice_style', '')}\n"
+            f"- light: {terminal.get('light', '')}\n\n"
+            if terminal else ""
+        )
+        + (
+            "Concrete execution plan for this candidate:\n"
+            f"- physical action: {_physical_action(realization)}\n"
+            f"- utterance: {_utterance(realization)}\n\n"
+            if realization else ""
+        )
+        +
+        "Predict how this candidate intervention will change the customer's state in the next decision step. "
+        "Output the following fields, in this exact order, each on its own line:\n"
+        f"{config.tag_instruction_lines(config.DELIBERATION_TAGS)}\n\n"
+        "- next_stage must be one of: attention, interest, desire, action.\n"
+        "- risk and benefit must each be one of: low, medium, high.\n"
+        "- reward must be a number in [-1.00, 1.00] with two decimal places.\n"
+        "- all textual spans must be a single short clause in English."
+    )
+
+
 def build_continuation_caption_prompt(record: dict) -> str:
     frames = record["input"].get("current_frames", [])
     state = record["input"]["current_state_summary"]

@@ -9,6 +9,7 @@ from piwm_train.prompts import (
     build_action_prompt,
     build_continuation_caption_prompt,
     build_deliberation_prompt,
+    build_next_state_prediction_prompt,
     build_perception_prompt,
     format_candidate_block,
 )
@@ -36,6 +37,20 @@ def test_deliberation_prompt_contains_candidate_action_only_once_contextually() 
     assert row["input"]["candidate_action"] in prompt
     assert config.TAG_NEXT_STAGE_OPEN in prompt
     assert "candidate interventions:" not in prompt
+
+
+def test_next_state_prediction_prompt_removes_current_state_leak() -> None:
+    row = _first_jsonl("data/piwm_dataset_pilot30/transition_modeling.jsonl")
+    prompt = build_next_state_prediction_prompt(row)
+    state = row["input"]["current_state_summary"]
+    bdi = state["bdi"]
+    assert row["input"]["candidate_action"] in prompt
+    assert config.TAG_NEXT_STAGE_OPEN in prompt
+    assert "The customer's current state is:" not in prompt
+    assert f"- stage: {state['aida_stage']}" not in prompt
+    assert f"- belief: {bdi['belief']}" not in prompt
+    assert f"- desire: {bdi['desire']}" not in prompt
+    assert f"- intention: {bdi['intention']}" not in prompt
 
 
 def test_format_candidate_block_from_list() -> None:
@@ -71,4 +86,3 @@ def test_continuation_caption_prompt_shape() -> None:
 
 def test_system_prompt_mentions_structured_tags() -> None:
     assert "structured tag format" in PIWM_SYSTEM_PROMPT
-

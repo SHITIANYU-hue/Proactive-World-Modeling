@@ -11,7 +11,7 @@ from typing import Any
 from piwm_data.migration.legacy_action_mapping import legacy_action_to_act_params_for_comparison
 from piwm_train.data_collator import ActBalancing, SFTExample, user_intent_loss_weight
 from piwm_train.ms_swift_adapter import build_ms_swift_record
-from piwm_train.prompts import build_action_prompt_no_leak, build_deliberation_prompt, build_user_intent_prompt
+from piwm_train.prompts import build_action_prompt_no_leak, build_next_state_prediction_prompt, build_user_intent_prompt
 from piwm_train.targets import build_action_target, build_deliberation_target, build_user_intent_target
 
 
@@ -196,7 +196,7 @@ def _next_state_example(row: dict[str, Any]) -> SFTExample:
     return SFTExample(
         task="next_state_prediction",
         source_id=row["state_id"],
-        prompt=build_deliberation_prompt(row),
+        prompt=build_next_state_prediction_prompt(row),
         target=build_deliberation_target(row),
         images=list(row["input"].get("frames", [])),
         meta={
