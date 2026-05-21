@@ -14,6 +14,7 @@ from piwm_train.targets import (
     build_future_verification_target,
     build_perception_target,
     build_sft_target,
+    build_user_intent_target,
 )
 
 
@@ -38,6 +39,17 @@ def test_build_perception_target_contains_six_tags_once() -> None:
         "desire",
         "action",
     }
+
+
+def test_build_user_intent_target_excludes_action_tags() -> None:
+    row = _first_jsonl("data/piwm_dataset_pilot30/state_inference.jsonl")
+    target = build_user_intent_target(row)
+    for tag in config.USER_INTENT_TAGS:
+        assert target.count(tag.open) == 1
+        assert target.count(tag.close) == 1
+    assert config.TAG_CANDS_OPEN not in target
+    assert config.TAG_INTERVENTION_ACTION_OPEN not in target
+    assert f"{config.TAG_INTENT_LABEL_OPEN}{row['output']['intent']}{config.TAG_INTENT_LABEL_CLOSE}" in target
 
 
 def test_build_perception_target_edge_empty_candidates_allowed_as_literal() -> None:

@@ -37,6 +37,8 @@ TAG_DESIRE_OPEN = "<desire>"
 TAG_DESIRE_CLOSE = "</desire>"
 TAG_INTENTION_OPEN = "<intention>"
 TAG_INTENTION_CLOSE = "</intention>"
+TAG_INTENT_LABEL_OPEN = "<intent_label>"
+TAG_INTENT_LABEL_CLOSE = "</intent_label>"
 TAG_SCORE_OPEN = "<score>"
 TAG_SCORE_CLOSE = "</score>"
 TAG_CANDS_OPEN = "<cands>"
@@ -91,6 +93,12 @@ VALID_RISKS = ("low", "medium", "high")
 VALID_BENEFITS = ("low", "medium", "high")
 VALID_ACTIONS = tuple(rules.ACTIONS)
 
+# Stage-1 user-intent labels that are retained for taxonomy continuity but are
+# weak supervision under the current visual-only input contract.
+LOW_CONFIDENCE_INTENT_LABELS = ("seek_reassurance", "negotiate_price")
+LOW_CONFIDENCE_INTENT_LOSS_WEIGHT = 0.1
+DEFAULT_INTENT_LOSS_WEIGHT = 1.0
+
 
 @dataclass(frozen=True)
 class TagPair:
@@ -112,6 +120,18 @@ PERCEPTION_TAGS = (
     TagPair(TAG_CANDS_OPEN, TAG_CANDS_CLOSE, "cands"),
     TagPair(TAG_INTERVENTION_ACTION_OPEN, TAG_INTERVENTION_ACTION_CLOSE, "intervention_action"),
     TagPair(TAG_INTERVENTION_UTTERANCE_OPEN, TAG_INTERVENTION_UTTERANCE_CLOSE, "intervention_utterance"),
+)
+
+USER_INTENT_TAGS = (
+    TagPair(TAG_STAGE_OPEN, TAG_STAGE_CLOSE, "stage"),
+    TagPair(TAG_INTENT_LABEL_OPEN, TAG_INTENT_LABEL_CLOSE, "intent_label"),
+    TagPair(TAG_VISUAL_SUMMARY_OPEN, TAG_VISUAL_SUMMARY_CLOSE, "visual_summary"),
+    TagPair(TAG_ENGAGEMENT_PATTERN_OPEN, TAG_ENGAGEMENT_PATTERN_CLOSE, "engagement_pattern"),
+    TagPair(TAG_GAZE_AND_ATTENTION_OPEN, TAG_GAZE_AND_ATTENTION_CLOSE, "gaze_and_attention"),
+    TagPair(TAG_BODY_AND_HANDS_OPEN, TAG_BODY_AND_HANDS_CLOSE, "body_and_hands"),
+    TagPair(TAG_BELIEF_OPEN, TAG_BELIEF_CLOSE, "belief"),
+    TagPair(TAG_DESIRE_OPEN, TAG_DESIRE_CLOSE, "desire"),
+    TagPair(TAG_INTENTION_OPEN, TAG_INTENTION_CLOSE, "intention"),
 )
 
 DELIBERATION_TAGS = (

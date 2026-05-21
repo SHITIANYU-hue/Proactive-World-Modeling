@@ -43,6 +43,28 @@ def build_perception_prompt(record: dict) -> str:
     )
 
 
+def build_user_intent_prompt(record: dict, *, scene_description: str | None = None) -> str:
+    frames = record["input"].get("frames", [])
+    scene = scene_description or _scene_description(record)
+    return (
+        "You are observing a short customer-behavior window.\n\n"
+        f"Scene: {scene}\n\n"
+        "Below are "
+        f"{len(frames)} frames sampled from a streaming camera, in chronological order.\n\n"
+        f"{image_placeholders(len(frames))}\n\n"
+        "Infer the customer's current user state from the visible behavior only. "
+        "Do not choose a sales action. Do not output candidate actions, rewards, or recommendations.\n\n"
+        "Output the following fields, in this exact order, each on its own line:\n"
+        f"{config.tag_instruction_lines(config.USER_INTENT_TAGS)}\n\n"
+        "- stage must be one of: attention, interest, desire, action.\n"
+        "- intent_label must be one existing PIWM intention category, such as confirm_choice, "
+        "explore_options, request_demonstration, seek_reassurance, negotiate_price, "
+        "leave_without_purchase, compare_value_for_money, or no_clear_intent.\n"
+        "- visual_summary, engagement_pattern, gaze_and_attention, and body_and_hands must cite visible evidence.\n"
+        "- belief, desire, and intention must be short customer-state clauses, not salesperson advice."
+    )
+
+
 def build_deliberation_prompt(record: dict) -> str:
     frames = record["input"].get("frames", [])
     state = record["input"]["current_state_summary"]
@@ -194,6 +216,32 @@ def format_candidate_block(per_candidate_outputs: dict[str, dict[str, Any]] | li
     return "\n".join(lines)
 
 
+def format_candidate_block_no_leak(per_candidate_outputs: dict[str, dict[str, Any]] | list[dict[str, Any]], *, five_act_only: bool = False) -> str:
+    if isinstance(per_candidate_outputs, list):
+        rows = per_candidate_outputs
+    else:
+        rows = [{"action": action, **values} for action, values in per_candidate_outputs.items()]
+    lines = []
+    for row in rows:
+        act_spec = row.get("dialogue_act") or row.get("action_spec") or {}
+        act = act_spec.get("act")
+        if five_act_only and act == "Reassure":
+            continue
+        realization = row.get("action_realization") or row.get("intervention_plan") or {}
+        terminal = row.get("terminal_realization") or {}
+        lines.append(
+            f"- {row['action']}: "
+            f"act={act}, params={act_spec.get('params')}, "
+            f"surface_text={terminal.get('surface_text', '')}, "
+            f"screen={terminal.get('screen', {})}, "
+            f"voice_style={terminal.get('voice_style', '')}, "
+            f"light={terminal.get('light', '')}, "
+            f"physical_action={_physical_action(realization)}, "
+            f"utterance={_utterance(realization)}"
+        )
+    return "\n".join(lines)
+
+
 def build_action_prompt(record: dict) -> str:
     state = record["meta"]["state_summary"]
     bdi = state["bdi"]
@@ -222,6 +270,48 @@ def build_action_prompt(record: dict) -> str:
         "- intervention_action must describe the concrete salesperson behavior, not just the action label.\n"
         "- intervention_utterance must be a short customer-facing sentence the salesperson can actually say."
     )
+
+
+def build_action_prompt_no_leak(record: dict, *, five_act_only: bool = False) -> str:
+    state = record["meta"]["state_summary"]
+    bdi = state["bdi"]
+    visual = state.get("visual_state", {})
+    frames = record["meta"].get("frames", [])
+    candidate_block = format_candidate_block_no_leak(record["meta"]["candidate_block"], five_act_only=five_act_only)
+    return (
+        "You are observing a customer in a retail store. Below are "
+        f"{len(frames)} frames sampled from a streaming camera, in chronological order.\n\n"
+        f"{image_placeholders(len(frames))}\n\n"
+        "The Stage-1 customer-state representation is:\n"
+        f"- stage: {state['aida_stage']}\n"
+        f"- intent_label: {state.get('intent', 'not provided')}\n"
+        f"- visible evidence: {visual.get('summary', 'not provided')}\n"
+        f"- engagement pattern: {visual.get('engagement_pattern', 'not provided')}\n"
+        f"- gaze and attention: {visual.get('gaze_and_attention', 'not provided')}\n"
+        f"- body and hands: {visual.get('body_and_hands', 'not provided')}\n"
+        f"- belief: {bdi['belief']}\n"
+        f"- desire: {bdi['desire']}\n"
+        f"- intention: {bdi['intention']}\n\n"
+        "Candidate interventions are listed below. They include only the action identity, parameters, "
+        "and concrete realization. They do not include gold rewards, predicted next states, risks, or benefits.\n\n"
+        f"{candidate_block}\n\n"
+        "Choose the best intervention and explain your reasoning briefly.\n\n"
+        "Output the following fields, in this exact order:\n"
+        f"{config.tag_instruction_lines(config.ACTION_TAGS)}\n\n"
+        "- chosen must be one of the candidate labels listed above, exact string match.\n"
+        "- rationale should use the customer state and action fit, not hidden reward values.\n"
+        "- intervention_action must describe the concrete salesperson or terminal behavior.\n"
+        "- intervention_utterance must be a short customer-facing sentence, or （静默） for silent Hold."
+    )
+
+
+def _scene_description(record: dict) -> str:
+    meta = record.get("meta", {})
+    product = meta.get("product_category")
+    viewpoint = meta.get("viewpoint")
+    if product == "smart_vending_retail" or viewpoint == "target_frontcam":
+        return "顾客在智能售货机前。"
+    return "顾客在零售店内。"
 
 
 def _physical_action(realization: dict[str, Any]) -> str:

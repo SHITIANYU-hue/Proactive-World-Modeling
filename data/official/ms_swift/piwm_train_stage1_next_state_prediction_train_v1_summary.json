@@ -1,0 +1,10 @@
+{
+  "artifact": "ms_swift_sft_jsonl",
+  "is_training_result": false,
+  "output_jsonl": "data/official/ms_swift/piwm_train_stage1_next_state_prediction_train_v1.jsonl",
+  "n_examples": 1816,
+  "task_counts": {
+    "next_state_prediction": 1816
+  },
+  "format": "ms-swift messages + images"
+}

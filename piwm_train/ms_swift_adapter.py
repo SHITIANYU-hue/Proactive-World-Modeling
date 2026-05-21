@@ -31,6 +31,8 @@ def build_ms_swift_record(example: SFTExample, *, root: Path | None = None, vali
         "images": images,
         "task": example.task,
         "source_id": example.source_id,
+        "weight": example.weight,
+        "loss_weight": example.weight,
         "meta": example.meta,
     }
 
@@ -50,16 +52,24 @@ def export_ms_swift_jsonl(
     include_continuation: bool = True,
     include_future_verification: bool = True,
     include_action: bool = False,
+    include_user_intent: bool = False,
+    action_prompt_mode: str = "outcome",
+    five_act_only: bool = False,
+    act_balancing: str = "inverse_freq",
     validate_images: bool = True,
 ) -> dict:
     root = (root or Path.cwd()).resolve()
     examples = build_sft_examples(
         data_dir,
+        include_user_intent=include_user_intent,
         include_perception=include_perception,
         include_deliberation=include_deliberation,
         include_continuation=include_continuation,
         include_future_verification=include_future_verification,
         include_action=include_action,
+        action_prompt_mode=action_prompt_mode,  # type: ignore[arg-type]
+        five_act_only=five_act_only,
+        act_balancing=act_balancing,  # type: ignore[arg-type]
     )
     if max_examples is not None:
         examples = examples[:max_examples]
@@ -83,12 +93,16 @@ def export_ms_swift_jsonl(
         "task_counts": task_counts,
         "image_path_count": image_path_count,
         "task_includes": {
+            "user_intent": include_user_intent,
             "perception": include_perception,
             "deliberation": include_deliberation,
             "continuation": include_continuation,
             "future_verification": include_future_verification,
             "action_selection": include_action,
         },
+        "action_prompt_mode": action_prompt_mode,
+        "five_act_only": five_act_only,
+        "act_balancing": act_balancing,
         "format": "ms-swift messages + images",
     }
     summary_path = output_jsonl.with_name(f"{output_jsonl.stem}_summary.json")
@@ -121,10 +135,14 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--root", type=Path, default=Path.cwd(), help="Repository root used to resolve relative frame paths.")
     parser.add_argument("--max-examples", type=int, default=None)
     parser.add_argument("--no-perception", action="store_true", help="Exclude state_inference rows.")
+    parser.add_argument("--include-user-intent", action="store_true", help="Include leakage-free Stage-1 user-intent rows.")
     parser.add_argument("--no-deliberation", action="store_true", help="Exclude transition_modeling rows.")
     parser.add_argument("--no-continuation", action="store_true", help="Exclude world_model_continuation rows.")
     parser.add_argument("--no-future-verification", action="store_true", help="Exclude future_verification rows when continuation is enabled.")
     parser.add_argument("--include-action", action="store_true", help="Include policy_preference chosen-action rows as SFT action-selection examples.")
+    parser.add_argument("--action-prompt-mode", choices=["outcome", "no_leak"], default="outcome")
+    parser.add_argument("--five-act-only", action="store_true", help="Export action-selection rows with the five-act no-Reassure policy task name and prompt filter.")
+    parser.add_argument("--act-balancing", choices=["none", "inverse_freq", "oversample_minority"], default="inverse_freq", help="Balance action-selection examples by best act before export.")
     parser.add_argument("--allow-missing-images", action="store_true", help="Do not validate image paths while exporting; useful when writing remote absolute paths locally.")
     parser.add_argument("--preview", type=int, default=0, help="Print the first N exported rows after writing.")
     return parser
@@ -138,10 +156,14 @@ def main(argv: list[str] | None = None) -> int:
         root=args.root,
         max_examples=args.max_examples,
         include_perception=not args.no_perception,
+        include_user_intent=args.include_user_intent,
         include_deliberation=not args.no_deliberation,
         include_continuation=not args.no_continuation,
         include_future_verification=not args.no_future_verification,
         include_action=args.include_action,
+        action_prompt_mode=args.action_prompt_mode,
+        five_act_only=args.five_act_only,
+        act_balancing=args.act_balancing,
         validate_images=not args.allow_missing_images,
     )
     print(json.dumps(summary, ensure_ascii=False, indent=2))

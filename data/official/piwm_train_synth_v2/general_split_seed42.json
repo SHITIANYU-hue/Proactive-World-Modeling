@@ -1,0 +1,143 @@
+{
+  "artifact": "piwm_stage1_general_split_seed42",
+  "seed": 42,
+  "created_at_cst": "2026-05-21T16:36:52+08:00",
+  "stratification": "AIDA stage",
+  "parent_id_field": "state_id",
+  "source": "PIWM-Train-Synth-v2 state_inference.jsonl",
+  "total_parent_count": 543,
+  "train_parent_count": 493,
+  "val_parent_count": 50,
+  "stage_counts": {
+    "attention": 49,
+    "interest": 289,
+    "desire": 128,
+    "action": 77
+  },
+  "train_stage_counts": {
+    "attention": 45,
+    "interest": 262,
+    "desire": 116,
+    "action": 70
+  },
+  "val_stage_counts": {
+    "attention": 4,
+    "interest": 27,
+    "desire": 12,
+    "action": 7
+  },
+  "expected_val_stage_counts": {
+    "attention": 4.512,
+    "interest": 26.611,
+    "desire": 11.786,
+    "action": 7.09
+  },
+  "chi_square": 0.068788,
+  "chi_square_df": 3,
+  "chi_square_pvalue": 0.9953,
+  "chi_square_pass_p_gt_0_05": true,
+  "outputs": {
+    "user_intent_train": {
+      "artifact": "ms_swift_sft_jsonl",
+      "is_training_result": false,
+      "output_jsonl": "data/official/piwm_train_synth_v2/user_intent_train.jsonl",
+      "n_examples": 493,
+      "task_counts": {
+        "user_intent": 493
+      },
+      "format": "ms-swift messages + images",
+      "image_path_count": 1479
+    },
+    "user_intent_val": {
+      "artifact": "ms_swift_sft_jsonl",
+      "is_training_result": false,
+      "output_jsonl": "data/official/piwm_train_synth_v2/user_intent_val.jsonl",
+      "n_examples": 50,
+      "task_counts": {
+        "user_intent": 50
+      },
+      "format": "ms-swift messages + images",
+      "image_path_count": 150
+    },
+    "next_state_prediction_train": {
+      "artifact": "ms_swift_sft_jsonl",
+      "is_training_result": false,
+      "output_jsonl": "data/official/piwm_train_synth_v2/next_state_prediction_train.jsonl",
+      "n_examples": 1816,
+      "task_counts": {
+        "next_state_prediction": 1816
+      },
+      "format": "ms-swift messages + images",
+      "image_path_count": 5448
+    },
+    "next_state_prediction_val": {
+      "artifact": "ms_swift_sft_jsonl",
+      "is_training_result": false,
+      "output_jsonl": "data/official/piwm_train_synth_v2/next_state_prediction_val.jsonl",
+      "n_examples": 185,
+      "task_counts": {
+        "next_state_prediction": 185
+      },
+      "format": "ms-swift messages + images",
+      "image_path_count": 555
+    }
+  },
+  "ms_swift_outputs": {
+    "user_intent_train": {
+      "artifact": "ms_swift_sft_jsonl",
+      "is_training_result": false,
+      "output_jsonl": "data/official/ms_swift/piwm_train_stage1_user_intent_train_v1.jsonl",
+      "n_examples": 493,
+      "task_counts": {
+        "user_intent": 493
+      },
+      "format": "ms-swift messages + images",
+      "image_path_count": 1479
+    },
+    "user_intent_val": {
+      "artifact": "ms_swift_sft_jsonl",
+      "is_training_result": false,
+      "output_jsonl": "data/official/ms_swift/piwm_train_stage1_user_intent_val_v1.jsonl",
+      "n_examples": 50,
+      "task_counts": {
+        "user_intent": 50
+      },
+      "format": "ms-swift messages + images",
+      "image_path_count": 150
+    },
+    "next_state_prediction_train": {
+      "artifact": "ms_swift_sft_jsonl",
+      "is_training_result": false,
+      "output_jsonl": "data/official/ms_swift/piwm_train_stage1_next_state_prediction_train_v1.jsonl",
+      "n_examples": 1816,
+      "task_counts": {
+        "next_state_prediction": 1816
+      },
+      "format": "ms-swift messages + images",
+      "image_path_count": 5448
+    },
+    "next_state_prediction_val": {
+      "artifact": "ms_swift_sft_jsonl",
+      "is_training_result": false,
+      "output_jsonl": "data/official/ms_swift/piwm_train_stage1_next_state_prediction_val_v1.jsonl",
+      "n_examples": 185,
+      "task_counts": {
+        "next_state_prediction": 185
+      },
+      "format": "ms-swift messages + images",
+      "image_path_count": 555
+    }
+  },
+  "stage1_train_examples": 2309,
+  "stage1_val_examples": 235,
+  "task_counts": {
+    "train": {
+      "user_intent": 493,
+      "next_state_prediction": 1816
+    },
+    "val": {
+      "user_intent": 50,
+      "next_state_prediction": 185
+    }
+  }
+}

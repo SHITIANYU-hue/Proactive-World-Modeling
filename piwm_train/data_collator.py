@@ -8,17 +8,23 @@ data contract before installing torch/transformers.
 from __future__ import annotations
 
 import json
-from dataclasses import asdict, dataclass, field
+from collections import Counter
+from dataclasses import asdict, dataclass, field, replace
+from math import ceil
 from pathlib import Path
 from typing import Iterable, Iterator, Literal
 
+from piwm_data.migration.legacy_action_mapping import legacy_action_to_act_params_for_comparison
+
 from . import config
 from .prompts import (
+    build_action_prompt_no_leak,
     build_action_prompt,
     build_continuation_caption_prompt,
     build_deliberation_prompt,
     build_future_verification_prompt,
     build_perception_prompt,
+    build_user_intent_prompt,
 )
 from .targets import (
     build_action_target,
@@ -26,9 +32,29 @@ from .targets import (
     build_deliberation_target,
     build_future_verification_target,
     build_perception_target,
+    build_user_intent_target,
 )
 
-SFTTask = Literal["perception", "deliberation", "continuation_caption", "future_verification", "action_selection"]
+FIVE_ACTS = {"Greet", "Elicit", "Inform", "Recommend", "Hold"}
+ActBalancing = Literal["none", "inverse_freq", "oversample_minority"]
+
+SFTTask = Literal[
+    "perception",
+    "user_intent",
+    "deliberation",
+    "next_state_prediction",
+    "continuation_caption",
+    "future_verification",
+    "action_selection",
+    "action_selection_5act",
+]
+
+
+def user_intent_loss_weight(intent_label: str | None) -> float:
+    """Return A3+ loss weight for visual-only user-intent labels."""
+    if intent_label in config.LOW_CONFIDENCE_INTENT_LABELS:
+        return config.LOW_CONFIDENCE_INTENT_LOSS_WEIGHT
+    return config.DEFAULT_INTENT_LOSS_WEIGHT
 
 
 @dataclass
@@ -55,14 +81,41 @@ class DPOExample:
 def build_sft_examples(
     data_dir: Path,
     *,
+    include_user_intent: bool = False,
     include_perception: bool = True,
     include_deliberation: bool = True,
     include_continuation: bool = True,
     include_future_verification: bool = True,
     include_action: bool = False,
     perception_recap: bool = True,
+    action_prompt_mode: Literal["outcome", "no_leak"] = "outcome",
+    five_act_only: bool = False,
+    act_balancing: ActBalancing = "inverse_freq",
 ) -> list[SFTExample]:
     examples: list[SFTExample] = []
+    if include_user_intent:
+        for row in _read_jsonl_if_exists(data_dir / "state_inference.jsonl"):
+            intent_label = row.get("output", {}).get("intent")
+            loss_weight = user_intent_loss_weight(intent_label)
+            examples.append(
+                SFTExample(
+                    task="user_intent",
+                    source_id=row["state_id"],
+                    prompt=build_user_intent_prompt(row),
+                    target=build_user_intent_target(row),
+                    images=list(row["input"].get("frames", [])),
+                    weight=loss_weight,
+                    meta={
+                        "split": row.get("meta", {}).get("split"),
+                        "viewpoint": row.get("meta", {}).get("viewpoint"),
+                        "stage": row.get("output", {}).get("aida_stage"),
+                        "intent_label": intent_label,
+                        "loss_weight": loss_weight,
+                        "loss_weight_policy": "a3plus_visual_intent_low_confidence",
+                    },
+                )
+            )
+
     if include_perception:
         for row in _read_jsonl_if_exists(data_dir / "state_inference.jsonl"):
             target = build_perception_target(row)
@@ -139,22 +192,80 @@ def build_sft_examples(
                 )
 
     if include_action:
+        action_examples: list[SFTExample] = []
         for row in _read_jsonl_if_exists(data_dir / "policy_preference.jsonl"):
-            examples.append(
+            if five_act_only:
+                row = _five_act_policy_row(row)
+                if row is None:
+                    continue
+            prompt = (
+                build_action_prompt_no_leak(row, five_act_only=five_act_only)
+                if action_prompt_mode == "no_leak"
+                else build_action_prompt(row)
+            )
+            task: SFTTask = "action_selection_5act" if five_act_only else "action_selection"
+            action_examples.append(
                 SFTExample(
-                    task="action_selection",
+                    task=task,
                     source_id=row["state_id"],
-                    prompt=build_action_prompt(row),
+                    prompt=prompt,
                     target=build_action_target(row, "chosen"),
                     images=list(row.get("meta", {}).get("frames", [])),
                     meta={
                         "split": row.get("meta", {}).get("split"),
                         "viewpoint": row.get("meta", {}).get("viewpoint"),
                         "reward_gap": row.get("reward_gap"),
+                        "best_act": _block_act(row.get("chosen_json", {})),
+                        "candidate_action_acts": _candidate_action_acts(row, five_act_only=five_act_only),
+                        "five_act_only": five_act_only,
                     },
                 )
             )
+        examples.extend(apply_action_balancing(action_examples, act_balancing))
     return examples
+
+
+def apply_action_balancing(examples: list[SFTExample], mode: ActBalancing) -> list[SFTExample]:
+    if not examples or mode == "none":
+        return examples
+    counts = Counter(example.meta.get("best_act") for example in examples if example.meta.get("best_act"))
+    if not counts:
+        return examples
+    if mode == "inverse_freq":
+        n_classes = len(counts)
+        total = sum(counts.values())
+        balanced: list[SFTExample] = []
+        for example in examples:
+            act = example.meta.get("best_act")
+            weight = total / (n_classes * counts[act]) if act in counts else 1.0
+            meta = {**example.meta, "act_balancing": mode}
+            balanced.append(replace(example, weight=round(float(weight), 6), meta=meta))
+        return balanced
+    if mode == "oversample_minority":
+        majority = max(counts.values())
+        target_floor = ceil(majority * 0.5)
+        grouped: dict[str, list[SFTExample]] = {}
+        for example in examples:
+            act = example.meta.get("best_act")
+            if act:
+                grouped.setdefault(act, []).append(example)
+        balanced = [
+            replace(example, meta={**example.meta, "act_balancing": mode})
+            for example in examples
+        ]
+        for act in sorted(grouped):
+            group = grouped[act]
+            needed = max(0, target_floor - len(group))
+            for index in range(needed):
+                source = group[index % len(group)]
+                balanced.append(
+                    replace(
+                        source,
+                        meta={**source.meta, "act_balancing": mode, "oversampled": True},
+                    )
+                )
+        return balanced
+    raise ValueError(f"unsupported act_balancing mode: {mode}")
 
 
 def build_dpo_examples(data_dir: Path) -> list[DPOExample]:
@@ -215,6 +326,59 @@ def _read_jsonl_if_exists(path: Path) -> list[dict]:
             if line:
                 rows.append(json.loads(line))
     return rows
+
+
+def _five_act_policy_row(row: dict) -> dict | None:
+    if _block_act(row.get("chosen_json", {})) not in FIVE_ACTS:
+        return None
+    updated = dict(row)
+    meta = dict(updated.get("meta") or {})
+    candidate_block = [
+        item
+        for item in meta.get("candidate_block", [])
+        if _block_act(item) in FIVE_ACTS
+    ]
+    if not candidate_block:
+        return None
+    meta["candidate_block"] = candidate_block
+    updated["meta"] = meta
+    return updated
+
+
+def _candidate_action_acts(row: dict, *, five_act_only: bool = False) -> dict[str, str]:
+    mapping: dict[str, str] = {}
+    for item in row.get("meta", {}).get("candidate_block", []):
+        action = item.get("action")
+        act = _block_act(item)
+        if five_act_only and act not in FIVE_ACTS:
+            continue
+        if action and act:
+            mapping[action] = act
+    for side in ("chosen_json", "rejected_json"):
+        block = row.get(side, {})
+        action = block.get("action")
+        act = _block_act(block)
+        if five_act_only and act not in FIVE_ACTS:
+            continue
+        if action and act:
+            mapping.setdefault(action, act)
+    for item in row.get("meta", {}).get("candidate_block", []):
+        action = item.get("action")
+        if action and action not in mapping:
+            try:
+                act = legacy_action_to_act_params_for_comparison(action)[0]
+                if five_act_only and act not in FIVE_ACTS:
+                    continue
+                mapping[action] = act
+            except KeyError:
+                pass
+    return mapping
+
+
+def _block_act(block: dict) -> str | None:
+    spec = block.get("dialogue_act") or block.get("action_spec") or {}
+    act = spec.get("act")
+    return str(act) if act else None
 
 
 def _write_jsonl(rows: Iterable[dict], out: Path) -> int:

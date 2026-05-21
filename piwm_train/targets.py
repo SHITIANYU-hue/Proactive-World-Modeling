@@ -31,6 +31,26 @@ def build_perception_target(record: dict) -> str:
     )
 
 
+def build_user_intent_target(record: dict) -> str:
+    """Build the leakage-free Stage-1 user-intent target."""
+    out = record["output"]
+    bdi = out["bdi"]
+    visual = out.get("visual_state") or {}
+    return "\n".join(
+        [
+            f"{config.TAG_STAGE_OPEN}{out['aida_stage']}{config.TAG_STAGE_CLOSE}",
+            f"{config.TAG_INTENT_LABEL_OPEN}{out['intent']}{config.TAG_INTENT_LABEL_CLOSE}",
+            f"{config.TAG_VISUAL_SUMMARY_OPEN}{visual.get('summary', '')}{config.TAG_VISUAL_SUMMARY_CLOSE}",
+            f"{config.TAG_ENGAGEMENT_PATTERN_OPEN}{visual.get('engagement_pattern', '')}{config.TAG_ENGAGEMENT_PATTERN_CLOSE}",
+            f"{config.TAG_GAZE_AND_ATTENTION_OPEN}{visual.get('gaze_and_attention', visual.get('gaze', ''))}{config.TAG_GAZE_AND_ATTENTION_CLOSE}",
+            f"{config.TAG_BODY_AND_HANDS_OPEN}{visual.get('body_and_hands', '')}{config.TAG_BODY_AND_HANDS_CLOSE}",
+            f"{config.TAG_BELIEF_OPEN}{bdi['belief']}{config.TAG_BELIEF_CLOSE}",
+            f"{config.TAG_DESIRE_OPEN}{bdi['desire']}{config.TAG_DESIRE_CLOSE}",
+            f"{config.TAG_INTENTION_OPEN}{bdi['intention']}{config.TAG_INTENTION_CLOSE}",
+        ]
+    )
+
+
 def build_deliberation_target(record: dict) -> str:
     """Build a deliberation target from one ``transition_modeling.jsonl`` row."""
     out = record["output"]
@@ -86,18 +106,29 @@ def build_action_target(record: dict, side: Literal["chosen", "rejected"]) -> st
 
 def build_sft_target(
     record: dict,
-    task: Literal["perception", "deliberation", "continuation_caption", "future_verification", "action_selection"],
+    task: Literal[
+        "perception",
+        "user_intent",
+        "deliberation",
+        "next_state_prediction",
+        "continuation_caption",
+        "future_verification",
+        "action_selection",
+        "action_selection_5act",
+    ],
 ) -> str:
     """Dispatch target construction for SFT rows."""
     if task == "perception":
         return build_perception_target(record)
-    if task == "deliberation":
+    if task == "user_intent":
+        return build_user_intent_target(record)
+    if task in {"deliberation", "next_state_prediction"}:
         return build_deliberation_target(record)
     if task == "continuation_caption":
         return build_continuation_caption_target(record)
     if task == "future_verification":
         return build_future_verification_target(record)
-    if task == "action_selection":
+    if task in {"action_selection", "action_selection_5act"}:
         return build_action_target(record, "chosen")
     raise ValueError(f"unknown SFT task: {task}")
 
