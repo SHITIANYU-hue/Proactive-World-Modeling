@@ -1,0 +1,118 @@
+{
+  "artifact": "piwm_target_frontcam_5act_split_rebalance",
+  "target_dir": "data/official/piwm_target_v1",
+  "main_schema": "data/official/piwm_target_v1/main_schema.jsonl",
+  "ms_swift": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
+  "domain_eval_dir": "data/official/domain_specialization_eval_v1",
+  "qa_dir": "data/official/piwm_target_v1/qa_review_target30_5act",
+  "split_policy": "balanced_5act_operational_test_ids",
+  "qa_status": "new_5act_test_requires_independent_review_before_promotion",
+  "expected_test_best_act_counts": {
+    "Greet": 6,
+    "Elicit": 6,
+    "Inform": 6,
+    "Recommend": 6,
+    "Hold": 6
+  },
+  "target_summary": {
+    "split_counts": {
+      "test": 30,
+      "train": 88
+    },
+    "best_act_by_split": {
+      "train": {
+        "Elicit": 14,
+        "Greet": 11,
+        "Inform": 41,
+        "Reassure": 17,
+        "Recommend": 5
+      },
+      "test": {
+        "Elicit": 6,
+        "Greet": 6,
+        "Hold": 6,
+        "Inform": 6,
+        "Recommend": 6
+      }
+    }
+  },
+  "updated_target_files": {
+    "state_inference.jsonl": 118,
+    "state_inference_with_cue.jsonl": 118,
+    "transition_modeling.jsonl": 472,
+    "policy_preference.jsonl": 118,
+    "world_model_continuation.jsonl": 0
+  },
+  "ms_swift_rows": 708,
+  "ms_swift_split_counts": {
+    "test": 180,
+    "train": 528
+  },
+  "archived_legacy_reviewed_eval_dir": "data/official/domain_specialization_eval_v1/_legacy_wrong_5act",
+  "eval_summary": {
+    "artifact": "piwm_domain_specialization_eval_sets_v1",
+    "target_source": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
+    "general_source": "data/official/ms_swift/piwm_eval_qa_all_v1.jsonl",
+    "output_dir": "data/official/domain_specialization_eval_v1",
+    "target_split": "test",
+    "eval_sets": {
+      "target_frontcam_test_all": {
+        "path": "data/official/domain_specialization_eval_v1/target_frontcam_test_all.jsonl",
+        "rows": 180,
+        "task_counts": {
+          "action_selection": 30,
+          "deliberation": 120,
+          "perception": 30
+        },
+        "qa_status": "templates_generated_pending_manual_review"
+      },
+      "general_qa_all": {
+        "path": "data/official/domain_specialization_eval_v1/general_qa_all.jsonl",
+        "rows": 162,
+        "task_counts": {
+          "deliberation": 126,
+          "perception": 36
+        },
+        "qa_status": "qa_reviewed_pass_subset"
+      }
+    },
+    "target_task_paths": {
+      "action_selection": "data/official/domain_specialization_eval_v1/target_frontcam_test_action_selection.jsonl",
+      "deliberation": "data/official/domain_specialization_eval_v1/target_frontcam_test_deliberation.jsonl",
+      "perception": "data/official/domain_specialization_eval_v1/target_frontcam_test_perception.jsonl"
+    },
+    "evaluation_matrix": [
+      {
+        "eval_label": "general_on_general",
+        "checkpoint": "checkpoint_general",
+        "input_jsonl": "data/official/domain_specialization_eval_v1/general_qa_all.jsonl",
+        "purpose": "general performance after stage-1 SFT"
+      },
+      {
+        "eval_label": "general_on_target",
+        "checkpoint": "checkpoint_general",
+        "input_jsonl": "data/official/domain_specialization_eval_v1/target_frontcam_test_all.jsonl",
+        "purpose": "zero-shot target transfer"
+      },
+      {
+        "eval_label": "target_on_target",
+        "checkpoint": "checkpoint_target",
+        "input_jsonl": "data/official/domain_specialization_eval_v1/target_frontcam_test_all.jsonl",
+        "purpose": "target specialization gain"
+      },
+      {
+        "eval_label": "target_on_general",
+        "checkpoint": "checkpoint_target",
+        "input_jsonl": "data/official/domain_specialization_eval_v1/general_qa_all.jsonl",
+        "purpose": "catastrophic forgetting check"
+      },
+      {
+        "eval_label": "joint_on_target",
+        "checkpoint": "checkpoint_joint_general_target",
+        "input_jsonl": "data/official/domain_specialization_eval_v1/target_frontcam_test_all.jsonl",
+        "purpose": "joint SFT target-domain ablation"
+      }
+    ]
+  },
+  "qa_packet_summary": null
+}

@@ -1,0 +1,10 @@
+{
+  "artifact": "ms_swift_sft_jsonl",
+  "is_training_result": false,
+  "output_jsonl": "data/official/domain_specialization_eval_v2/target_frontcam_5act_test_no_intervention_next_state.jsonl",
+  "n_examples": 30,
+  "task_counts": {
+    "next_state_prediction": 30
+  },
+  "format": "ms-swift messages + images"
+}

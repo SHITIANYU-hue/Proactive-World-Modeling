@@ -1,0 +1,48 @@
+{
+  "label_version": "guidance_sales_bench_human_label_v0",
+  "status": "empty_placeholder",
+  "allowed_operational_acts": [
+    "Greet",
+    "Elicit",
+    "Inform",
+    "Recommend",
+    "Hold"
+  ],
+  "fields": [
+    {
+      "name": "sample_id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "partition",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "annotator_id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "best_act",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "rationale",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "quality_flag",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "created_at",
+      "type": "string",
+      "required": false
+    }
+  ]
+}

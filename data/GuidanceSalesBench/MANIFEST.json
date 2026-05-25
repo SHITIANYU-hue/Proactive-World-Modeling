@@ -1,0 +1,105 @@
+{
+  "artifact": "GuidanceSalesBench",
+  "version": "v0.1",
+  "generated_at_utc": "2026-05-25T14:48:57.863730+00:00",
+  "root": "data/GuidanceSalesBench",
+  "include_media": false,
+  "operational_acts": [
+    "Greet",
+    "Elicit",
+    "Inform",
+    "Recommend",
+    "Hold"
+  ],
+  "reassure_policy": "source_compatibility_only_not_operational",
+  "partitions": [
+    {
+      "partition": "general",
+      "source": "data/official/piwm_train_synth_v2",
+      "records": 543,
+      "schema_version": "v2.2",
+      "line_counts": {
+        "_stats.json": null,
+        "main_schema.jsonl": 543,
+        "state_inference.jsonl": 543,
+        "state_inference_with_cue.jsonl": 543,
+        "transition_modeling.jsonl": 2001,
+        "policy_preference.jsonl": 543,
+        "world_model_continuation.jsonl": 0,
+        "sft_stage1/user_intent_train.jsonl": 493,
+        "sft_stage1/user_intent_train_summary.json": null,
+        "sft_stage1/user_intent_val.jsonl": 50,
+        "sft_stage1/user_intent_val_summary.json": null,
+        "sft_stage1/next_state_prediction_train.jsonl": 1816,
+        "sft_stage1/next_state_prediction_train_summary.json": null,
+        "sft_stage1/next_state_prediction_val.jsonl": 185,
+        "sft_stage1/next_state_prediction_val_summary.json": null
+      },
+      "best_act_counts": {
+        "Elicit": 252,
+        "Hold": 61,
+        "Inform": 105,
+        "Recommend": 125
+      },
+      "media_materialized": false
+    },
+    {
+      "partition": "target",
+      "source": "data/official/piwm_target_v1",
+      "records": 118,
+      "frames": 354,
+      "schema_version": "dialogue_act_human_salesperson_v2.2",
+      "source_best_act_counts": {
+        "Elicit": 20,
+        "Greet": 17,
+        "Hold": 6,
+        "Inform": 47,
+        "Reassure": 17,
+        "Recommend": 11
+      },
+      "eval_5act_line_counts": {
+        "target_frontcam_5act_test_all.jsonl": 90,
+        "target_frontcam_5act_test_all_summary.json": null,
+        "target_frontcam_5act_test_action_selection.jsonl": 30,
+        "target_frontcam_5act_test_action_selection_summary.json": null,
+        "target_frontcam_5act_test_user_intent.jsonl": 30,
+        "target_frontcam_5act_test_user_intent_summary.json": null,
+        "target_frontcam_5act_test_no_intervention_next_state.jsonl": 30,
+        "target_frontcam_5act_test_no_intervention_next_state_summary.json": null
+      },
+      "training_split_line_counts": {
+        "stage2_target_5act_train_71.jsonl": 71,
+        "stage2_target_5act_greet_aug_v2_86.jsonl": 86,
+        "stage2_target_v2_balanced_190.jsonl": 190
+      },
+      "promptready_source": "data/official/piwm_target_promptready_v1",
+      "promptready_records": 318,
+      "media_materialized": false
+    },
+    {
+      "partition": "real_shooting",
+      "source": "references/piwm_lightweight/data/eval/real",
+      "source_github": "https://github.com/guochenmeinian/piwm/tree/main/data/eval/real",
+      "planned_records": 50,
+      "metadata_records": 40,
+      "index_available": 40,
+      "video_status_counts": {
+        "missing": 20,
+        "available": 20
+      },
+      "media_materialized": false
+    },
+    {
+      "partition": "human_labels",
+      "records": 0,
+      "status": "empty_placeholder",
+      "label_files": [
+        "human_labels/target_5act/annotator_a.jsonl",
+        "human_labels/target_5act/annotator_b.jsonl",
+        "human_labels/target_5act/annotator_c.jsonl",
+        "human_labels/general_probe/annotator_a.jsonl"
+      ],
+      "schema_file": "human_labels/label_schema.json"
+    }
+  ]
+}

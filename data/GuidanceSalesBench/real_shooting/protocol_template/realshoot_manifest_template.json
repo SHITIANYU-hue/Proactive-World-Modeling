@@ -1,0 +1,59 @@
+{
+  "act_params": {
+    "mode": "silent"
+  },
+  "assets": {
+    "audio_path": null,
+    "fpv_video_path": null,
+    "hero_video_path": null,
+    "raw_material_path": null,
+    "transcript_path": null,
+    "ui_recording_path": null
+  },
+  "clip_id": "G001_S01_A",
+  "co_acts": [],
+  "dialogue_act": "Hold",
+  "expected_reaction": "自然路过，不被打扰",
+  "group_id": "G001",
+  "legacy_action": "A1_silent_observe",
+  "persona_type": "browser_low_intent",
+  "post_compose_ui": false,
+  "product_category": "luxury_watch",
+  "qa": {
+    "ab_start_state_consistent": false,
+    "audio_transcript_clear": false,
+    "future_reaction_visible": false,
+    "label_complete": false,
+    "no_sensitive_info": false,
+    "notes": "",
+    "overall_pass": false,
+    "start_state_visible": false,
+    "terminal_response_visible": false,
+    "viewpoint_pass": false
+  },
+  "requires_hero_view": false,
+  "response_type_zh": "暂不打扰-完全静默",
+  "shooting_state": "S01_PASSBY",
+  "state_name_zh": "路过无关注",
+  "t_state": "T1_SILENT_OBSERVE",
+  "terminal_realization": {
+    "act_params": {
+      "mode": "silent"
+    },
+    "cabinet_motion": null,
+    "co_acts": [],
+    "dialogue_act": "Hold",
+    "duration_ms": 0,
+    "legacy_action": "A1_silent_observe",
+    "light": "maintain_current_soft_breathing",
+    "screen": {
+      "action": "idle_minimal",
+      "cta": null
+    },
+    "surface_text": "",
+    "voice_style": "silent"
+  },
+  "version": "A",
+  "visible_reaction": null,
+  "visual_state": null
+}

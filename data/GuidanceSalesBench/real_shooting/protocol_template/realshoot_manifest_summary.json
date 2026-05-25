@@ -1,0 +1,18 @@
+{
+  "action_space": "DialogueAct v2 + TerminalRealization",
+  "artifact": "PIWM-RealShoot-v1 manifest sample",
+  "core_states_require_hero": [
+    "S03_HOVER",
+    "S05_BROWSE_UNC",
+    "S07_OPERATE",
+    "S11_WALKAWAY"
+  ],
+  "n_rows": 24,
+  "n_states": 12,
+  "output_dir": "data/official/piwm_realshoot_v1",
+  "schema": "ShootingClipRecord",
+  "versions": [
+    "A",
+    "B"
+  ]
+}

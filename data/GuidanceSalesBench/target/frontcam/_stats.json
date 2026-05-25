@@ -1,0 +1,67 @@
+{
+  "artifact": "piwm_target_frontcam_v1",
+  "schema_version": "dialogue_act_human_salesperson_v2.2",
+  "source_repo": "guochenmeinian/piwm",
+  "source_root": "/Users/mutsumi/Desktop/WorkSpace/piwm",
+  "output_dir": "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/data/official/piwm_target_v1",
+  "n_records": 118,
+  "n_frames": 354,
+  "viewpoint_counts": {
+    "target_frontcam": 118
+  },
+  "split_counts": {
+    "test": 30,
+    "train": 88
+  },
+  "best_act_counts": {
+    "Elicit": 20,
+    "Greet": 17,
+    "Hold": 6,
+    "Inform": 47,
+    "Reassure": 17,
+    "Recommend": 11
+  },
+  "best_action_key_counts": {
+    "Elicit_b1166d372e5e": 20,
+    "Greet_4f8123f9f15e": 6,
+    "Greet_889a5021015d": 11,
+    "Hold_e2721a9457de": 1,
+    "Hold_eda24b4bb712": 5,
+    "Inform_053014d173cc": 10,
+    "Inform_24926eed1e21": 4,
+    "Inform_5ac252a82695": 20,
+    "Inform_5ff00ba15ca5": 13,
+    "Reassure_14e8d6fdd642": 11,
+    "Reassure_de423697f587": 6,
+    "Recommend_8d7f8993e333": 4,
+    "Recommend_9ff23b139b07": 7
+  },
+  "qa_status_counts": {
+    "synthetic_unreviewed": 118
+  },
+  "notes": [
+    "Imported target-domain front-camera data from lightweight piwm.",
+    "The final 30 samples are split=test as an unreviewed in-domain eval candidate; they still require QA before paper claims."
+  ],
+  "ms_swift": {
+    "artifact": "ms_swift_sft_jsonl",
+    "is_training_result": false,
+    "data_dir": "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/data/official/piwm_target_v1",
+    "output_jsonl": "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
+    "n_examples": 708,
+    "task_counts": {
+      "perception": 118,
+      "deliberation": 472,
+      "action_selection": 118
+    },
+    "image_path_count": 2124,
+    "task_includes": {
+      "perception": true,
+      "deliberation": true,
+      "continuation": false,
+      "future_verification": false,
+      "action_selection": true
+    },
+    "format": "ms-swift messages + images"
+  }
+}

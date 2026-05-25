@@ -1,0 +1,122 @@
+{
+  "action_space": "DialogueAct v2.2 + human-salesperson realization compatibility",
+  "archive_roots": [
+    "Archive_generated_priority24",
+    "Archive_generated_priority256",
+    "Archive_generated_priority500_new_after280",
+    "Archive_generated_priority1000_remaining_after500"
+  ],
+  "artifact": "combined_piwm_dataset",
+  "avg_actions_per_state": 3.703499079189687,
+  "best_worst_reward_gap_distribution": {
+    "max": 0.0,
+    "median": 0.0,
+    "min": 0.0
+  },
+  "frame_sample": 3,
+  "n_archive_roots": 4,
+  "n_continuations_by_role": {},
+  "n_continuations_with_visual_qa_pass": 0,
+  "n_negative_reward_continuations": 0,
+  "n_policy_preference_rows": 543,
+  "n_policy_preference_skipped_no_pair": 0,
+  "n_sessions_by_product_category": {
+    "apparel_premium": 68,
+    "cosmetics_skincare": 75,
+    "electronics_laptop": 64,
+    "electronics_phone": 69,
+    "footwear": 56,
+    "home_appliance": 69,
+    "jewelry": 73,
+    "luxury_watch": 69
+  },
+  "n_sessions_by_source_archive": {
+    "Archive_generated_priority1000_remaining_after500": 116,
+    "Archive_generated_priority24": 24,
+    "Archive_generated_priority256": 235,
+    "Archive_generated_priority500_new_after280": 168
+  },
+  "n_sessions_by_split": {
+    "dev": 41,
+    "ood_persona": 64,
+    "ood_product": 56,
+    "test": 29,
+    "train": 353
+  },
+  "n_sessions_by_viewpoint": {
+    "salesperson_observable": 400,
+    "surveillance_oblique": 143
+  },
+  "n_sessions_loaded": 543,
+  "n_sessions_skipped": 465,
+  "n_sessions_total": 1008,
+  "n_state_inference_rows": 543,
+  "n_state_inference_with_cue_rows": 543,
+  "n_states_with_action_contrast": 543,
+  "n_states_with_action_contrast_by_viewpoint": {
+    "salesperson_observable": 400,
+    "surveillance_oblique": 143
+  },
+  "n_states_with_strict_action_contrast": 543,
+  "n_states_without_action_contrast": 0,
+  "n_transition_modeling_rows": 2001,
+  "n_transition_parent_states": 543,
+  "n_world_model_continuation_rows": 0,
+  "operational_5act_policy": true,
+  "per_source": {
+    "Archive_generated_priority1000_remaining_after500": {
+      "loaded": 116,
+      "skipped:FrameNotFoundError": 384,
+      "total": 500
+    },
+    "Archive_generated_priority24": {
+      "loaded": 24,
+      "total": 24
+    },
+    "Archive_generated_priority256": {
+      "loaded": 235,
+      "skipped:JSONDecodeError": 1,
+      "total": 236
+    },
+    "Archive_generated_priority500_new_after280": {
+      "loaded": 168,
+      "skipped:FrameNotFoundError": 80,
+      "total": 248
+    }
+  },
+  "require_continuation": false,
+  "require_qa_pass": false,
+  "rule_version": "v1.0",
+  "schema_version": "v2.2",
+  "skipped_reasons": {
+    "FrameNotFoundError": 464,
+    "JSONDecodeError": 1
+  },
+  "timestamp_utc": "2026-05-02T00:44:46Z",
+  "v2_1_fields": [
+    "dialogue_act",
+    "act_params.supporting_acts",
+    "realization",
+    "legacy_co_acts"
+  ],
+  "v2_1_reexported_at_utc": "2026-05-13T15:23:08Z",
+  "v2_2_fields": [
+    "dialogue_act",
+    "act_params.supporting_acts",
+    "candidate_action_specs",
+    "best_action_spec",
+    "next_state_by_action_v2",
+    "compatibility_tier",
+    "legacy_mismatch_flags",
+    "realization",
+    "legacy_co_acts"
+  ],
+  "v2_2_reexported_at_utc": "2026-05-19T12:34:12Z",
+  "v2_fields": [
+    "dialogue_act",
+    "act_params",
+    "co_acts",
+    "realization"
+  ],
+  "v2_reexported_at_utc": "2026-05-11T13:20:29Z"
+}

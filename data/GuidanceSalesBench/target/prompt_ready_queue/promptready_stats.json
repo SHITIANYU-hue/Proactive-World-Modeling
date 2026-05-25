@@ -1,0 +1,51 @@
+{
+  "artifact": "piwm_target_promptready_index",
+  "piwm_root": "/Users/mutsumi/Desktop/WorkSpace/piwm",
+  "output_dir": "data/official/piwm_target_promptready_v1",
+  "records": 318,
+  "video_backed_records": 118,
+  "video_pending_records": 200,
+  "seed_records": 318,
+  "manifest_records": 318,
+  "labeled_records": 318,
+  "prompt_records": 318,
+  "video_records": 118,
+  "aida_stage_counts": {
+    "action": 33,
+    "attention": 50,
+    "desire": 144,
+    "interest": 91
+  },
+  "best_dialogue_act_counts": {
+    "Elicit": 53,
+    "Greet": 53,
+    "Hold": 53,
+    "Inform": 53,
+    "Reassure": 53,
+    "Recommend": 53
+  },
+  "best_response_id_counts": {
+    "elicit_need_focus_open": 53,
+    "greet_close": 29,
+    "greet_open": 24,
+    "hold_ambient": 24,
+    "hold_silent": 29,
+    "inform_attributes_brief": 5,
+    "inform_comparison_brief": 22,
+    "inform_demo_brief": 14,
+    "inform_price_brief": 12,
+    "reassure_decision": 24,
+    "reassure_time_wait": 29,
+    "recommend_firm": 28,
+    "recommend_soft": 25
+  },
+  "generation_status_counts": {
+    "prompt_ready_video_pending": 200,
+    "video_backed_existing": 118
+  },
+  "red_lines": [
+    "video_pending records are not multimodal training rows until Kling videos and sampled frames exist.",
+    "promptready_index.jsonl is an upstream generation index, not an ms-swift SFT file.",
+    "Only the existing 118 video-backed records can be imported into PIWM-Target-Frontcam-v1 today."
+  ]
+}
