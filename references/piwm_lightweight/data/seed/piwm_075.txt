@@ -1,0 +1,1 @@
+desire 阶段，犹豫程度高，赶时间的年轻白领，喜欢这款商品但处于匆忙状态，想买又担心耽误行程，需要recommend帮助她快速放心地完成购买，target_act=Recommend

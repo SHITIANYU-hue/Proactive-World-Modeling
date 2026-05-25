@@ -1,0 +1,1 @@
+action 阶段，犹豫程度中等，赶着下班的年轻白领，已下决心但在最后确认页停顿，不断看手机时间，有时间压力，需要recommend帮助其快速完成购买，target_act=Recommend

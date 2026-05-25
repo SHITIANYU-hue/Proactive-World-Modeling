@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_089",
+  "viewpoint": "terminal_observable",
+  "persona": "下班路过便利区的年轻白领，想在离开前从两款感兴趣的商品中选一个。",
+  "persona_visual": "28岁左右的男性，短黑发，穿浅灰色衬衫和深色休闲西裤，肩上背一个黑色通勤包，手里拿着手机和工牌挂绳",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "他认为眼前两款商品都符合下班后的需求，但差异还需要再清楚比较一次。",
+    "desire": "他想快速确认哪一款更适合现在购买，避免选错。",
+    "intention": "他倾向于再认真对比两款信息后立即做出选择。"
+  },
+  "observable_behavior": "他反复把视线在左右两个位置之间移动，短暂停顿后用一只手在胸前轻轻比划两边，另一只手握着手机但没有操作。",
+  "facial_expression": "眉头轻微收紧，嘴唇微抿，表情专注中带着中等程度的犹豫。",
+  "body_posture": "身体正面朝向镜头，肩膀略向前倾，双臂自然保持在胸前可见范围内，站姿稳定但重心有轻微左右转移。",
+  "timeline": {
+    "t_0_2": "这名28岁左右的男性白领走到画面中央停下，正面看向前方，肩上的黑色通勤包还未放下。",
+    "t_2_5": "他把目光从左侧移到右侧，又回到左侧，眉头轻轻皱起，像是在确认两款选择的差别。",
+    "t_5_8": "他抬起握着手机的手停在胸前，另一只手小幅度地在左右之间比划，表情专注但仍有些犹豫。",
+    "t_8_10": "他再次快速看向两边后微微点头，身体向前倾了一点，准备根据最后的对比做出选择。"
+  },
+  "candidate_actions": [
+    "hold",
+    "inform",
+    "recommend"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "他认为需要自己多想一会，凭自身对比判断出哪款更合适。",
+        "desire": "希望自己能尽快认清利弊做出正确选择。",
+        "intention": "倾向于独自比对后选择，无外界影响。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "inform": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他明确看清两款商品最关键的区别，对差异心里有底了。",
+        "desire": "直接找到最合适自己实际需求的那一款，想及时决策。",
+        "intention": "准备选择其中一款并完成购买操作。"
+      },
+      "preference_score": 0.35,
+      "score": 5
+    },
+    "recommend": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "他觉得不用担心选错导致立刻失去另一个选择，自己还有余地考虑。",
+        "desire": "降低因犹豫产生的焦虑，更放松对比两款。",
+        "intention": "放慢节奏，安心比对后再决定。"
+      },
+      "preference_score": 0.12,
+      "score": 3
+    }
+  },
+  "best_action": "inform",
+  "realization": {
+    "screen_action": "show_info_overlay",
+    "voice_style": "neutral"
+  }
+}

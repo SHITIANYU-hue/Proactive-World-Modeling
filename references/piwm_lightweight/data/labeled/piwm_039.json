@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_039",
+  "viewpoint": "terminal_observable",
+  "persona": "课间路过校园便利区的男大学生，想买一款饮品但在两种选择之间拿不定主意。",
+  "persona_visual": "20岁左右的男性，短黑发，穿浅灰色连帽卫衣和深色休闲裤，肩上背一个黑色双肩包，手里拿着手机和校园卡",
+  "aida_stage": "interest",
+  "bdi": {
+    "belief": "他认为面前有两款商品都符合自己的需求，但各自优缺点不够直观。",
+    "desire": "他想快速比较两款商品的差异，选出更适合课间购买的一款。",
+    "intention": "他倾向继续观察并等待或寻找更清晰的对比信息后再做决定。"
+  },
+  "observable_behavior": "他站在设备前，视线在画面左下方和右下方之间缓慢切换，偶尔低头看手里的手机和校园卡，但没有立即操作或离开。",
+  "facial_expression": "表情专注但略显犹豫，眉头轻微收紧，嘴唇自然闭合，眼神在比较中停顿。",
+  "body_posture": "身体正面朝向镜头，肩膀略微前倾，双手保持在胸前到腰部之间，一只手握手机，另一只手捏着校园卡，姿态稳定但带有轻微迟疑。",
+  "timeline": {
+    "t_0_2": "20岁左右的男大学生从正面进入并停在镜头前，抬眼看向画面左下方，双手都在身前可见。",
+    "t_2_5": "他缓慢把目光移到画面右下方，眉头轻轻皱起，握着手机的手稍微收紧，像是在对比另一款选择。",
+    "t_5_8": "他再次把视线移回画面左下方，然后短暂低头看手里的校园卡和手机，表情保持专注和中等程度的犹豫。",
+    "t_8_10": "他抬头在左右两个方向之间又做一次缓慢扫视，身体仍正面微微前倾，没有付款动作，像是在等待更直观的对比信息。"
+  },
+  "candidate_actions": [
+    "hold",
+    "inform",
+    "elicit"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "他仍然觉得两款商品难以直接比出高下，并期待能获取帮助。",
+        "desire": "继续独立思考、静观，暂不急于做决定。",
+        "intention": "保持观望状态，等待出现决策线索或自发再对比一会。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "inform": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "他立刻获得了关键信息对比片，清楚了两款饮品各自优缺点和适用场景。",
+        "desire": "结合对比卡内容，有信心选出更匹配需求的饮品。",
+        "intention": "准备结合新获得的信息做出初步选择或直接确认购买。"
+      },
+      "preference_score": 0.247,
+      "score": 5
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "他被邀请主动表达关注点，意识到系统可以理解他的需求。",
+        "desire": "希望高效获得针对自身关心点的信息，但尚未直接获得对比内容。",
+        "intention": "愿意继续交互表达需求，但决策加速有限。"
+      },
+      "preference_score": 0.05,
+      "score": 3
+    }
+  },
+  "best_action": "inform",
+  "realization": {
+    "screen_action": "show_info_overlay",
+    "voice_style": "neutral"
+  }
+}

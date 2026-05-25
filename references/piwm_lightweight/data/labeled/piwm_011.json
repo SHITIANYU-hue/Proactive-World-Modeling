@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_011",
+  "viewpoint": "terminal_observable",
+  "persona": "午休间隙路过便利区、想买饮品但担心不够健康的年轻上班族。",
+  "persona_visual": "28岁左右的女性，齐肩黑色直发，穿浅灰色针织开衫和白色圆领上衣，背一个米色帆布托特包，手里拿着一部手机。",
+  "aida_stage": "interest",
+  "bdi": {
+    "belief": "她认为这里可能有适合午后提神的选择，但不确定是否符合自己的健康需求。",
+    "desire": "她想快速找到一款低负担、不会太甜的饮品。",
+    "intention": "她倾向于继续观察和比较片刻，再决定是否购买。"
+  },
+  "observable_behavior": "她站在设备前保持正面朝向，视线在前方不同区域频繁转移，偶尔低头看手机又抬头观察，手指轻轻摩挲手机边缘，没有立即操作。",
+  "facial_expression": "眉头微微收紧，嘴唇轻抿，表情专注但带有明显犹豫。",
+  "body_posture": "身体重心略微向后，肩膀有些收紧，一只脚轻轻后撤，双手始终在胸前或腰前画面内。",
+  "timeline": {
+    "t_0_2": "这名28岁左右的女性正面站定，抬眼看向前方，右手握着手机，左手轻扶托特包肩带。",
+    "t_2_5": "她的视线从左侧移到右侧又回到中间，眉头微皱，手指无意识地摩挲手机边缘。",
+    "t_5_8": "她稍稍向后移了半步，低头短暂看了一眼手机，再抬头继续观察，嘴唇轻轻抿起。",
+    "t_8_10": "她停在原地没有动作选择，双手仍在画面内，身体保持微微后倾，脸上维持犹豫而感兴趣的神情。"
+  },
+  "candidate_actions": [
+    "hold",
+    "elicit",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "这里可能有合适饮品，但还不确定健康度和适合度。",
+        "desire": "继续希望找到低负担饮品，对健康成分仍有疑虑。",
+        "intention": "短时间继续比较和观察，尚未准备主动操作。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "系统主动理解并关注她的需求，开始相信可根据健康或偏好筛选饮品。",
+        "desire": "愿意表达关注点，或明确期望获取健康相关介绍。",
+        "intention": "可能准备小步与设备交互，锁定筛选条件或减少犹豫。"
+      },
+      "preference_score": 0.21,
+      "score": 5
+    },
+    "inform": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "对主要商品有了参数印象，但未过滤健康或甜度相关内容，疑虑略有缓解但犹豫依旧。",
+        "desire": "希望找到符合健康与低糖标准的详细信息。",
+        "intention": "围绕展示内容再做观察，尚未主动选择，仍偏被动。"
+      },
+      "preference_score": 0.04,
+      "score": 3
+    }
+  },
+  "best_action": "elicit",
+  "realization": {
+    "screen_action": "show_discovery_prompt",
+    "voice_style": "soft"
+  }
+}

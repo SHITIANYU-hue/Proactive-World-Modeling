@@ -1,0 +1,1 @@
+attention 阶段，犹豫程度中等，周末逛街的中老年女性，对设备有好奇心停下来，但面对屏幕一脸茫然，需要简单提问引导她找到关注点，target_act=Elicit:need_focus

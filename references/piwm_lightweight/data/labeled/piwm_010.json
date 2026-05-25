@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_010",
+  "viewpoint": "terminal_observable",
+  "persona": "午休后路过办公楼便利区的中年男职员，看到智能售货设备后停下来慢慢查看。",
+  "persona_visual": "45岁左右的男性，短发略有灰白，穿浅灰色夹克和深色休闲裤，左手戴手表，右手拿着一部黑色手机。",
+  "aida_stage": "interest",
+  "bdi": {
+    "belief": "他认为这台智能设备可能有适合自己临时补充能量的选择，但还不确定是否真的需要购买。",
+    "desire": "他想快速判断有没有值得买的东西，同时避免冲动消费。",
+    "intention": "他倾向于再观察几秒并比较心中的需求，如果仍觉得合适才会继续操作。"
+  },
+  "observable_behavior": "他站在设备前缓慢扫视，目光在镜头下方某处停留片刻后又移开，右手握着手机不急于操作，左手偶尔轻轻抬起又放下。",
+  "facial_expression": "表情平静但略带迟疑，眉头轻微收紧，嘴唇自然闭合，眼神专注中带着思考。",
+  "body_posture": "身体正面朝向镜头，肩膀放松，微微前倾，双手保持在胸腹部附近的画面内，姿态克制而缓慢。",
+  "timeline": {
+    "t_0_2": "这名45岁左右的男性从画面前方停稳，正面朝向镜头，右手拿着黑色手机，视线缓慢落到镜头下方的某个位置。",
+    "t_2_5": "他微微前倾，眼睛在下方区域来回移动，左手轻轻抬起到胸前又停住，像是在查看并理解可选内容。",
+    "t_5_8": "他的目光在某处停留约一秒，眉头轻轻收紧，随后视线移向一侧，右手仍握着手机没有进一步动作。",
+    "t_8_10": "他重新看回镜头下方，身体保持正面但动作很慢，左手放低，表情仍显得在权衡是否真的需要购买。"
+  },
+  "candidate_actions": [
+    "hold",
+    "elicit",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "他认为自己完全掌控节奏，可以安静扫视，没人催促。",
+        "desire": "继续以自己的节奏判断设备上的商品是否值得考虑。",
+        "intention": "决定多观察几秒以确认是否存在值得关注的商品。"
+      },
+      "preference_score": 0.0,
+      "score": 3
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "设备主动询问关注点，让他意识到可以针对自己的需求查找相关信息，对方尊重他的偏好。",
+        "desire": "希望迅速找到最相关的信息，有助于过滤不必要的干扰。",
+        "intention": "考虑选择气泡，主动表达需求或兴趣方向，逐渐明确个人核心关注点。"
+      },
+      "preference_score": 0.115,
+      "score": 5
+    },
+    "inform": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "看到价格和优惠后，他初步评估是否划算，但还未产生强烈购买冲动。",
+        "desire": "想知道有没有特别实惠的选择，避免花冤枉钱。",
+        "intention": "打算结合自己的需求与价格作衡量，或许会进一步留意促销商品。"
+      },
+      "preference_score": 0.06,
+      "score": 1
+    }
+  },
+  "best_action": "elicit",
+  "realization": {
+    "screen_action": "show_discovery_prompt",
+    "voice_style": "soft"
+  }
+}

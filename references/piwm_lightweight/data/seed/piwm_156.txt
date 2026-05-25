@@ -1,0 +1,1 @@
+interest 阶段，犹豫程度中等，下班赶时间的年轻男白领，有购买意愿但时间有限，需要设备快速询问帮助他缩小选择范围，target_act=Elicit:need_focus

@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_114",
+  "viewpoint": "terminal_observable",
+  "persona": "在设备前停留浏览了一会儿的年轻女性，希望系统退回背景。",
+  "persona_visual": "25岁左右的女性，齐肩短发，穿浅蓝色衬衫和深色长裤。",
+  "aida_stage": "interest",
+  "bdi": {
+    "belief": "她觉得自己可以继续慢慢看，暂时不需要额外说明。",
+    "desire": "想在低打扰环境里继续自由浏览。",
+    "intention": "如果系统不继续追问，她会愿意多停留一会儿。"
+  },
+  "observable_behavior": "她持续看向前方，浏览节奏已经放慢，偶尔短暂停顿，但并不显得困惑。",
+  "facial_expression": "神情平稳自然，带轻微思考。",
+  "body_posture": "站姿放松，身体略微前倾，双手自然放置。",
+  "timeline": {
+    "t_0_2": "顾客已经在设备前停留。",
+    "t_2_5": "她缓慢查看前方信息。",
+    "t_5_8": "浏览节奏进一步放慢，状态稳定。",
+    "t_8_10": "仍愿意继续看，但没有进一步互动需求。"
+  },
+  "candidate_actions": [
+    "hold",
+    "elicit",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "系统理解她当前想自己看。",
+        "desire": "更愿意在低打扰状态下继续停留。",
+        "intention": "继续自由浏览。"
+      },
+      "preference_score": 0.198,
+      "score": 5
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "系统又把互动拉回来了。",
+        "desire": "原本想自由浏览。",
+        "intention": "可能感到被打断。"
+      },
+      "preference_score": -0.076,
+      "score": 2
+    },
+    "inform": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "设备额外提供了当前未必需要的信息。",
+        "desire": "浏览被带向某个商品。",
+        "intention": "自主探索空间下降。"
+      },
+      "preference_score": -0.067,
+      "score": 3
+    }
+  },
+  "best_action": "hold",
+  "realization": {
+    "screen_action": "show_ambient_content",
+    "voice_style": "silent"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_083",
+  "viewpoint": "terminal_observable",
+  "persona": "课间来到便利区、想快速买点东西但难以做决定的女大学生",
+  "persona_visual": "20岁左右的女性，黑色齐肩直发，穿浅灰色连帽卫衣和蓝色牛仔裤，肩背米白色帆布包，手里拿着手机",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "她认为眼前这款商品可能适合自己，但又担心选错或不够划算。",
+    "desire": "她想在课间有限时间里选到一个让自己安心接受的选择。",
+    "intention": "她倾向继续盯着同一选项犹豫，等待更多确定感后再决定是否购买。"
+  },
+  "observable_behavior": "她长时间注视镜头下方同一个固定位置，几乎不移动双手，只偶尔轻轻收紧握手机的手指，表现出明显停顿和迟疑。",
+  "facial_expression": "眉头微微皱起，嘴唇轻抿，眼神专注但不安，表情带有强烈决策焦虑。",
+  "body_posture": "身体正面朝向镜头，肩膀略微内收，上半身轻轻前倾，双手停在胸前偏下位置并保持在画面内。",
+  "timeline": {
+    "t_0_2": "20岁左右的女大学生正面站定，黑色齐肩直发贴在脸侧，目光迅速落到镜头下方某个固定位置。",
+    "t_2_5": "她保持浅灰色卫衣的双肩微微内收，眼睛一直没有移开，握着手机的双手停在胸前偏下处。",
+    "t_5_8": "她眉头更紧一些，轻抿嘴唇，像是在反复权衡同一个选择，但仍然没有伸手或做出购买动作。",
+    "t_8_10": "她轻轻吸一口气，视线仍停在原处，身体前倾的姿态没有改变，显得需要一点宽慰才敢接受自己的选择。"
+  },
+  "candidate_actions": [
+    "hold",
+    "inform",
+    "recommend"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "依旧犹豫当前商品是否是好选择，对价格和价值没有新增线索，可自主思考，但迟疑未改。",
+        "desire": "仍希望短时间内能安心做决定，但困惑未解。",
+        "intention": "继续停留在原地考虑，没有向购买明显靠近。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "inform": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "获得当前商品价格与优惠明细，部分打消对‘是否划算’的疑虑，决策信息有所补充。",
+        "desire": "更接近于接受当前选择，但还有对自己判断是否正确的顾虑。",
+        "intention": "略微靠近行动，为下一步尝试做准备。"
+      },
+      "preference_score": 0.132,
+      "score": 4
+    },
+    "recommend": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "意识到可以暂不做决定，选择具有回旋余地，减少做错决定的焦虑。",
+        "desire": "心态微微放松，更愿意尝试一步行动。",
+        "intention": "从僵持转向准备小步试探（如加入候选、留意更多线索），行动壁垒降低。"
+      },
+      "preference_score": 0.176,
+      "score": 5
+    }
+  },
+  "best_action": "recommend",
+  "realization": {
+    "screen_action": "highlight_single_item_with_cta",
+    "voice_style": "assertive"
+  }
+}

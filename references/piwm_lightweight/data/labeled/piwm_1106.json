@@ -1,0 +1,163 @@
+{
+  "session_id": "piwm_1106",
+  "persona": "对价格和优惠较敏感、购买前会反复确认性价比的谨慎消费者。",
+  "persona_visual": "一名 30–45 岁亚洲男性，穿着干净日常衬衫或外套，手持手机，表情认真。",
+  "aida_stage": "interest",
+  "bdi": {
+    "belief": "当前商品信息值得继续看，但还需要筛选关注点或比较基础信息。",
+    "desire": "希望更快理解哪些选项与自己的预算、功能或场景相关。",
+    "intention": "继续观察并等待与 Hold:ambient 相匹配的低压力帮助。"
+  },
+  "observable_behavior": "顾客注意力稳定但不希望继续被打扰，身体略微后收，适合设备退到背景。整体动作缓慢、连续、真实，没有夸张表演。",
+  "facial_expression": "表情自然克制，带有轻微思考或确认感，没有明显焦躁、惊讶或防御。",
+  "body_posture": "身体正面对向设备，站姿稳定，双手自然放在手机、包带或设备前方可见区域。",
+  "timeline": {
+    "t_0_2": "顾客进入或已经停留在设备前方，视线先稳定看向前方区域。",
+    "t_2_5": "顾客继续注意力稳定但不希望继续被打扰，身体略微后收，适合设备退到背景，头部和视线变化幅度较小。",
+    "t_5_8": "顾客保持自然停顿，短暂下移视线后再回到前方，表现出比较或确认。",
+    "t_8_10": "顾客仍停留在原位，动作节奏平稳，没有突然离开、付款界面展示或夸张动作。"
+  },
+  "generation_status": "prompt_ready_video_pending",
+  "target_act": "Hold:ambient",
+  "candidate_actions": [
+    "hold_silent",
+    "hold_ambient",
+    "elicit_need_focus_open",
+    "inform_attributes_brief"
+  ],
+  "outcomes": {
+    "hold_silent": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "设备响应有一定帮助，但没有完全击中当前最需要解决的问题。",
+        "desire": "仍希望继续确认更相关的信息。",
+        "intention": "暂时停留在 interest 附近，继续观察或比较。"
+      },
+      "risk": "low",
+      "benefit": "low",
+      "delta_stage": 0.0,
+      "delta_mental": 0.18,
+      "rationale": "Hold:silent is plausible but less aligned than Hold:ambient for this sampled state.",
+      "response_id": "hold_silent",
+      "terminal_realization": {
+        "surface_text": "",
+        "screen": {
+          "action": "idle_minimal",
+          "cta": null
+        },
+        "voice_style": "silent",
+        "light": "maintain_current_soft_breathing",
+        "cabinet_motion": null,
+        "duration_ms": 0
+      },
+      "action_cost": 0.0,
+      "preference_score": 0.09
+    },
+    "hold_ambient": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "设备响应与当前状态匹配，信息或节奏上的不确定性下降。",
+        "desire": "愿意继续沿当前路径推进，因为选择压力和理解成本降低。",
+        "intention": "进入或维持 desire 阶段，并继续与设备进行低压力互动。"
+      },
+      "risk": "low",
+      "benefit": "medium",
+      "delta_stage": 0.08,
+      "delta_mental": 0.22,
+      "rationale": "Hold:ambient matches the visible interest state and improves the shopper's next step without breaking target-frontcam timing.",
+      "response_id": "hold_ambient",
+      "terminal_realization": {
+        "surface_text": "您慢慢看，需要时我再帮您。",
+        "screen": {
+          "action": "return_to_attract_loop",
+          "cta": null
+        },
+        "voice_style": "soft",
+        "light": "ambient_low_attention",
+        "cabinet_motion": null,
+        "duration_ms": 2500
+      },
+      "action_cost": 0.05,
+      "preference_score": 0.132
+    },
+    "elicit_need_focus_open": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "设备响应有一定帮助，但没有完全击中当前最需要解决的问题。",
+        "desire": "仍希望继续确认更相关的信息。",
+        "intention": "暂时停留在 interest 附近，继续观察或比较。"
+      },
+      "risk": "medium",
+      "benefit": "medium",
+      "delta_stage": -0.02,
+      "delta_mental": -0.06,
+      "rationale": "Elicit:need_focus is plausible but less aligned than Hold:ambient for this sampled state.",
+      "response_id": "elicit_need_focus_open",
+      "terminal_realization": {
+        "surface_text": "您今天想先看价格、功能，还是适合什么场景？",
+        "screen": {
+          "action": "show_choice_bubbles",
+          "choices": [
+            "价格",
+            "功能",
+            "场景"
+          ],
+          "cta": null
+        },
+        "voice_style": "curious",
+        "light": "soft_invitation",
+        "cabinet_motion": null,
+        "duration_ms": 5000
+      },
+      "action_cost": 0.2,
+      "preference_score": -0.07800000000000001
+    },
+    "inform_attributes_brief": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "设备响应有一定帮助，但没有完全击中当前最需要解决的问题。",
+        "desire": "仍希望继续确认更相关的信息。",
+        "intention": "暂时停留在 interest 附近，继续观察或比较。"
+      },
+      "risk": "low",
+      "benefit": "medium",
+      "delta_stage": -0.02,
+      "delta_mental": -0.06,
+      "rationale": "Inform:attributes is plausible but less aligned than Hold:ambient for this sampled state.",
+      "response_id": "inform_attributes_brief",
+      "terminal_realization": {
+        "surface_text": "屏幕上列出了主要参数、价格和适合人群，您可以先快速看一眼。",
+        "screen": {
+          "action": "show_attribute_table",
+          "target": "{selected_item}",
+          "cta": null
+        },
+        "voice_style": "neutral",
+        "light": "soft_focus_on_attribute_table",
+        "cabinet_motion": null,
+        "duration_ms": 5000
+      },
+      "action_cost": 0.25,
+      "preference_score": -0.088
+    }
+  },
+  "best_action": "hold_ambient",
+  "response_id": "hold_ambient",
+  "expansion_batch": "2026-05-16_promptready_200",
+  "realization": {
+    "surface_text": "您慢慢看，需要时我再帮您。",
+    "screen": {
+      "action": "return_to_attract_loop",
+      "cta": null
+    },
+    "voice_style": "soft",
+    "light": "ambient_low_attention",
+    "cabinet_motion": null,
+    "duration_ms": 2500
+  },
+  "score_weights": {
+    "alpha": 0.4,
+    "beta": 0.5,
+    "gamma": 0.2
+  }
+}

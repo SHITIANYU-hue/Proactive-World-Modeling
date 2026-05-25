@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_007",
+  "viewpoint": "terminal_observable",
+  "persona": "课间路过校园便利区、被智能售货机内容吸引的男大学生。",
+  "persona_visual": "20岁左右的男性，短黑发，穿浅灰色连帽卫衣和深色休闲裤，肩上背一个黑色双肩包，手里拿着手机。",
+  "aida_stage": "interest",
+  "bdi": {
+    "belief": "他认为眼前的选择里可能有适合自己课间补充能量的饮品或零食。",
+    "desire": "他想快速了解有哪些看起来合适的选项，并挑出一个感兴趣的目标。",
+    "intention": "他倾向继续查看不同区域，很快做出选择。"
+  },
+  "observable_behavior": "他停在设备前，目光积极地在不同区域来回扫视，偶尔轻轻点头，双手自然放在画面内，一只手握着手机，动作轻松而连贯。",
+  "facial_expression": "表情放松，嘴角微微上扬，眼神明亮专注，明显带有兴趣但没有明显纠结。",
+  "body_posture": "身体略微前倾，肩膀放松，双脚站稳，头部随视线小幅转动，整体姿态自然主动。",
+  "timeline": {
+    "t_0_2": "这名20岁左右的男大学生走近并停在镜头前，身体自然前倾，眼神迅速落到前方。",
+    "t_2_5": "他微微抬头又低头，目光轻快地在不同区域扫视，握着手机的手保持在胸前附近。",
+    "t_5_8": "他嘴角略微上扬，轻轻点了一下头，另一只手放松地抬起一点，像是在确认某个感兴趣的选择。",
+    "t_8_10": "他继续保持前倾姿态，视线再次横向扫过，表情积极而放松，准备进一步选择。"
+  },
+  "candidate_actions": [
+    "hold",
+    "elicit",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "他依旧认为售货机有可能有适合自己的饮品或零食，但信息未有实质增加。",
+        "desire": "希望自己通过进一步浏览主动发现感兴趣的商品。",
+        "intention": "计划继续自主扫视，考虑自主做下一步选择。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "elicit": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "他发现设备主动关心自己的偏好，认为筛选途径变得更便捷。",
+        "desire": "更明确地想聚焦今天实际的补充需求，如优惠、能量、口味或便捷性。",
+        "intention": "主动选择一条感兴趣的探索路径，准备聚焦更合适的若干目标。"
+      },
+      "preference_score": 0.242,
+      "score": 5
+    },
+    "inform": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "获得部分商品的核心信息，确认这些产品可能满足课间能量补充的基本需求。",
+        "desire": "希望根据具体参数和适用性做初步预选。",
+        "intention": "有意将注意力集中于某些已展示参数的单品，逐步缩小选择范围。"
+      },
+      "preference_score": 0.085,
+      "score": 3
+    }
+  },
+  "best_action": "elicit",
+  "realization": {
+    "screen_action": "show_discovery_prompt",
+    "voice_style": "soft"
+  }
+}

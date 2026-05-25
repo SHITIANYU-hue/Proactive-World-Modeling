@@ -1,0 +1,1 @@
+desire 阶段，犹豫程度高，和朋友一起逛的带伴顾客，自己想买但担心朋友觉得不值得，决策焦虑来自社交压力，需要recommend帮助其自信决策，target_act=Recommend

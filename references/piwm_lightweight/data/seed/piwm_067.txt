@@ -1,0 +1,1 @@
+desire 阶段，犹豫程度低，下班路过的年轻白领，已在认真看价格和确认信息，目标商品锁定，等待推荐最终确认，target_act=Recommend:firm

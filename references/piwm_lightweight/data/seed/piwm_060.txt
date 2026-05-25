@@ -1,0 +1,1 @@
+interest 阶段，犹豫程度中等，和朋友一起逛的带伴年轻女性，两人都在看商品，朋友的意见对她来说很重要，主动询问朋友看法可以推动两人共同决策，target_act=Elicit:companion_opinion

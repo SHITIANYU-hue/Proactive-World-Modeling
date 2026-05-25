@@ -1,0 +1,59 @@
+{
+  "session_id": "piwm_196",
+  "persona": "午休间隙路过办公楼便利区、已决定快速购买饮品的年轻男白领",
+  "persona_visual": "28岁左右的男性，短黑发，穿浅灰色修身西装外套和白色衬衫，佩戴深色腕表，左手拿一部黑色手机",
+  "aida_stage": "action",
+  "bdi": {
+    "belief": "他认为自己已经选定想买的饮品，购买流程很简单且可以迅速完成。",
+    "desire": "他想在不耽误午休时间的情况下快速完成选择和支付。",
+    "intention": "他接下来会直接确认选择并用手机完成付款。"
+  },
+  "observable_behavior": "他目光稳定地看向前方偏下位置，右手快速做出两三次明确点击动作，随后左手将手机平稳抬到胸前偏下位置停留片刻，全程安静无停顿。",
+  "facial_expression": "表情平静专注，眉眼放松，几乎没有犹豫，付款完成时嘴角轻微放松。",
+  "body_posture": "身体正面朝向镜头，站姿稳定略微前倾，双肩放松，双手始终在画面内并动作简洁利落。",
+  "timeline": {
+    "t_0_2": "这名28岁左右的男白领正面站定，眼睛看向前方偏下位置，右手抬起准备操作。",
+    "t_2_5": "他用右手食指快速点击两次，动作明确流畅，脸上保持平静专注。",
+    "t_5_8": "他左手抬起黑色手机到胸前偏下位置并短暂停留，右手自然收回，身体仍略微前倾。",
+    "t_8_10": "他轻轻放下手机，表情放松一点，保持安静站姿等待购买流程结束。"
+  },
+  "candidate_actions": [
+    "hold",
+    "greet",
+    "recommend"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他认为购买流程顺畅且无需额外协助。",
+        "desire": "快速独立完成操作、不被打扰。",
+        "intention": "持续完成剩余付款和购买流程。"
+      },
+      "score": 5
+    },
+    "greet": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他察觉到额外的社交打扰，但未获得有效帮助。",
+        "desire": "希望快点结束互动。",
+        "intention": "略感中断，仍将继续完成原有操作。"
+      },
+      "score": 2
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他觉得当前推荐无关或多余，操作流程被打断。",
+        "desire": "减少互动、尽快恢复自主操作。",
+        "intention": "可能会加快完成，不会理会推荐信息。"
+      },
+      "score": 1
+    }
+  },
+  "best_action": "hold",
+  "realization": {
+    "screen_action": "idle_minimal",
+    "voice_style": "silent"
+  }
+}

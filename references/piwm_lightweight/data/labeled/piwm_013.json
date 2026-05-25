@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_013",
+  "viewpoint": "terminal_observable",
+  "persona": "下班途中经过办公楼便利区、准备快速买一瓶饮料的年轻上班族",
+  "persona_visual": "28岁左右的男性，短黑发，穿浅灰色衬衫和深色休闲西裤，左肩背一个黑色通勤包，手腕戴银色手表",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "他已经判断自己想要的那款饮料就在面前的固定位置，且符合当前解渴和提神的需求。",
+    "desire": "他想尽快确认选择并买下那款饮料，减少下班路上的停留时间。",
+    "intention": "他接下来倾向于直接伸手操作或确认购买，几乎不再继续比较其他选项。"
+  },
+  "observable_behavior": "他的目光持续锁定在画面下方偏中央的固定位置，双手保持在胸前到腰部范围内，手指轻微收拢又放松，只有短暂的小幅确认动作。",
+  "facial_expression": "表情平静专注，眉眼放松但视线稳定，嘴唇自然闭合，几乎没有明显犹豫神色。",
+  "body_posture": "身体微微前倾，肩膀保持稳定，头部略向前探，站姿端正且重心靠近前方。",
+  "timeline": {
+    "t_0_2": "28岁左右的男性上班族正面站定，身体微微前倾，视线迅速落在画面下方偏中央的固定位置。",
+    "t_2_5": "他保持平静专注的表情，眼神几乎不移动，双手在画面内自然抬起到腰腹前方，手指轻微收拢。",
+    "t_5_8": "他略微点头般确认了一下，肩膀和身体继续向前保持轻微倾斜，视线仍牢牢锁定同一位置。",
+    "t_8_10": "他的右手开始向前小幅伸出，表情仍然稳定专注，呈现即将做出购买决定的状态。"
+  },
+  "candidate_actions": [
+    "hold",
+    "inform",
+    "recommend"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "他确认想要的饮料就在面前，且无需额外信息。",
+        "desire": "他想快速完成选择与购买。",
+        "intention": "准备直接操作或即将下单，专注维持。"
+      },
+      "preference_score": 0.0,
+      "score": 3
+    },
+    "inform": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "确认价格优惠符合预期，无价格疑虑。",
+        "desire": "立即完成购买以把握优惠和节省时间。",
+        "intention": "直接进行购买操作。"
+      },
+      "preference_score": 0.182,
+      "score": 5
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "即使现在不买也可保留选择，无后悔压力。",
+        "desire": "在最舒适的状态下完成选择，降低心理负担。",
+        "intention": "轻松地准备操作，不会担心买错或被催促。"
+      },
+      "preference_score": 0.167,
+      "score": 1
+    }
+  },
+  "best_action": "inform",
+  "realization": {
+    "screen_action": "show_info_overlay",
+    "voice_style": "neutral"
+  }
+}

@@ -1,0 +1,1 @@
+interest 阶段，熟悉该类设备和品牌、已有偏好但仍会做最后确认的消费者。，顾客注意力稳定但不希望继续被打扰，身体略微后收，适合设备退到背景。整体动作缓慢、连续、真实，没有夸张表演。，target_act=Hold:ambient，生成 prompt-ready 扩展样本，video_pending

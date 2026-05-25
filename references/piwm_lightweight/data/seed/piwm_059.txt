@@ -1,0 +1,1 @@
+interest 阶段，犹豫程度低，下班顺路的年轻白领，已有一定兴趣但需求方向模糊，主动提问可以帮助她明确自己今天想买什么，target_act=Elicit:need_focus

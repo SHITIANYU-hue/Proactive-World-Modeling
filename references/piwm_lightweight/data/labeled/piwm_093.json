@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_093",
+  "viewpoint": "terminal_observable",
+  "persona": "逛街路过便利零售区的中老年女性顾客，已在工作人员协助下完成购买操作，正轻松等待出货并准备礼貌结束流程。",
+  "persona_visual": "55 岁左右的女性，短卷发，穿浅紫色针织开衫和米白色上衣，肩背一个棕色小挎包，手腕戴细手表",
+  "aida_stage": "action",
+  "bdi": {
+    "belief": "她认为购买操作已经完成，接下来只需要等待设备出货即可。",
+    "desire": "她想顺利拿到已购买的商品，并以礼貌轻松的方式结束这次购买。",
+    "intention": "她倾向于继续站在原地等待，确认出货后微笑点头致谢再离开。"
+  },
+  "observable_behavior": "她正面站在镜头前，双手自然放在身前，偶尔轻轻整理挎包带，目光稳定地看向前方偏下位置，动作从容且几乎没有犹豫。",
+  "facial_expression": "表情轻松，嘴角微微上扬，眼神平和，带有已完成操作后的放松感。",
+  "body_posture": "身体站直但不僵硬，肩膀放松，重心稳定，头部偶尔轻微点动，呈现等待完成流程的姿态。",
+  "timeline": {
+    "t_0_2": "这位 55 岁左右的女性正面站在镜头前，浅紫色针织开衫平整，双手自然交叠在身前，神情轻松地看向前方偏下处。",
+    "t_2_5": "她轻轻调整一下棕色小挎包的肩带，随后把手放回身前，嘴角保持淡淡微笑，像是在安静等待出货完成。",
+    "t_5_8": "她的视线短暂向下确认，又回到前方，肩膀放松，身体没有后退或张望，表现出购买已完成后的从容等待。",
+    "t_8_10": "她微笑着轻轻点头致意，右手在画面内做一个很小的告别式抬手动作，像是在礼貌表达感谢并准备结束流程。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "greet"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "确认购买已操作完成，静候出货，无需进一步干预。",
+        "desire": "顺畅等候，获得商品并自然完成本次体验。",
+        "intention": "继续自主等待和完成出货后离开。"
+      },
+      "preference_score": 0.0,
+      "score": 4
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "觉得设备体谅自己的节奏，流程有保障且无需担心时间压力。",
+        "desire": "轻松等候出货，无需赶时间，体验被尊重。",
+        "intention": "心态更放松，安心等待出货完成。"
+      },
+      "preference_score": 0.12,
+      "score": 3
+    },
+    "greet": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "已完成购买且获得礼貌正式的结束，体验完整而被认可。",
+        "desire": "顺利带着感谢与愉快心情离开。",
+        "intention": "收到致谢后有序取货，微笑道别并自然结束体验。"
+      },
+      "preference_score": 0.28,
+      "score": 5
+    }
+  },
+  "best_action": "greet",
+  "realization": {
+    "screen_action": "show_welcome_message",
+    "voice_style": "warm"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_019",
+  "viewpoint": "terminal_observable",
+  "persona": "课间路过校园便利区、已经决定购买饮料的大学生",
+  "persona_visual": "20岁左右的男性，短黑发，穿浅灰色连帽卫衣和深色牛仔裤，肩背一个深蓝色双肩包",
+  "aida_stage": "action",
+  "bdi": {
+    "belief": "他认为自己已经选好了合适的饮料，购买步骤很简单且不需要再比较。",
+    "desire": "他想快速完成购买，在下一节课前拿到饮料。",
+    "intention": "他准备立即伸手操作并确认购买。"
+  },
+  "observable_behavior": "他始终正面看向前方，视线稳定，动作直接，右手从胸前自然抬起并向画面下方前伸，左手轻扶背包肩带，全程没有停顿、回看或反复比较的动作。",
+  "facial_expression": "表情轻松而坚定，嘴角微微放松，眼神专注，没有皱眉或犹豫神态。",
+  "body_posture": "上半身明显前倾，肩膀放松，双脚站稳，右臂伸出准备操作，姿态主动且确定。",
+  "timeline": {
+    "t_0_2": "这名20岁左右的男学生正面站定，目光平稳看向前方，脸上带着轻松坚定的神情。",
+    "t_2_5": "他上半身自然前倾，左手扶住深蓝色双肩包肩带，右手从身体前方抬起。",
+    "t_5_8": "他保持专注视线，右臂继续向画面下方前伸，动作流畅直接，没有任何迟疑。",
+    "t_8_10": "他右手停在准备操作的位置，身体仍微微前倾，表情放松坚定，显然已经准备确认购买。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "greet"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他仍然相信购买流程很直接且不需他人协助。",
+        "desire": "继续希望快速完成购买并获得饮料。",
+        "intention": "准备立即操作并确认购买。"
+      },
+      "preference_score": 0.0,
+      "score": 1
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "时间充裕且系统愿意配合慢节奏，但他本就没时间压力。",
+        "desire": "希望快速购买，无需提醒可等待。",
+        "intention": "继续准备立即完成购买。"
+      },
+      "preference_score": -0.02,
+      "score": 2
+    },
+    "greet": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "购买已完成并获得积极反馈。",
+        "desire": "快速拿到饮料并感受到顺畅流程。",
+        "intention": "完成购买，准备领取饮料并离开。"
+      },
+      "preference_score": 0.218,
+      "score": 5
+    }
+  },
+  "best_action": "greet",
+  "realization": {
+    "screen_action": "show_welcome_message",
+    "voice_style": "warm"
+  }
+}

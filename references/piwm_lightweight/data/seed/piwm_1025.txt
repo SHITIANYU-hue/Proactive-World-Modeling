@@ -1,0 +1,1 @@
+desire 阶段，准备给别人买东西但不确定对方偏好、需要比较适合场景的礼物购买者。，顾客在候选间短暂停顿，表情谨慎，像是在担心选错。整体动作缓慢、连续、真实，没有夸张表演。，target_act=Reassure:decision，生成 prompt-ready 扩展样本，video_pending

@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_006",
+  "viewpoint": "terminal_observable",
+  "persona": "午休后路过便利区的中年办公室职员，只是顺路经过并没有明确购买计划。",
+  "persona_visual": "45岁左右的男性，短黑发略带灰白，穿浅灰色夹克和深色休闲裤，左手拿着手机，右手拎着一个黑色公文包。",
+  "aida_stage": "attention",
+  "bdi": {
+    "belief": "他隐约注意到前方有可购买饮品或零食的零售设备，但不确定是否有自己需要的东西。",
+    "desire": "他只想快速判断这里是否值得停留，避免耽误返回办公室的时间。",
+    "intention": "他倾向于短暂扫视后直接离开，除非立刻发现非常合适的选择。"
+  },
+  "observable_behavior": "他在镜头前短暂停步，视线从上到下快速扫过前方区域，随后目光游移，左手手机停在胸前，右手公文包轻微晃动，没有进一步靠近或操作的动作。",
+  "facial_expression": "眉头轻微皱起，嘴角放平，眼神短暂聚焦后变得犹疑，整体表情略显困惑且兴趣不高。",
+  "body_posture": "身体正面朝向镜头但重心偏向一侧，肩膀微微转开，右脚已经向外侧迈出半步，呈现准备转身离开的姿态。",
+  "timeline": {
+    "t_0_2": "45岁左右的男性从画面正前方进入并放慢脚步，抬眼快速看向前方区域，左手握着手机停在胸前。",
+    "t_2_5": "他短暂停住，视线上下扫动一次，眉头轻轻皱起，右手拎着的黑色公文包在腿侧小幅摆动。",
+    "t_5_8": "他没有继续靠近，目光偏向一侧又回到前方，嘴唇微抿，身体重心逐渐移到准备离开的脚上。",
+    "t_8_10": "他肩膀微微转开，右脚向外侧迈出半步，仍保持面部可见，带着困惑和低兴趣的表情准备离开。"
+  },
+  "candidate_actions": [
+    "hold",
+    "elicit",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "attention",
+      "next_bdi": {
+        "belief": "他注意到售货设备的存在，但未获得更多新信息，对内容与相关性依然模糊。",
+        "desire": "仍然希望快速判断是否值得停留，尽快返回办公室。",
+        "intention": "保持最初短暂扫视、随时准备离开的态度。"
+      },
+      "preference_score": 0.0,
+      "score": 1
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "意识到设备可以主动理解并协助他聚焦需求点，感觉交互上有一定关怀与定制可能。",
+        "desire": "如果能迅速触达相关内容，愿意多花一分钟判断选择价值。",
+        "intention": "由纯粹旁观转向考虑是否进入更具体的信息探索。"
+      },
+      "preference_score": 0.217,
+      "score": 5
+    },
+    "inform": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "直观看到某类商品的功能亮点或便利性，激发好奇心，对设备内容开始具体联想。",
+        "desire": "愿意进一步留意是否有自己实际需要的选择，尤其是新颖或实用点有吸引力。",
+        "intention": "暂缓离开，倾向于多了解方案或产品特点。"
+      },
+      "preference_score": 0.152,
+      "score": 4
+    }
+  },
+  "best_action": "elicit",
+  "realization": {
+    "screen_action": "show_discovery_prompt",
+    "voice_style": "soft"
+  }
+}

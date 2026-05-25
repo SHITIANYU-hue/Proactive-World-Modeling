@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_017",
+  "viewpoint": "terminal_observable",
+  "persona": "午休后路过办公楼便利区、想买一瓶饮品但担心不够划算的中年女职员",
+  "persona_visual": "45岁左右的女性，齐肩深棕色短发，穿米色针织开衫和浅灰色衬衫，肩上背一个棕色皮质单肩包，手腕戴银色手表",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "她认为眼前的饮品很适合缓解下午的疲惫，但又觉得价格或必要性需要再斟酌。",
+    "desire": "她明显想买下这件商品来提神解渴，同时希望自己的选择不要冲动浪费。",
+    "intention": "她倾向于再确认几秒后做决定，手已经准备抬起选择但仍可能放弃。"
+  },
+  "observable_behavior": "她的视线在前方不同位置来回移动，右手几次抬到胸前又停住，指尖微微蜷起，随后又慢慢放下，表现出明显犹豫和反复权衡。",
+  "facial_expression": "眉头轻微皱起，嘴唇轻抿，眼神专注但不确定，表情克制而纠结。",
+  "body_posture": "身体正面朝向镜头，上半身略微前倾，肩膀有些收紧，一只手扶着包带，另一只手在胸前犹豫地抬起又放下。",
+  "timeline": {
+    "t_0_2": "这位45岁左右、穿米色针织开衫的女性站到镜头前，正面看向前方，眉头轻轻皱起，右手扶着棕色单肩包带。",
+    "t_2_5": "她的目光在前方左右轻微移动，像是在比较不同选择，嘴唇抿紧，右手慢慢抬到胸前却没有继续动作。",
+    "t_5_8": "她上半身稍微前倾，右手指尖悬停片刻后又缩回，表情更显犹豫，像是在衡量是否真的值得购买。",
+    "t_8_10": "她低低吸了一口气，右手再次抬起一点又放下，仍正面望着前方，停在一个尚未下定决心的购买前瞬间。"
+  },
+  "candidate_actions": [
+    "hold",
+    "inform",
+    "recommend"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "仍认为饮品适合解渴，但价格与必要性的斟酌未得到新信息支持。",
+        "desire": "购买渴望不变，但决策急迫性略缓解，依旧纠结。",
+        "intention": "保持观望，随时可能做决定但也可能放弃。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "inform": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "价格优惠信息降低了她对性价比的疑虑，让她确信现在购买是合理选择。",
+        "desire": "购买欲望因‘划算’被强化，担忧减少。",
+        "intention": "准备动手选择商品并进入支付/操作。"
+      },
+      "preference_score": 0.5,
+      "score": 5
+    },
+    "recommend": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "了解到可以先保留候选，降低了做错选择的后悔风险。",
+        "desire": "觉得自己有更多时间与空间权衡，购买欲略有巩固且压力更小。",
+        "intention": "安心延迟决策，更可能尝试选择/保留，但还未100%进入购买动作。"
+      },
+      "preference_score": 0.26,
+      "score": 3
+    }
+  },
+  "best_action": "inform",
+  "realization": {
+    "screen_action": "show_info_overlay",
+    "voice_style": "neutral"
+  }
+}

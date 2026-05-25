@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_020",
+  "viewpoint": "terminal_observable",
+  "persona": "午休后路过办公楼便利区、已经决定购买饮品的中年男性上班族",
+  "persona_visual": "45 岁左右的男性，短黑发略带灰白，穿浅灰色夹克和深色休闲裤，肩上斜挎一个黑色公文包，手里拿着一部深色手机",
+  "aida_stage": "action",
+  "bdi": {
+    "belief": "他认为自己已经选定了合适的饮品，当前只需要快速完成确认。",
+    "desire": "他想尽快买到饮品并离开，不在设备前停留太久。",
+    "intention": "他准备直接完成确认动作并等待取货提示。"
+  },
+  "observable_behavior": "他视线稳定看向前方偏下位置，动作简洁，右手迅速抬起并在画面下方做一次明确的确认点击，随后把手机收稳，双手自然放回身前。",
+  "facial_expression": "面部表情中性放松，眼神平稳，没有皱眉、迟疑或再次确认的神情。",
+  "body_posture": "身体正面朝向镜头，站姿稳定，肩膀放松，上身仅轻微前倾完成确认动作，之后立即恢复直立。",
+  "timeline": {
+    "t_0_2": "45 岁左右的男性正面站定，视线平稳落在前方偏下位置，右手握着深色手机停在胸前。",
+    "t_2_5": "他几乎没有停顿，右手从胸前向画面下方移动，做出一次干脆的确认点击动作。",
+    "t_5_8": "点击后他立即收回右手，把手机稳稳握在身前，表情保持中性放松，目光继续看向前方。",
+    "t_8_10": "他保持正面直立站姿，肩膀放松，没有回头或再次查看的动作，安静等待下一步结果。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "greet"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他保持当前选择已经正确、操作顺利。",
+        "desire": "尽快买到饮品并离开。",
+        "intention": "等待取货提示，准备拿取商品后离开。"
+      },
+      "preference_score": 0.0,
+      "score": 1
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "系统在关注我的需求，愿意等我慢慢来，但目前我其实已经下单了。",
+        "desire": "尽快完成流程，不用被催促，也不觉得有延误压力。",
+        "intention": "继续等待系统出货反应，准备取货。"
+      },
+      "preference_score": 0.005,
+      "score": 2
+    },
+    "greet": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "下单成功，出货流程已顺利进行。",
+        "desire": "获取饮品并完成购买，体验良好。",
+        "intention": "等待并领取商品，准备离开。"
+      },
+      "preference_score": 0.2,
+      "score": 5
+    }
+  },
+  "best_action": "greet",
+  "realization": {
+    "screen_action": "show_welcome_message",
+    "voice_style": "warm"
+  }
+}

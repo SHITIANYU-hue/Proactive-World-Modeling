@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_074",
+  "viewpoint": "terminal_observable",
+  "persona": "午休期间路过办公楼便利区的中年男职员，已经想买一瓶饮品但担心返回会议来不及。",
+  "persona_visual": "45岁左右的男性，短黑发略带灰白，穿浅蓝色衬衫和深灰色西裤，领口微松，左手戴腕表，右手拿着手机，肩上斜挎一个黑色通勤包",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "他认为眼前的商品基本符合自己的午休需求，但购买过程是否足够快仍让他有些不确定。",
+    "desire": "他想尽快完成购买，在不耽误午休后续安排和会议时间的情况下拿到饮品。",
+    "intention": "他倾向于继续购买，但会先反复确认手机时间，再决定是否立刻操作。"
+  },
+  "observable_behavior": "他站在设备前停留，视线在前方和手机之间来回切换，右手把手机举在胸前低头查看，左手手指轻轻敲动包带，动作克制但带有时间压力。",
+  "facial_expression": "眉头轻微皱起，嘴唇抿住，眼神专注又有些犹豫，整体表现为想买但担心耗时的中等焦虑。",
+  "body_posture": "身体正面朝向镜头，上半身略微前倾，双肩有些紧绷，双手始终在画面内，重心偶尔在两脚之间小幅转换。",
+  "timeline": {
+    "t_0_2": "45岁左右的男性正面站到镜头前，先看向前方，随后快速低头看一眼胸前的手机。",
+    "t_2_5": "他保持身体朝前，右手握着手机不遮挡面部，左手轻敲包带，眉头微皱地在前方和手机之间切换视线。",
+    "t_5_8": "他轻轻吸一口气，上半身向前靠近一点，像是在确认自己已经决定购买，但又再次低头查看时间。",
+    "t_8_10": "他抬起头看向前方，表情稍微放松，左手停止敲动，身体稳定下来，呈现出被时间可控感安抚后准备继续操作的状态。"
+  },
+  "candidate_actions": [
+    "hold",
+    "inform",
+    "recommend"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "他仍然认为购买过程可能存在耗时风险，顾虑未减。",
+        "desire": "希望快速拿到饮品，不被打扰但也未获得新的确定性。",
+        "intention": "等待时机合适时自己操作，但犹豫仍在，前进动力有限。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "inform": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "他确认价格优惠无隐藏成本，但购买流程耗时焦虑感依旧。",
+        "desire": "想以实惠价格买到饮品，仍担心耗时是否能控制。",
+        "intention": "略增动力关注购买，但最终决策仍受时间压力制约。"
+      },
+      "preference_score": 0.04,
+      "score": 3
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他相信即使暂不操作，商品会为自己保留，时间压力明显减轻。",
+        "desire": "希望可以安心完成购买而不怕误点或延误会议。",
+        "intention": "准备抓住合适时刻操作，主动权提高，购买决心升温。"
+      },
+      "preference_score": 0.312,
+      "score": 5
+    }
+  },
+  "best_action": "recommend",
+  "realization": {
+    "screen_action": "highlight_single_item_with_cta",
+    "voice_style": "assertive"
+  }
+}

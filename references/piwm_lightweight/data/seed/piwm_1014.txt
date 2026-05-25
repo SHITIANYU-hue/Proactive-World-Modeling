@@ -1,0 +1,1 @@
+desire 阶段，预算压力较低、目标明确、希望快速完成选择的消费者。，顾客看着手机或屏幕等待，动作克制，明显不希望被催促。整体动作缓慢、连续、真实，没有夸张表演。，target_act=Reassure:time，生成 prompt-ready 扩展样本，video_pending

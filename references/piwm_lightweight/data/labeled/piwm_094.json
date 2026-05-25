@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_094",
+  "viewpoint": "terminal_observable",
+  "persona": "下班路过办公楼便利区的年轻白领，已完成扫码支付，正站在智能售货设备前等待出货并准备结束交互。",
+  "persona_visual": "27岁左右的男性，短黑发，穿浅灰色衬衫和深色西裤，胸前挂着工牌，左肩背一个黑色通勤包，手里拿着手机。",
+  "aida_stage": "action",
+  "bdi": {
+    "belief": "他认为支付已经成功，商品即将出货，购买流程基本完成。",
+    "desire": "他想顺利拿到已购买的商品，并快速结束这次便捷购买。",
+    "intention": "他倾向继续在原地等待片刻，确认出货后以轻松礼貌的方式完成交互。"
+  },
+  "observable_behavior": "他正面站在镜头前，低头短暂看一眼手机后收回视线，双手始终在画面内，动作幅度很小，最后轻轻点头并做出无声致谢的口型。",
+  "facial_expression": "表情满意轻松，嘴角微微上扬，眼神稳定，没有明显犹豫或焦虑。",
+  "body_posture": "身体站直但放松，肩膀自然下沉，重心稳定，双手在胸前到腰腹位置小幅移动。",
+  "timeline": {
+    "t_0_2": "这名27岁左右的男性白领正面站定，手机拿在胸前，视线从手机屏幕抬向前方，表情轻松。",
+    "t_2_5": "他把手机稍微放低到腰腹位置，双手仍在画面内，安静等待，嘴角保持淡淡笑意。",
+    "t_5_8": "他微微调整站姿，肩膀放松，目光稳定看向前方，像是在确认出货流程即将完成。",
+    "t_8_10": "他轻轻点头，做出无声的谢谢口型，随后保持满意轻松的表情，准备结束这次交互。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "greet"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他保持对流程顺畅完成的信心，认为无需额外干预即可如期取货。",
+        "desire": "维持当前愉快体验，顺利等待出货。",
+        "intention": "继续自主等待流程结束，准备领取商品并离开。"
+      },
+      "preference_score": 0.0,
+      "score": 3
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他更加确信设备会为自己保留商品，即使等待略久也无需担心。",
+        "desire": "安心等待，不急于离开，减少走神或担心被催。",
+        "intention": "以更加放松的心态完成等待，关注出货进度，做好取货准备。"
+      },
+      "preference_score": 0.12,
+      "score": 2
+    },
+    "greet": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他感受到智能设备的礼貌致谢，流程自然闭环，体验顺畅完整。",
+        "desire": "顺利带走商品，留下愉快印象，愿再次使用该服务。",
+        "intention": "愉快地领取商品，微笑致谢后结束本次交互。"
+      },
+      "preference_score": 0.28,
+      "score": 5
+    }
+  },
+  "best_action": "greet",
+  "realization": {
+    "screen_action": "show_welcome_message",
+    "voice_style": "warm"
+  }
+}

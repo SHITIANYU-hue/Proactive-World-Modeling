@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_005",
+  "viewpoint": "terminal_observable",
+  "persona": "下班途中经过便利区、被智能售货机吸引而停下脚步的年轻女性上班族",
+  "persona_visual": "25岁左右的女性，齐肩黑色直发，穿浅灰色针织开衫和白色内搭，背着米色帆布单肩包，手里拿着手机",
+  "aida_stage": "attention",
+  "bdi": {
+    "belief": "她刚注意到前方设备似乎有值得查看的内容，但还不确定是否与自己当前需求相关。",
+    "desire": "她想快速判断这里是否有适合下班路上购买的饮品或小食。",
+    "intention": "她倾向先停下来观察几秒，再决定是否进一步靠近或操作。"
+  },
+  "observable_behavior": "她从经过状态放慢并停住，视线被前方吸引，头部微微转向设备方向，手机握在胸前但没有操作，另一只手轻轻扶着包带。",
+  "facial_expression": "眉毛轻微上扬，眼神专注但带一点疑问，嘴唇自然闭合，表情克制而犹豫。",
+  "body_posture": "身体略微斜向一侧，尚未完全正面站定，肩膀有轻微转动，重心停在一只脚上，姿态表现出中等程度的迟疑。",
+  "timeline": {
+    "t_0_2": "这位25岁左右的女性从画面前方经过时放慢脚步，眼神被前方吸引，头部轻轻转向设备方向。",
+    "t_2_5": "她停在原地，身体仍略微侧着，右手握着手机停在胸前，左手自然扶住米色帆布包带。",
+    "t_5_8": "她微微抬眉，视线在前方上下扫过，像是在确认内容是否值得继续查看，动作保持克制。",
+    "t_8_10": "她没有立即行动，只是稍稍调整站姿并继续注视前方，脸上保持轻微疑问和中等犹豫。"
+  },
+  "candidate_actions": [
+    "hold",
+    "elicit",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "attention",
+      "next_bdi": {
+        "belief": "她感知设备没有主动打扰，可以放心自行观察，但获得的信息量有限，对产品内容仍缺乏明确印象。",
+        "desire": "继续用自主方式判断是否有吸引自己的商品。",
+        "intention": "短暂停留，评估是否值得进一步靠近或点击操作。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "她意识到设备在主动询问她的关注点，觉得被理解且有参与感，开始思考自己是更在意功能、价格还是场景。",
+        "desire": "尝试表达自己的需求导向，从而获取更针对性信息。",
+        "intention": "考虑选择某一关注点进行进一步探索。"
+      },
+      "preference_score": 0.292,
+      "score": 5
+    },
+    "inform": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "她被简洁明快的动画和简短解说所吸引，快速把握了主打功能，对设备可提供的商品种类或新奇性有了初步认识。",
+        "desire": "进一步了解设备能带来哪些方便或特色，为自己下班购买提供选择依据。",
+        "intention": "倾向于仔细观看演示内容，并思考接下来是否互动。"
+      },
+      "preference_score": 0.14,
+      "score": 4
+    }
+  },
+  "best_action": "elicit",
+  "realization": {
+    "screen_action": "show_discovery_prompt",
+    "voice_style": "soft"
+  }
+}

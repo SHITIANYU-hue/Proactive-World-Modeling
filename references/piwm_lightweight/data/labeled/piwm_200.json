@@ -1,0 +1,59 @@
+{
+  "session_id": "piwm_200",
+  "persona": "周末来便利区补充饮料的年轻男性顾客，已经决定购买并正在熟练完成操作。",
+  "persona_visual": "25岁左右的男性，短黑发，穿浅灰色连帽卫衣和黑色休闲外套，下身为深色牛仔裤，斜挎一个小型黑色胸包，手里拿着一部深色手机",
+  "aida_stage": "action",
+  "bdi": {
+    "belief": "他认为自己已经选好商品并确认购买流程很清楚，不需要额外引导。",
+    "desire": "他想尽快顺利完成付款并等待商品出货。",
+    "intention": "他准备保持安静站定，完成最后确认后等待设备出货。"
+  },
+  "observable_behavior": "他正面朝向镜头，双手始终在画面内，低头短暂查看手机后以连贯的小幅动作完成确认，随后把手机稳定握在胸前并安静等待。",
+  "facial_expression": "表情平静自然，眼神专注但不紧张，几乎没有犹豫或困惑的神态。",
+  "body_posture": "身体站姿稳定，肩膀放松，略微前倾后迅速回正，双臂自然收在身前。",
+  "timeline": {
+    "t_0_2": "25岁左右的男性正面站定，短暂低头看向手中的深色手机，表情平静专注。",
+    "t_2_5": "他用拇指在手机上做出连贯的确认动作，肩膀放松，动作熟练且没有停顿。",
+    "t_5_8": "他完成操作后把手机稳稳握在胸前，视线回到前方，身体自然回正。",
+    "t_8_10": "他保持安静站立等待出货，双手仍在画面内，表情从容，没有额外动作或对白。"
+  },
+  "candidate_actions": [
+    "hold",
+    "greet",
+    "recommend"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他认为整个购买流程都在掌控中，环境安静无干扰。",
+        "desire": "顺利等待出货，期望平稳完成本次购物。",
+        "intention": "专注等待商品，无需外部干扰。"
+      },
+      "score": 5
+    },
+    "greet": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他觉得流程中被打断，感到有点多余的关注。",
+        "desire": "加快完成购物，尽量避免被干扰。",
+        "intention": "希望专注等待，不希望临时被打扰。"
+      },
+      "score": 2
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他觉得当前推荐和干预不合时宜，对流程出现杂音有些反感。",
+        "desire": "直接完成当前购物，拒绝进一步干预。",
+        "intention": "坚持原先等待方向，更不愿被其他信息打断。"
+      },
+      "score": 1
+    }
+  },
+  "best_action": "hold",
+  "realization": {
+    "screen_action": "idle_minimal",
+    "voice_style": "silent"
+  }
+}

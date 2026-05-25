@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_022",
+  "viewpoint": "terminal_observable",
+  "persona": "晚自习前路过校园便利区、准备快速购买饮品的大学生。",
+  "persona_visual": "20岁左右的男性，短黑发，穿浅灰色连帽卫衣和深色休闲裤，双肩背一个黑色书包，手里拿着一部手机。",
+  "aida_stage": "action",
+  "bdi": {
+    "belief": "他认为自己已经基本选定要买的东西，只需要完成最后确认即可。",
+    "desire": "他想在不耽误晚自习的情况下尽快完成购买。",
+    "intention": "他倾向于短暂停顿确认后继续完成操作。"
+  },
+  "observable_behavior": "他站在镜头前，手机握在一只手中，另一只手抬起准备操作，动作在半空中短暂停住，目光在下方操作区和旁侧位置之间快速移动后继续伸手。",
+  "facial_expression": "表情克制而专注，眉头轻微收紧，嘴唇自然闭合，带有中等程度的犹豫感。",
+  "body_posture": "身体正面朝向镜头，肩膀略微前倾，双手保持在画面内，重心稳定但上身有轻微停顿感。",
+  "timeline": {
+    "t_0_2": "20岁左右的男性学生正面站定，低头看向下方操作区，右手握着手机，左手缓慢抬起。",
+    "t_2_5": "他准备继续操作时手指在半空中停了一下，眉头微微收紧，目光短暂移向旁侧位置。",
+    "t_5_8": "他又看回下方操作区，左手小幅调整位置，手指犹豫地悬停片刻后向前移动。",
+    "t_8_10": "他轻轻点下并保持专注表情，身体仍正面朝向镜头，动作显示已进入最后确认。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "greet"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "自己已准备好操作，能自主完成，不受外界干扰。",
+        "desire": "尽快自主完成购买，不需额外提示或压力。",
+        "intention": "直接专注下单和支付操作。"
+      },
+      "preference_score": 0.0,
+      "score": 1
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "做决定无压力、可灵活保留不会立刻失去当前选择。",
+        "desire": "希望避免决定失误造成后悔，倾向谨慎确认。",
+        "intention": "准备完成操作，继续推进购买流程。"
+      },
+      "preference_score": 0.165,
+      "score": 3
+    },
+    "greet": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "购买即将完成，流程顺畅有礼。",
+        "desire": "希望顺利结束并获得正向确认。",
+        "intention": "完成支付和领取商品。"
+      },
+      "preference_score": 0.295,
+      "score": 5
+    }
+  },
+  "best_action": "greet",
+  "realization": {
+    "screen_action": "show_welcome_message",
+    "voice_style": "warm"
+  }
+}

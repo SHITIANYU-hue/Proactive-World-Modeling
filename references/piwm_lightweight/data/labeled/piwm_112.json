@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_112",
+  "viewpoint": "terminal_observable",
+  "persona": "午休时独自看商品的年轻男性，已经在顺畅地自行比较。",
+  "persona_visual": "23岁左右的男性，短发，穿白色T恤和深色休闲裤，手里拿着手机。",
+  "aida_stage": "interest",
+  "bdi": {
+    "belief": "他已经能从当前信息中继续自行判断。",
+    "desire": "想保留自主比较空间，不想被额外打断。",
+    "intention": "继续按自己的节奏观察并形成偏好。"
+  },
+  "observable_behavior": "他的视线在少数几个区域之间缓慢切换，每次都有自然停留，没有明显卡住。",
+  "facial_expression": "神情专注平和，没有焦虑或困惑。",
+  "body_posture": "身体正面朝向设备，上半身轻微前倾，动作克制稳定。",
+  "timeline": {
+    "t_0_2": "顾客已经停在设备前。",
+    "t_2_5": "他缓慢查看不同位置。",
+    "t_5_8": "视线继续自然切换，比较过程顺畅。",
+    "t_8_10": "保持专注浏览，没有寻求帮助。"
+  },
+  "candidate_actions": [
+    "hold",
+    "inform",
+    "elicit"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "他仍能自己完成当前判断。",
+        "desire": "保留安静比较空间。",
+        "intention": "继续自然浏览并逐步形成偏好。"
+      },
+      "preference_score": 0.2,
+      "score": 5
+    },
+    "inform": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "设备开始替他组织比较。",
+        "desire": "也许能更快确认，但当前未必需要。",
+        "intention": "可能转向屏幕信息。"
+      },
+      "preference_score": -0.068,
+      "score": 3
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "设备提问打断了他已有的比较过程。",
+        "desire": "原有自主判断被分散。",
+        "intention": "可能停下来回应问题。"
+      },
+      "preference_score": -0.071,
+      "score": 1
+    }
+  },
+  "best_action": "hold",
+  "realization": {
+    "screen_action": "show_ambient_content",
+    "voice_style": "silent"
+  }
+}

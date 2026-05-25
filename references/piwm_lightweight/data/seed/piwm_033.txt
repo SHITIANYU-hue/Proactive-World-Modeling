@@ -1,0 +1,1 @@
+attention 阶段，犹豫程度低，和朋友一起逛街停下来的年轻女性，两人都在打量机器，有交流但方向不明确，需要提问帮助找到关注点，target_act=Elicit:need_focus

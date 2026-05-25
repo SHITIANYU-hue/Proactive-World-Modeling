@@ -1,0 +1,1 @@
+desire 阶段，准备给别人买东西但不确定对方偏好、需要比较适合场景的礼物购买者。，顾客身体朝向稳定，手部准备操作，表现出只差最后确认的状态。整体动作缓慢、连续、真实，没有夸张表演。，target_act=Recommend:firm，生成 prompt-ready 扩展样本，video_pending

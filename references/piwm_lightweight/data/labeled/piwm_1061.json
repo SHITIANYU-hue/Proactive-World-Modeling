@@ -1,0 +1,160 @@
+{
+  "session_id": "piwm_1061",
+  "persona": "准备给别人买东西但不确定对方偏好、需要比较适合场景的礼物购买者。",
+  "persona_visual": "一名 25–40 岁亚洲女性，穿柔和色外套，手持手机或小包，表情思考。",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "已有若干候选商品接近需求，但仍需要降低时间、选择或后悔风险。",
+    "desire": "希望得到清晰但不过度施压的确认，从而缩小选择范围。",
+    "intention": "围绕当前偏好做最后权衡，并对 Recommend:firm 类型响应保持开放。"
+  },
+  "observable_behavior": "顾客身体朝向稳定，手部准备操作，表现出只差最后确认的状态。整体动作缓慢、连续、真实，没有夸张表演。",
+  "facial_expression": "表情自然克制，带有轻微思考或确认感，没有明显焦躁、惊讶或防御。",
+  "body_posture": "身体正面对向设备，站姿稳定，双手自然放在手机、包带或设备前方可见区域。",
+  "timeline": {
+    "t_0_2": "顾客进入或已经停留在设备前方，视线先稳定看向前方区域。",
+    "t_2_5": "顾客继续身体朝向稳定，手部准备操作，表现出只差最后确认的状态，头部和视线变化幅度较小。",
+    "t_5_8": "顾客保持自然停顿，短暂下移视线后再回到前方，表现出比较或确认。",
+    "t_8_10": "顾客仍停留在原位，动作节奏平稳，没有突然离开、付款界面展示或夸张动作。"
+  },
+  "generation_status": "prompt_ready_video_pending",
+  "target_act": "Recommend:firm",
+  "candidate_actions": [
+    "hold_silent",
+    "recommend_firm",
+    "hold_ambient",
+    "inform_price_brief"
+  ],
+  "outcomes": {
+    "hold_silent": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "设备响应有一定帮助，但没有完全击中当前最需要解决的问题。",
+        "desire": "仍希望继续确认更相关的信息。",
+        "intention": "暂时停留在 desire 附近，继续观察或比较。"
+      },
+      "risk": "low",
+      "benefit": "low",
+      "delta_stage": 0.0,
+      "delta_mental": 0.03,
+      "rationale": "Hold:silent is plausible but less aligned than Recommend:firm for this sampled state.",
+      "response_id": "hold_silent",
+      "terminal_realization": {
+        "surface_text": "",
+        "screen": {
+          "action": "idle_minimal",
+          "cta": null
+        },
+        "voice_style": "silent",
+        "light": "maintain_current_soft_breathing",
+        "cabinet_motion": null,
+        "duration_ms": 0
+      },
+      "action_cost": 0.0,
+      "preference_score": 0.015
+    },
+    "recommend_firm": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "设备响应与当前状态匹配，信息或节奏上的不确定性下降。",
+        "desire": "愿意继续沿当前路径推进，因为选择压力和理解成本降低。",
+        "intention": "进入或维持 action 阶段，并继续与设备进行低压力互动。"
+      },
+      "risk": "medium",
+      "benefit": "high",
+      "delta_stage": 0.42,
+      "delta_mental": 0.46,
+      "rationale": "Recommend:firm matches the visible desire state and improves the shopper's next step without breaking target-frontcam timing.",
+      "response_id": "recommend_firm",
+      "terminal_realization": {
+        "surface_text": "这款最适合您，建议直接选这款。",
+        "screen": {
+          "action": "highlight_single_item_with_cta",
+          "target": "{recommended_item}",
+          "cta": "buy_now"
+        },
+        "voice_style": "assertive",
+        "light": "strong_highlight",
+        "cabinet_motion": null,
+        "duration_ms": 5000
+      },
+      "action_cost": 0.65,
+      "preference_score": 0.268
+    },
+    "hold_ambient": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "设备响应有一定帮助，但没有完全击中当前最需要解决的问题。",
+        "desire": "仍希望继续确认更相关的信息。",
+        "intention": "暂时停留在 desire 附近，继续观察或比较。"
+      },
+      "risk": "low",
+      "benefit": "medium",
+      "delta_stage": 0.08,
+      "delta_mental": 0.1,
+      "rationale": "Hold:ambient is plausible but less aligned than Recommend:firm for this sampled state.",
+      "response_id": "hold_ambient",
+      "terminal_realization": {
+        "surface_text": "您慢慢看，需要时我再帮您。",
+        "screen": {
+          "action": "return_to_attract_loop",
+          "cta": null
+        },
+        "voice_style": "soft",
+        "light": "ambient_low_attention",
+        "cabinet_motion": null,
+        "duration_ms": 2500
+      },
+      "action_cost": 0.05,
+      "preference_score": 0.07200000000000001
+    },
+    "inform_price_brief": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "设备响应有一定帮助，但没有完全击中当前最需要解决的问题。",
+        "desire": "仍希望继续确认更相关的信息。",
+        "intention": "暂时停留在 desire 附近，继续观察或比较。"
+      },
+      "risk": "low",
+      "benefit": "medium",
+      "delta_stage": 0.08,
+      "delta_mental": 0.1,
+      "rationale": "Inform:price is plausible but less aligned than Recommend:firm for this sampled state.",
+      "response_id": "inform_price_brief",
+      "terminal_realization": {
+        "surface_text": "我先把价格和优惠信息放在屏幕上，方便您判断。",
+        "screen": {
+          "action": "show_price_or_discount",
+          "target": "{selected_item}",
+          "cta": null
+        },
+        "voice_style": "neutral",
+        "light": "soft_focus_on_price",
+        "cabinet_motion": null,
+        "duration_ms": 3500
+      },
+      "action_cost": 0.25,
+      "preference_score": 0.032
+    }
+  },
+  "best_action": "recommend_firm",
+  "response_id": "recommend_firm",
+  "expansion_batch": "2026-05-16_promptready_200",
+  "realization": {
+    "surface_text": "这款最适合您，建议直接选这款。",
+    "screen": {
+      "action": "highlight_single_item_with_cta",
+      "target": "{recommended_item}",
+      "cta": "buy_now"
+    },
+    "voice_style": "assertive",
+    "light": "strong_highlight",
+    "cabinet_motion": null,
+    "duration_ms": 5000
+  },
+  "score_weights": {
+    "alpha": 0.4,
+    "beta": 0.5,
+    "gamma": 0.2
+  }
+}

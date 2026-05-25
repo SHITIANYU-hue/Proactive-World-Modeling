@@ -1,0 +1,52 @@
+{
+  "session_id": "piwm_113",
+  "viewpoint": "terminal_observable",
+  "persona": "已经有偏好但仍在从容确认的年轻上班族女性。",
+  "persona_visual": "28岁左右的女性，黑色中长发，穿浅灰色西装外套和白色衬衫，肩背米色通勤包。",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "她认为目标商品大概率适合自己，当前只是在做最后的自我确认。",
+    "desire": "想在不被额外推动的情况下，自主完成最后判断。",
+    "intention": "继续安静确认片刻，随后自己决定是否操作。"
+  },
+  "observable_behavior": "她长时间看向同一位置，偶尔做很轻的视线调整，整体状态平稳，没有求助迹象。",
+  "facial_expression": "表情专注而放松，犹豫程度较低。",
+  "body_posture": "身体轻微前倾，双手自然停在身前，姿态稳定。",
+  "timeline": {
+    "t_0_2": "顾客已经锁定目标方向。",
+    "t_2_5": "她保持稳定注视。",
+    "t_5_8": "只做轻微视线调整，没有转向其他候选。",
+    "t_8_10": "继续从容确认，尚未开始操作。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "她继续相信自己的判断已经足够。",
+        "desire": "保留自主完成决策的空间。",
+        "intention": "按自己的节奏完成最后确认。"
+      },
+      "preference_score": 0.198,
+      "score": 5
+    },
+    "recommend": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "系统在降低决策压力。",
+        "desire": "她并不特别需要这种安抚。",
+        "intention": "可能继续看，但节奏被轻微介入。"
+      },
+      "preference_score": 0.072,
+      "score": 3
+    }
+  },
+  "best_action": "hold",
+  "realization": {
+    "screen_action": "show_ambient_content",
+    "voice_style": "silent"
+  }
+}

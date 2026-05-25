@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_080",
+  "viewpoint": "terminal_observable",
+  "persona": "逛街途中路过室内零售区的年轻女性，正在为是否购买一款看中的饮品反复犹豫。",
+  "persona_visual": "25岁左右的女性，长发微卷自然披肩，穿米白色针织开衫和浅蓝色牛仔裤，斜挎一个浅棕色小包，手里拿着一部手机",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "她认为眼前这款商品很符合自己的口味和当下需求，但又担心只是临时冲动购买。",
+    "desire": "她想获得一个更确定、更安心的理由来降低决策压力。",
+    "intention": "她倾向于先继续盯着商品权衡片刻，等待自己确认后再决定是否购买。"
+  },
+  "observable_behavior": "她长时间将目光固定在前方同一位置，几乎没有伸手操作，只是轻轻摩挲手机边缘，偶尔短暂移开视线又马上看回去。",
+  "facial_expression": "眉头微微皱起，嘴唇轻抿，眼神专注但迟疑，脸上有明显纠结和反复权衡的神情。",
+  "body_posture": "身体正面朝向镜头，上半身略微前倾，双肩有些收紧，双手在胸腹前握着手机，姿态克制而犹豫。",
+  "timeline": {
+    "t_0_2": "这位25岁左右的女性正面站定，微微前倾，目光迅速落在前方某个固定位置，双手握着手机停在胸腹前。",
+    "t_2_5": "她的视线长时间停留不动，眉头逐渐皱起，拇指轻轻摩挲手机边缘，却没有做出任何购买动作。",
+    "t_5_8": "她短暂低头看了一眼手机又抬眼看回原处，嘴唇轻抿，表情显得更加纠结，像是在心里反复比较利弊。",
+    "t_8_10": "她仍然没有伸手操作，只是轻吸一口气后保持注视，肩膀微微放松但神情依旧迟疑，仿佛还在等待一个让自己安心的决定理由。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "她继续相信商品契合自己需求，但对购买的冲动和理性权衡没有新变化。",
+        "desire": "她依然渴望更安心的理由，降低犹豫感。",
+        "intention": "她打算保持当前状态，静静权衡，不着急做决定。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "recommend": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "她觉得可以不用马上做决定，被理解和尊重，不会因犹豫而错过机会。",
+        "desire": "决策压力下降，更渴望自主而无压力地选择。",
+        "intention": "她放下部分焦虑，准备再认真考虑一会儿，减少冲动后悔的担忧。"
+      },
+      "preference_score": 0.165,
+      "score": 5
+    },
+    "inform": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "她进一步了解商品价格和当前优惠，感到部分理性疑虑得到缓解。",
+        "desire": "对价格透明度和优惠条件获得真实感，更希望将合理性纳入决策考量。",
+        "intention": "她继续观望但比之前更有理由考虑入手，可能减少纠结。"
+      },
+      "preference_score": 0.132,
+      "score": 4
+    }
+  },
+  "best_action": "recommend",
+  "realization": {
+    "screen_action": "highlight_single_item_with_cta",
+    "voice_style": "assertive"
+  }
+}

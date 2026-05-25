@@ -1,0 +1,160 @@
+{
+  "session_id": "piwm_1070",
+  "persona": "对价格和优惠较敏感、购买前会反复确认性价比的谨慎消费者。",
+  "persona_visual": "一名 30–45 岁亚洲男性，穿着干净日常衬衫或外套，手持手机，表情认真。",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "已有若干候选商品接近需求，但仍需要降低时间、选择或后悔风险。",
+    "desire": "希望得到清晰但不过度施压的确认，从而缩小选择范围。",
+    "intention": "围绕当前偏好做最后权衡，并对 Recommend:soft 类型响应保持开放。"
+  },
+  "observable_behavior": "顾客已经停留较久，视线集中在一个候选区域，仍保留轻微犹豫。整体动作缓慢、连续、真实，没有夸张表演。",
+  "facial_expression": "表情自然克制，带有轻微思考或确认感，没有明显焦躁、惊讶或防御。",
+  "body_posture": "身体正面对向设备，站姿稳定，双手自然放在手机、包带或设备前方可见区域。",
+  "timeline": {
+    "t_0_2": "顾客进入或已经停留在设备前方，视线先稳定看向前方区域。",
+    "t_2_5": "顾客继续已经停留较久，视线集中在一个候选区域，仍保留轻微犹豫，头部和视线变化幅度较小。",
+    "t_5_8": "顾客保持自然停顿，短暂下移视线后再回到前方，表现出比较或确认。",
+    "t_8_10": "顾客仍停留在原位，动作节奏平稳，没有突然离开、付款界面展示或夸张动作。"
+  },
+  "generation_status": "prompt_ready_video_pending",
+  "target_act": "Recommend:soft",
+  "candidate_actions": [
+    "hold_silent",
+    "recommend_soft",
+    "hold_ambient",
+    "inform_price_brief"
+  ],
+  "outcomes": {
+    "hold_silent": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "设备响应有一定帮助，但没有完全击中当前最需要解决的问题。",
+        "desire": "仍希望继续确认更相关的信息。",
+        "intention": "暂时停留在 desire 附近，继续观察或比较。"
+      },
+      "risk": "low",
+      "benefit": "low",
+      "delta_stage": 0.0,
+      "delta_mental": 0.03,
+      "rationale": "Hold:silent is plausible but less aligned than Recommend:soft for this sampled state.",
+      "response_id": "hold_silent",
+      "terminal_realization": {
+        "surface_text": "",
+        "screen": {
+          "action": "idle_minimal",
+          "cta": null
+        },
+        "voice_style": "silent",
+        "light": "maintain_current_soft_breathing",
+        "cabinet_motion": null,
+        "duration_ms": 0
+      },
+      "action_cost": 0.0,
+      "preference_score": 0.015
+    },
+    "recommend_soft": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "设备响应与当前状态匹配，信息或节奏上的不确定性下降。",
+        "desire": "愿意继续沿当前路径推进，因为选择压力和理解成本降低。",
+        "intention": "进入或维持 action 阶段，并继续与设备进行低压力互动。"
+      },
+      "risk": "medium",
+      "benefit": "high",
+      "delta_stage": 0.36,
+      "delta_mental": 0.42,
+      "rationale": "Recommend:soft matches the visible desire state and improves the shopper's next step without breaking target-frontcam timing.",
+      "response_id": "recommend_soft",
+      "terminal_realization": {
+        "surface_text": "如果您想省时间，可以先从这款开始看，它比较符合您现在关注的点。",
+        "screen": {
+          "action": "highlight_recommended_item",
+          "target": "{recommended_item}",
+          "cta": null
+        },
+        "voice_style": "soft",
+        "light": "gentle_highlight",
+        "cabinet_motion": null,
+        "duration_ms": 4500
+      },
+      "action_cost": 0.45,
+      "preference_score": 0.26399999999999996
+    },
+    "hold_ambient": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "设备响应有一定帮助，但没有完全击中当前最需要解决的问题。",
+        "desire": "仍希望继续确认更相关的信息。",
+        "intention": "暂时停留在 desire 附近，继续观察或比较。"
+      },
+      "risk": "low",
+      "benefit": "medium",
+      "delta_stage": 0.08,
+      "delta_mental": 0.1,
+      "rationale": "Hold:ambient is plausible but less aligned than Recommend:soft for this sampled state.",
+      "response_id": "hold_ambient",
+      "terminal_realization": {
+        "surface_text": "您慢慢看，需要时我再帮您。",
+        "screen": {
+          "action": "return_to_attract_loop",
+          "cta": null
+        },
+        "voice_style": "soft",
+        "light": "ambient_low_attention",
+        "cabinet_motion": null,
+        "duration_ms": 2500
+      },
+      "action_cost": 0.05,
+      "preference_score": 0.07200000000000001
+    },
+    "inform_price_brief": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "设备响应有一定帮助，但没有完全击中当前最需要解决的问题。",
+        "desire": "仍希望继续确认更相关的信息。",
+        "intention": "暂时停留在 desire 附近，继续观察或比较。"
+      },
+      "risk": "low",
+      "benefit": "medium",
+      "delta_stage": 0.08,
+      "delta_mental": 0.1,
+      "rationale": "Inform:price is plausible but less aligned than Recommend:soft for this sampled state.",
+      "response_id": "inform_price_brief",
+      "terminal_realization": {
+        "surface_text": "我先把价格和优惠信息放在屏幕上，方便您判断。",
+        "screen": {
+          "action": "show_price_or_discount",
+          "target": "{selected_item}",
+          "cta": null
+        },
+        "voice_style": "neutral",
+        "light": "soft_focus_on_price",
+        "cabinet_motion": null,
+        "duration_ms": 3500
+      },
+      "action_cost": 0.25,
+      "preference_score": 0.032
+    }
+  },
+  "best_action": "recommend_soft",
+  "response_id": "recommend_soft",
+  "expansion_batch": "2026-05-16_promptready_200",
+  "realization": {
+    "surface_text": "如果您想省时间，可以先从这款开始看，它比较符合您现在关注的点。",
+    "screen": {
+      "action": "highlight_recommended_item",
+      "target": "{recommended_item}",
+      "cta": null
+    },
+    "voice_style": "soft",
+    "light": "gentle_highlight",
+    "cabinet_motion": null,
+    "duration_ms": 4500
+  },
+  "score_weights": {
+    "alpha": 0.4,
+    "beta": 0.5,
+    "gamma": 0.2
+  }
+}

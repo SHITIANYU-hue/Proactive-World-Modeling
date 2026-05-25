@@ -1,0 +1,1 @@
+interest 阶段，犹豫程度中等，和朋友一起逛的年轻女性，两人在讨论哪款更好，指向不同方向，需要对比信息帮助收敛讨论，target_act=Inform:comparison

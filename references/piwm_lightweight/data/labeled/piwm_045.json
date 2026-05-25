@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_045",
+  "viewpoint": "terminal_observable",
+  "persona": "课间路过便利区、被新颖商品吸引但还没弄懂用法的男大学生",
+  "persona_visual": "20岁左右的男性，短黑发，穿浅灰色连帽卫衣和深色牛仔裤，双肩背一个黑色书包，手里拿着一部手机",
+  "aida_stage": "interest",
+  "bdi": {
+    "belief": "他认为面前这款商品外形很新颖，可能有特别的使用方式，但仅凭当前看到的细节还不够理解。",
+    "desire": "他想快速弄清楚商品怎么使用、是否适合课间短时间体验或购买。",
+    "intention": "他倾向于继续停留观察，并期待看到一个简短演示来解答疑惑。"
+  },
+  "observable_behavior": "他长时间盯着前方略低的位置观察细节，偶尔用拇指摩挲手机边缘，另一只手微微抬起又放下，表现出想进一步了解但仍在犹豫。",
+  "facial_expression": "眉头轻皱，眼神专注，嘴唇微微抿住，表情好奇中带着明显迟疑。",
+  "body_posture": "身体正面朝向镜头，上半身略微前倾，双肩稍收，双手保持在胸前到腰间的画面范围内。",
+  "timeline": {
+    "t_0_2": "20岁左右的男大学生从画面前方停住，正面朝向镜头，视线迅速落到前方略低处的商品细节上。",
+    "t_2_5": "他上半身轻轻前倾，眉头微皱，眼睛稳定地扫视细节，拿着手机的手停在胸前没有操作。",
+    "t_5_8": "他抬起空着的手似乎想指向某个细节，又犹豫地收回，嘴唇抿住，目光仍专注停留在同一位置。",
+    "t_8_10": "他低头短暂看一眼手机又抬眼看回前方，保持停留姿态，像是在等待一个简短演示来确认使用方式。"
+  },
+  "candidate_actions": [
+    "hold",
+    "inform",
+    "elicit"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "他依然只能通过外观推测功能，缺乏直接引导或演示，虽然不受打扰但疑惑未减。",
+        "desire": "依旧希望快速掌握用途，未获得新线索。",
+        "intention": "继续短时观察等待，若迟迟无反馈则可能离开。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "inform": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "简短功能演示清楚展现商品用途和关键玩法，减少理解难度并增强可用性认知。",
+        "desire": "解决核心疑惑后，开始渴望亲自尝试或拥有该商品。",
+        "intention": "准备靠近或询问操作，对购买产生实际考虑。"
+      },
+      "preference_score": 0.33,
+      "score": 5
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "被友好提问引导关注自身需求点，感知到设备尊重其选择权但仍未直接解答用法困惑。",
+        "desire": "欲望转向主动表达关注点，但若迟迟无用法说明可能失望减弱兴趣。",
+        "intention": "犹豫或简要反馈自己的关切，期待能通过互动获得更定向信息。"
+      },
+      "preference_score": 0.05,
+      "score": 3
+    }
+  },
+  "best_action": "inform",
+  "realization": {
+    "screen_action": "show_info_overlay",
+    "voice_style": "neutral"
+  }
+}

@@ -1,0 +1,1 @@
+desire 阶段，熟悉该类设备和品牌、已有偏好但仍会做最后确认的消费者。，顾客已经停留较久，视线集中在一个候选区域，仍保留轻微犹豫。整体动作缓慢、连续、真实，没有夸张表演。，target_act=Recommend:soft，生成 prompt-ready 扩展样本，video_pending

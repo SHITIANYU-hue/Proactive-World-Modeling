@@ -1,0 +1,1 @@
+desire 阶段，犹豫程度高，逛街的中年女性，已经很喜欢某款商品但不断回头看，似乎有人在等她，时间感强，需要recommend消除外部时间干扰，target_act=Recommend

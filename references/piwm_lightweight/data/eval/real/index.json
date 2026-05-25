@@ -1,0 +1,89 @@
+{
+  "total_planned": 50,
+  "available": 40,
+  "groups": {
+    "1": {
+      "shooting_ids": "001-010",
+      "label": "机器主动打招呼",
+      "aida_stage": "attention",
+      "best_action": "greet",
+      "eval_files": [
+        "real_001.json",
+        "real_002.json",
+        "real_003.json",
+        "real_004.json",
+        "real_005.json",
+        "real_006.json",
+        "real_007.json",
+        "real_008.json",
+        "real_009.json",
+        "real_010.json"
+      ]
+    },
+    "2": {
+      "shooting_ids": "011-020",
+      "label": "目标模糊，机器引导提问",
+      "aida_stage": "interest",
+      "best_action": "elicit",
+      "eval_files": [
+        "real_011.json",
+        "real_012.json",
+        "real_013.json",
+        "real_014.json",
+        "real_015.json",
+        "real_016.json",
+        "real_017.json",
+        "real_018.json",
+        "real_019.json",
+        "real_020.json"
+      ]
+    },
+    "3": {
+      "shooting_ids": "021-030",
+      "label": "两款比较，机器说清区别",
+      "aida_stage": "desire",
+      "best_action": "inform",
+      "eval_files": [
+        "real_021.json",
+        "real_022.json",
+        "real_023.json",
+        "real_024.json",
+        "real_025.json"
+      ]
+    },
+    "4": {
+      "shooting_ids": "031-040",
+      "label": "锁定一款犹豫，机器温和推一句",
+      "aida_stages": [
+        "desire",
+        "action"
+      ],
+      "best_action": "recommend",
+      "eval_files": [
+        "real_031.json",
+        "real_032.json",
+        "real_033.json",
+        "real_034.json",
+        "real_035.json"
+      ]
+    },
+    "5": {
+      "shooting_ids": "041-050",
+      "label": "顾客专心做自己的事，屏幕静默",
+      "aida_stage": "various",
+      "best_action": "hold",
+      "eval_files": [
+        "real_041.json",
+        "real_042.json",
+        "real_043.json",
+        "real_044.json",
+        "real_045.json",
+        "real_046.json",
+        "real_047.json",
+        "real_048.json",
+        "real_049.json",
+        "real_050.json"
+      ]
+    }
+  }
+}

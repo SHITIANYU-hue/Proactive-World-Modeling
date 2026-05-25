@@ -1,0 +1,1 @@
+desire 阶段，犹豫程度高，首次使用这类设备的老年顾客，想买某款商品但担心选错，表情中有顾虑，需要recommend消除选错的决策焦虑，target_act=Recommend

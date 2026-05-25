@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_115",
+  "viewpoint": "terminal_observable",
+  "persona": "周末路过设备的年轻女性，站在附近和朋友聊天。",
+  "persona_visual": "25岁左右的女性，长发披肩，穿浅色针织上衣和牛仔裤，手里拿着小包。",
+  "aida_stage": "attention",
+  "bdi": {
+    "belief": "她此刻还没有真正注意到设备。",
+    "desire": "先继续眼前的聊天。",
+    "intention": "维持和同伴的交流，除非设备主动引起注意。"
+  },
+  "observable_behavior": "她站在设备附近，头部轻微转向一侧，像是在和同伴说话，没有主动看向设备。",
+  "facial_expression": "表情自然，带交流中的轻松感。",
+  "body_posture": "身体略偏向同伴方向，站姿放松。",
+  "timeline": {
+    "t_0_2": "顾客和同伴一起停在设备附近。",
+    "t_2_5": "她头部略转向一侧，继续聊天。",
+    "t_5_8": "注意力仍在同伴身上，没有看向机器。",
+    "t_8_10": "继续停留，等待外界刺激改变注意方向。"
+  },
+  "candidate_actions": [
+    "hold",
+    "greet",
+    "elicit"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "attention",
+      "next_bdi": {
+        "belief": "设备不会给自己压力。",
+        "desire": "仍愿意保持一点关注。",
+        "intention": "继续短暂观察。"
+      },
+      "preference_score": 0.06,
+      "score": 3
+    },
+    "greet": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "她感到设备对自己是友好的。",
+        "desire": "愿意再多看一会儿。",
+        "intention": "开始把注意力稳定放到设备上。"
+      },
+      "preference_score": 0.272,
+      "score": 5
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "设备开始询问她的关注点。",
+        "desire": "可能开始思考自己想看什么。",
+        "intention": "会继续，但介入略早。"
+      },
+      "preference_score": 0.092,
+      "score": 2
+    }
+  },
+  "best_action": "greet",
+  "realization": {
+    "screen_action": "show_welcome_message",
+    "voice_style": "warm"
+  }
+}

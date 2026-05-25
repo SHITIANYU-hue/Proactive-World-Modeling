@@ -1,0 +1,1 @@
+interest 阶段，犹豫程度中等，午休后路过的中年男性，对几个不同类别的商品都在扫视，没有聚焦点，需要通过提问帮助收拢注意力，target_act=Elicit:need_focus

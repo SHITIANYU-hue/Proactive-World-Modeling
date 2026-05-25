@@ -1,0 +1,1 @@
+desire 阶段，犹豫程度高，课间路过的男大学生，对商品有强烈兴趣，但表情显示担心买了会耽误时间，需要recommend打消时间顾虑，target_act=Recommend

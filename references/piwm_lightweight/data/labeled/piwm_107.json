@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_107",
+  "viewpoint": "terminal_observable",
+  "persona": "第一次经过设备的年轻上班族女性，停在设备前但注意力还在手机上。",
+  "persona_visual": "26岁左右的女性，黑色低马尾，穿浅灰色针织开衫和白色上衣，肩背深色通勤包。",
+  "aida_stage": "attention",
+  "bdi": {
+    "belief": "她还没有真正注意到设备内容，只是在附近短暂停留。",
+    "desire": "先处理完手上的事，再决定是否关注周围。",
+    "intention": "继续看手机，除非有外界提示把注意力拉回来。"
+  },
+  "observable_behavior": "她停在设备前，低头看着手机，拇指有轻微滑动，尚未主动看向前方。",
+  "facial_expression": "表情自然平静，注意力集中在手机上。",
+  "body_posture": "身体正面朝向镜头，双手把手机放在胸前位置，站姿放松。",
+  "timeline": {
+    "t_0_2": "顾客走近后停在镜头前，手里拿着手机。",
+    "t_2_5": "她低头看向手机，拇指轻微滑动。",
+    "t_5_8": "仍保持注意力在手机上，没有主动看向设备。",
+    "t_8_10": "继续停留原地，状态像是在等外界提示把注意力拉回来。"
+  },
+  "candidate_actions": [
+    "hold",
+    "greet",
+    "elicit"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "attention",
+      "next_bdi": {
+        "belief": "她感到设备不会打扰自己。",
+        "desire": "保留继续看一眼的意愿。",
+        "intention": "仍以自主观察为主。"
+      },
+      "preference_score": 0.06,
+      "score": 2
+    },
+    "greet": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "她感到这台设备对自己是开放且友好的。",
+        "desire": "愿意进一步看看里面是否有适合自己的内容。",
+        "intention": "把注意力转向设备并开始初步浏览。"
+      },
+      "preference_score": 0.285,
+      "score": 5
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "设备已经在询问她的偏好。",
+        "desire": "开始思考自己更关心哪类信息。",
+        "intention": "可能继续互动，但也可能觉得介入稍早。"
+      },
+      "preference_score": 0.115,
+      "score": 3
+    }
+  },
+  "best_action": "greet",
+  "realization": {
+    "screen_action": "show_welcome_message",
+    "voice_style": "warm"
+  }
+}

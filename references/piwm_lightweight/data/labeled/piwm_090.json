@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_090",
+  "viewpoint": "terminal_observable",
+  "persona": "下班路过办公楼便利区的年轻白领女性，已完成扫码购买，正轻松等待智能售货设备出货。",
+  "persona_visual": "28岁左右的女性，黑色中长发自然披肩，穿米白色针织上衣和浅灰色西装裤，肩背一个棕色通勤托特包，右手拿着手机",
+  "aida_stage": "action",
+  "bdi": {
+    "belief": "她认为扫码支付已经成功，购买流程基本完成，只需稍等片刻即可拿到商品。",
+    "desire": "她想顺利完成取货，在下班途中快速获得一份方便的饮品或小食。",
+    "intention": "她倾向于原地轻松等待出货，并在流程结束时以点头微笑表示感谢后离开。"
+  },
+  "observable_behavior": "她正面站在镜头前，手机自然握在右手中，视线稳定看向前方，偶尔低头确认手机后又抬眼等待，动作放松且没有明显犹豫。",
+  "facial_expression": "表情满意而轻松，嘴角微微上扬，眼神平静，带有购买完成后的安心感。",
+  "body_posture": "身体站姿端正但放松，肩膀自然下沉，双手保持在画面内，左手轻搭在包带附近，整体姿态从容等待。",
+  "timeline": {
+    "t_0_2": "这位28岁左右的女性正面站在镜头前，右手握着手机，带着轻松的微笑看向前方。",
+    "t_2_5": "她低头快速看一眼手机屏幕，像是在确认支付完成，然后将手机放低，双手仍保持在画面内。",
+    "t_5_8": "她重新抬头面向镜头，肩膀放松，嘴角保持满意的微笑，安静等待流程完成。",
+    "t_8_10": "她轻轻点头并露出感谢的微笑，像是在无声致谢和完成告别，随后保持从容姿态准备离开。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "greet"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "她认为购买流程已全部完成，只需静候设备出货，未察觉额外变化。",
+        "desire": "她依然希望顺畅等候取货，不被打扰。",
+        "intention": "继续安静等待流程结束后取走商品并离开。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "她确认设备在处理订单，取货无须着急，机器正专注出货。",
+        "desire": "希望被理解无需催促，内心更加安定。",
+        "intention": "保持耐心等待，准备在订单完成后顺畅取物。"
+      },
+      "preference_score": 0.12,
+      "score": 2
+    },
+    "greet": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "她感到被尊重和致谢，智能售货流程以友好收尾，使全程体验完整。",
+        "desire": "顺畅、安全、礼貌地完成购买体验。",
+        "intention": "在感谢与仪式感中安心取物并离开。"
+      },
+      "preference_score": 0.28,
+      "score": 5
+    }
+  },
+  "best_action": "greet",
+  "realization": {
+    "screen_action": "show_welcome_message",
+    "voice_style": "warm"
+  }
+}

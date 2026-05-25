@@ -1,0 +1,1 @@
+interest 阶段，犹豫程度低，和朋友一起逛的带伴顾客，两人对同一款商品都点头表示认可，需要轻推来促成共同决定，target_act=Recommend:soft

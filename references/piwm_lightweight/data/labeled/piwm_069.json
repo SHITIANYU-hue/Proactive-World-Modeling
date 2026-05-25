@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_069",
+  "viewpoint": "terminal_observable",
+  "persona": "逛街路过商场便利区的中年女性，经过多轮比较后已经基本确定想买的饮品，只差最后确认。",
+  "persona_visual": "45岁左右的女性，短款微卷黑发，穿米色针织开衫和深绿色连衣裙，手腕戴细表，肩背一个棕色皮质小挎包，双手自然放在身前",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "她认为自己已经比较清楚不同选择的差异，并且心里选定的那一款更符合当下逛街后想补充饮品的需求。",
+    "desire": "她希望快速确认这个选择是合适的，并尽快完成购买，不再继续浪费时间比较。",
+    "intention": "她倾向接受一个明确而果断的推荐，然后立即进入购买操作。"
+  },
+  "observable_behavior": "她正面看向设备方向，视线稳定，偶尔轻微上下扫视，手指在身前短暂并拢后放松，几乎没有来回张望或反复纠结的动作。",
+  "facial_expression": "神情坚定，嘴唇轻轻抿住，眉眼放松但目光明确，表现出低犹豫和已做决定的状态。",
+  "body_posture": "身体站直并略微前倾，双肩平稳，双手始终在画面内靠近腰前，整体姿态稳定而准备行动。",
+  "timeline": {
+    "t_0_2": "45岁左右的女性正面站在镜头前，米色针织开衫和棕色小挎包清晰可见，她的目光稳定地落在设备方向。",
+    "t_2_5": "她轻微上下扫视，像是在最后确认选项，双手在腰前自然并拢，表情保持冷静坚定。",
+    "t_5_8": "她几乎不再左右比较，只是微微点头，嘴唇轻抿，身体略向前倾，显示出已经形成明确偏好。",
+    "t_8_10": "她抬起一只手停在身前准备操作，目光仍然坚定地看向设备方向，呈现出即将接受果断推荐并购买的状态。"
+  },
+  "candidate_actions": [
+    "hold",
+    "inform",
+    "recommend"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "她依然确认自己的选择合理，但尚未获得额外肯定或触发最终决策契机。",
+        "desire": "希望得到最后一丝外部确认，但不会因此感到负担加重。",
+        "intention": "准备在短期内自主完成购买。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "inform": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "她获得了所选商品的价格与优惠确认，对选择的正确性感到更加确信。",
+        "desire": "决心立刻完成交易，减少不必要的犹豫。",
+        "intention": "立即着手进行购买操作。"
+      },
+      "preference_score": 0.36,
+      "score": 4
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "她获得明确专业肯定，对所选方案充满信心。",
+        "desire": "想立即完成购买，主动配合推荐操作。",
+        "intention": "准备立即点击/确认，毫不拖延。"
+      },
+      "preference_score": 0.39,
+      "score": 5
+    }
+  },
+  "best_action": "recommend",
+  "realization": {
+    "screen_action": "highlight_single_item_with_cta",
+    "voice_style": "assertive"
+  }
+}

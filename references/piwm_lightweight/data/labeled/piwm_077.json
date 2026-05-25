@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_077",
+  "viewpoint": "terminal_observable",
+  "persona": "逛街途中被某款商品吸引但担心同行者等待太久的中年女性顾客",
+  "persona_visual": "45 岁左右的女性，齐肩微卷棕黑色短发，穿米色针织开衫和深绿色连衣裙，手腕戴银色手表，挎一个棕色小皮包",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "她认为眼前这款商品很合心意，可能错过会有点可惜，但同行者似乎正在等她。",
+    "desire": "她想安心确认自己还有足够时间，不被外部等待压力打断购买决定。",
+    "intention": "她倾向在确认时间允许后继续停留并做出购买选择。"
+  },
+  "observable_behavior": "她的视线反复落向镜头下方同一位置，又频繁向身后侧方短暂回望，手指轻触手表表带并在小包肩带上来回摩挲。",
+  "facial_expression": "表情带着明显喜欢和心动的浅笑，但眉头轻微收紧，眼神在期待与焦虑之间摇摆。",
+  "body_posture": "身体始终正面朝向镜头，肩膀略微前倾，双手保持在胸前到腰部范围内，头部偶尔向侧后方快速转动后又回到正面。",
+  "timeline": {
+    "t_0_2": "这位 45 岁左右的女性正面站定，目光专注地看向镜头下方同一位置，嘴角露出克制的浅笑。",
+    "t_2_5": "她轻轻抬起手腕看了一眼手表，又把视线拉回前方，手指不自觉摩挲着棕色小皮包的肩带。",
+    "t_5_8": "她明显犹豫起来，头部向身后侧方短暂回望两次，像是在确认是否有人还在等她，随后又恋恋不舍地看回前方。",
+    "t_8_10": "她深吸一口气，眉头稍微放松，双手停在身前，保持正面凝视，像是在等待确认还有时间后继续决定。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "她依然认为商品很合心意，但担心时间紧张，尚未改变现有困境。",
+        "desire": "依然希望安心确认时间，不被等待压力干扰。",
+        "intention": "倾向停留，但可能会犹豫甚至放弃以顾及同行者。"
+      },
+      "preference_score": 0.0,
+      "score": 1
+    },
+    "recommend": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "她意识到系统为她保留商品，无需担心被催促或商品错过，有更多安心时间考虑。",
+        "desire": "有信心自由考虑选择，将注意力从同行者的等待压力转向商品本身。",
+        "intention": "更愿意停留并进一步比较、考虑购买可能性。"
+      },
+      "preference_score": 0.38,
+      "score": 5
+    },
+    "inform": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "她对产品的价格和优惠获得直接理解，消除了经济上的犹豫，但时间压力未得到缓解。",
+        "desire": "在喜欢商品基础上更倾向确认价格是否合适，依然关注能否快速做决定。",
+        "intention": "若价格吸引则可能更心动，但仍可能因担心同行者等待而犹豫不决。"
+      },
+      "preference_score": 0.132,
+      "score": 3
+    }
+  },
+  "best_action": "recommend",
+  "realization": {
+    "screen_action": "highlight_single_item_with_cta",
+    "voice_style": "assertive"
+  }
+}

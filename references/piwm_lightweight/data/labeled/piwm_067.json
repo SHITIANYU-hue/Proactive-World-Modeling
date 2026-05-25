@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_067",
+  "viewpoint": "terminal_observable",
+  "persona": "下班路过办公楼便利区的年轻白领，已经锁定想买的饮品并在等待推荐确认。",
+  "persona_visual": "28岁左右的男性，短黑发，穿浅蓝色衬衫和深灰色西裤，手腕戴银色手表，肩上背一个黑色通勤包，双手拿着手机和工牌挂绳",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "他认为目标商品价格可以接受，信息基本符合自己的需求，只差一个推荐结果来最终确认。",
+    "desire": "他想快速买到一款适合下班后解渴提神的饮品，避免继续浪费时间比较。",
+    "intention": "他倾向于接受一个明确的推荐确认，并尽快做出购买决定。"
+  },
+  "observable_behavior": "他正面站在镜头前，视线稳定地在镜头下方区域短暂扫动，像是在核对价格和关键信息，随后轻轻点头，双手始终在胸腹前可见，手机握在一只手里但没有大幅操作。",
+  "facial_expression": "表情专注而平静，眉头轻微收起后逐渐放松，嘴角保持中性，犹豫感很低。",
+  "body_posture": "身体略微前倾，肩膀放松，双脚站稳，头部保持正对镜头方向，只做小幅度点头和视线移动。",
+  "timeline": {
+    "t_0_2": "这名28岁左右的男性白领走近并停在镜头前，身体略微前倾，视线落向镜头下方，像是在继续确认已锁定商品的信息。",
+    "t_2_5": "他保持正面站姿，眼睛在下方区域短暂左右移动，手中的手机停在胸腹前，神情专注地核对价格和细节。",
+    "t_5_8": "他轻轻抿唇后眉头放松，做出一个很小的点头动作，显示出对推荐结果基本认可。",
+    "t_8_10": "他抬眼重新看向正前方，双手仍在画面内保持稳定，表情平静坚定，像是准备接受推荐并进入下一步购买。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "他依然认为候选商品基本符合需求，但缺乏外部强化确认，因此等待进一步信号。",
+        "desire": "希望得到确认以减少犹豫，但若持续无新信息，则只是保持现状。",
+        "intention": "继续静观其变，准备自行快速决策也不会拖延。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "获得明确推荐与理由，进一步确信已选商品是最适合自己的选择。",
+        "desire": "愿望实现强烈，迫切希望立即完成购买操作。",
+        "intention": "决心立即执行购买行为，迈入实际行动阶段。"
+      },
+      "preference_score": 0.435,
+      "score": 5
+    },
+    "inform": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "更加确认目标商品价格无误且优惠已知，疑虑进一步减弱。",
+        "desire": "更愿意将该款作为最终决策对象，希望快速完成购买流程。",
+        "intention": "准备接受当前选择，行动意向接近购买阶段。"
+      },
+      "preference_score": 0.132,
+      "score": 4
+    }
+  },
+  "best_action": "recommend",
+  "realization": {
+    "screen_action": "highlight_single_item_with_cta",
+    "voice_style": "assertive"
+  }
+}

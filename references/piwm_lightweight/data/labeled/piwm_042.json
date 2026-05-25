@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_042",
+  "viewpoint": "terminal_observable",
+  "persona": "专程来到智能售货机前挑选饮品的中老年女性顾客，正在认真查看几款相似商品但一时分不清区别。",
+  "persona_visual": "58岁左右的女性，短卷发，穿浅紫色针织开衫和米色长裤，左肩背一个深棕色小挎包，手里拿着一部手机和小钱包",
+  "aida_stage": "interest",
+  "bdi": {
+    "belief": "她认为面前有几款商品都可能合适，但外观看起来相近，差异不够直观。",
+    "desire": "她想快速弄清几款商品在口味、容量或适用场景上的区别，选出更稳妥的一款。",
+    "intention": "她倾向于继续观察并寻找更清楚的对比信息，而不是立刻购买。"
+  },
+  "observable_behavior": "她的目光在画面外左侧、中间和右侧几个位置之间来回扫视，偶尔微微抬手像是在对照不同选项，但没有按下确认动作。",
+  "facial_expression": "眉头轻轻皱起，嘴唇微抿，眼神专注但带着困惑，表现出中等程度的犹豫。",
+  "body_posture": "身体正面朝向镜头，略微前倾，双肩放松但停留不动，双手保持在胸前到腰部之间便于查看和比较。",
+  "timeline": {
+    "t_0_2": "这位58岁左右的女性正面站在镜头前，稍稍前倾，视线先停在画面外中间位置，像是在确认主要选项。",
+    "t_2_5": "她把目光缓慢移向画面外左侧，又扫回中间，右手握着手机在胸前轻轻抬起，眉头开始微微皱起。",
+    "t_5_8": "她继续将视线转向画面外右侧，再回到左侧，嘴唇微抿，像是在比较几款相似商品却仍无法判断差别。",
+    "t_8_10": "她停住动作，双手仍在画面内，目光回到中间位置，脸上保持困惑和犹豫，像是在等待更直观的对比说明。"
+  },
+  "candidate_actions": [
+    "hold",
+    "inform",
+    "elicit"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "她仍然认为商品区别不够直观、认知不变。",
+        "desire": "依然希望获得差异化信息。",
+        "intention": "继续观察和等待，但不推进决策。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "inform": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "她获得了关于几款商品的直接对比信息，理解哪些口味、容量、适用场景各异。",
+        "desire": "现在想根据对比信息做出选择。",
+        "intention": "准备挑选其中一款，决策意愿提升。"
+      },
+      "preference_score": 0.28,
+      "score": 5
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "她感受到系统关注她的需求，但尚未获得具体对比信息。",
+        "desire": "更明确地表达自己想了解的方面，期待被引导获取对比点。",
+        "intention": "可能愿意互动和选择关注点，但决策尚未显著前进。"
+      },
+      "preference_score": 0.07,
+      "score": 3
+    }
+  },
+  "best_action": "inform",
+  "realization": {
+    "screen_action": "show_info_overlay",
+    "voice_style": "neutral"
+  }
+}

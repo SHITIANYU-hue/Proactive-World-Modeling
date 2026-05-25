@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_095",
+  "viewpoint": "terminal_observable",
+  "persona": "赶着下班去赶地铁的年轻白领，已经选好想买的饮品但在最后确认时短暂停顿。",
+  "persona_visual": "27岁左右的男性，短黑发，穿浅灰色衬衫和深色西裤，肩背黑色通勤电脑包，左手拿着手机",
+  "aida_stage": "action",
+  "bdi": {
+    "belief": "他认为自己已经选定了合适的商品，只是担心确认和取走会不会耽误下班赶车时间。",
+    "desire": "他想在不浪费时间的情况下快速完成购买并离开。",
+    "intention": "他倾向于立即确认购买，但需要确信流程很快才会按下最后一步。"
+  },
+  "observable_behavior": "他反复低头看手机时间，视线在正前方下方和手机之间切换，右手手指悬停片刻后做出轻微准备点击的动作。",
+  "facial_expression": "表情克制但略显焦急，眉头轻微收紧，嘴唇抿住，眼神带着最后确认的犹豫。",
+  "body_posture": "身体正面朝向镜头，肩膀略向前倾，重心有些靠近设备，左手举着手机在胸前，右手保持在画面下方准备操作。",
+  "timeline": {
+    "t_0_2": "27岁左右的男性白领正面站定，肩背黑色电脑包，左手抬起手机快速看了一眼时间。",
+    "t_2_5": "他把视线从手机移到正前方下方，右手抬起并悬停，眉头微皱像是在确认最后一步。",
+    "t_5_8": "他又低头看了一次手机时间，轻轻抿嘴，身体稍微前倾，表现出中等程度的时间压力和犹豫。",
+    "t_8_10": "他深吸一口气后将视线稳定在正前方下方，右手手指向前轻点，像是决定快速完成购买。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "greet"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他认为流程不会受到外部干预，可以自主完成最后确认。",
+        "desire": "希望能快速结束并离开，无需额外介入。",
+        "intention": "准备自行按下确认操作，只要不被延误即可。"
+      },
+      "preference_score": 0.0,
+      "score": 3
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "认为流程完全以自己节奏推进，没人催促，确认和取货不会耽误自己赶路。",
+        "desire": "更确信不用担心超时，能安心迅速做决定。",
+        "intention": "更有信心快速完成操作，减少等待和焦虑。"
+      },
+      "preference_score": 0.145,
+      "score": 5
+    },
+    "greet": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "系统已经确认他的选择，下一步商品会顺畅出货，无需等待、流程十分高效。",
+        "desire": "实现高效率的结束，马上可以转身离开。",
+        "intention": "完全执行最后点击，取货走人。"
+      },
+      "preference_score": -0.05,
+      "score": 4
+    }
+  },
+  "best_action": "recommend",
+  "realization": {
+    "screen_action": "highlight_single_item_with_cta",
+    "voice_style": "assertive"
+  }
+}

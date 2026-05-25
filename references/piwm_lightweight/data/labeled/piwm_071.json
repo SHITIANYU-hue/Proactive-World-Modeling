@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_071",
+  "viewpoint": "terminal_observable",
+  "persona": "午休后返回办公室前在智能零售设备前停留较久、已基本选定饮品的年轻白领",
+  "persona_visual": "28岁左右的男性，短黑发，穿浅灰色衬衫和深色西裤，左手戴智能手表，右肩背一个黑色通勤包",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "他认为面前这个目标选项符合自己提神和口味偏好的需求，选择风险不高。",
+    "desire": "他想尽快确认一个合适的选择，在回办公室前买到一瓶能提神的饮品。",
+    "intention": "他已经倾向购买当前目标选项，只需要一个明确肯定的推荐就会立即完成选择。"
+  },
+  "observable_behavior": "他长时间停在原地，视线稳定集中在镜头下方同一位置，偶尔轻微点头，右手在胸前小幅抬起又放下，像是在准备确认选择。",
+  "facial_expression": "表情平静专注，眉头轻微放松，嘴唇自然闭合，犹豫感很弱，带有即将决定的确认感。",
+  "body_posture": "身体正面朝向镜头，站姿稳定，肩膀放松，上半身微微前倾，双手始终在画面内并靠近身体前方。",
+  "timeline": {
+    "t_0_2": "这名28岁左右的男性白领正面站定，视线稳定落在镜头下方同一处，身体微微前倾。",
+    "t_2_5": "他保持专注凝视，左手自然垂在身前，右手轻轻抬到胸前，像是在等待最后确认。",
+    "t_5_8": "他眉头放松，轻微点了一下头，目光没有转移，表现出已经基本认可当前选择。",
+    "t_8_10": "他右手再次小幅前移并停住，姿态更坚定，像是准备立刻完成购买动作。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "他依然确信当前选项符合需求，未获得新外部信息，保持原有自信与期待。",
+        "desire": "希望尽快自主完成购买，微弱期待得到额外肯定，但可自行推动决策。",
+        "intention": "倾向于很快操作购买，等待片刻确认自身决定。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他得到明确外部认可和行动提示，直观感觉这一选择妥当且被推荐。",
+        "desire": "希望立即完成此选择，乐于接受外部肯定推动的契机。",
+        "intention": "已下定决心购买，准备在提示下直接点选。"
+      },
+      "preference_score": 0.46,
+      "score": 5
+    },
+    "inform": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他感到目标商品价格透明、优惠，购入风险进一步降低，信心上升。",
+        "desire": "愿意马上以当前条件完成购买，实用动机被直接满足。",
+        "intention": "准备直接点击购买，外部肯定推动行动。"
+      },
+      "preference_score": 0.382,
+      "score": 4
+    }
+  },
+  "best_action": "recommend",
+  "realization": {
+    "screen_action": "highlight_single_item_with_cta",
+    "voice_style": "assertive"
+  }
+}

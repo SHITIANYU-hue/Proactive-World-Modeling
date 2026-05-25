@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_117",
+  "viewpoint": "terminal_observable",
+  "persona": "正在从容浏览的年轻女性，当前不需要额外帮助。",
+  "persona_visual": "26岁左右的女性，黑色中长发，穿米白色衬衫和浅灰色长裤。",
+  "aida_stage": "interest",
+  "bdi": {
+    "belief": "她已经能够根据当前信息继续自行判断。",
+    "desire": "想保留自然浏览的节奏。",
+    "intention": "继续独立查看，不希望被打断。"
+  },
+  "observable_behavior": "她在几个区域之间稳定查看，视线切换自然，动作从容，没有困惑表现。",
+  "facial_expression": "表情放松而专注。",
+  "body_posture": "身体略微前倾，站姿稳定。",
+  "timeline": {
+    "t_0_2": "顾客已经停在设备前。",
+    "t_2_5": "她自然查看不同区域。",
+    "t_5_8": "继续顺畅浏览，没有出现停滞。",
+    "t_8_10": "保持原有节奏，仍在自主观察。"
+  },
+  "candidate_actions": [
+    "hold",
+    "elicit",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "她继续依靠现有信息自行判断。",
+        "desire": "保留舒适的浏览节奏。",
+        "intention": "继续自然查看。"
+      },
+      "preference_score": 0.19,
+      "score": 5
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "系统打断了她原有的浏览节奏。",
+        "desire": "原本的自主探索被分散。",
+        "intention": "可能停下来回应。"
+      },
+      "preference_score": -0.071,
+      "score": 3
+    },
+    "inform": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "设备突然把她拉向某个商品信息。",
+        "desire": "原有自由浏览被收窄。",
+        "intention": "可能看一眼，但未必受益。"
+      },
+      "preference_score": -0.067,
+      "score": 1
+    }
+  },
+  "best_action": "hold",
+  "realization": {
+    "screen_action": "show_ambient_content",
+    "voice_style": "silent"
+  }
+}

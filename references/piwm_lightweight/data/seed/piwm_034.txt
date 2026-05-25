@@ -1,0 +1,1 @@
+attention 阶段，犹豫程度中等，好奇停下的中年女性顾客，站在机器前扫视商品但表情迷茫，不确定这类机器是否适合自己，需要温和引导，target_act=Elicit:need_focus

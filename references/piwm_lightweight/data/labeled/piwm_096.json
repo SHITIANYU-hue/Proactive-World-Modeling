@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_096",
+  "viewpoint": "terminal_observable",
+  "persona": "课间匆忙赶来便利区买饮料的男大学生，准备付款时担心上课时间快到了。",
+  "persona_visual": "20岁左右的男性，短黑发，穿浅灰色连帽卫衣和深色牛仔裤，背一个黑色双肩包，手里拿着一部手机",
+  "aida_stage": "action",
+  "bdi": {
+    "belief": "他认为自己已经选好想买的东西，只差完成支付，但担心付款过程会耽误赶回教室的时间。",
+    "desire": "他想尽快确认支付并离开，同时避免因为匆忙而点错或操作失误。",
+    "intention": "他倾向于继续完成支付，但在最后确认前会短暂停顿并再次确认时间是否来得及。"
+  },
+  "observable_behavior": "他双手都在画面内，一手握着手机，另一只手的拇指在手机边缘轻轻停住，视线在前方和手机之间快速切换，动作有短暂停顿但没有后退。",
+  "facial_expression": "眉头轻微皱起，嘴唇抿住，眼神带着赶时间的紧张感和最后确认前的迟疑。",
+  "body_posture": "身体正面朝向镜头，肩膀略微前倾，背包带压在双肩上，站姿稳定但重心轻轻向一侧移动。",
+  "timeline": {
+    "t_0_2": "20岁左右的男性正面站定，低头看了一眼手里的手机，又迅速抬眼看向前方，表情显得有些赶时间。",
+    "t_2_5": "他用拇指在手机边缘轻轻滑动，肩膀微微前倾，眼神在手机和前方之间来回确认。",
+    "t_5_8": "他准备按下确认时突然停住半秒，嘴唇抿紧，眉头轻皱，像是在判断这一步会不会耽误上课。",
+    "t_8_10": "他深吸一口气后放松一点，拇指重新靠近手机操作位置，身体仍面向前方，表现出准备继续完成支付的状态。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "greet"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他确信自己可以自主完成付款流程，对程序无压力，依然担心时间，但不被打扰。",
+        "desire": "尽快确认支付、顺利离开，避免犯错。",
+        "intention": "专注完成支付，不受外部影响。"
+      },
+      "preference_score": 0.0,
+      "score": 4
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "他被明确告知系统会为他保留当前购买，无需担心赶时间导致交易失败或压力太大。",
+        "desire": "确认能够慢慢做选择、不被时间推着走。",
+        "intention": "更安心地完成支付，减少因时间焦虑带来的失误。"
+      },
+      "preference_score": 0.145,
+      "score": 5
+    },
+    "greet": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "系统积极认可他的选择并礼貌致谢，流程顺畅，获得购买完成的即时反馈。",
+        "desire": "感受到交易完成、体验顺畅。",
+        "intention": "操作完毕，正等待取货和结束交易。"
+      },
+      "preference_score": -0.05,
+      "score": 2
+    }
+  },
+  "best_action": "recommend",
+  "realization": {
+    "screen_action": "highlight_single_item_with_cta",
+    "voice_style": "assertive"
+  }
+}

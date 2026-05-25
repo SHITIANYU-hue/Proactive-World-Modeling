@@ -1,0 +1,1 @@
+interest 阶段，犹豫程度低，午休后路过的中年男职员，对某款商品展示出较强兴趣，视线集中，稍作引导即可推进到desire阶段，target_act=Recommend:soft

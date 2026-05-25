@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_040",
+  "viewpoint": "terminal_observable",
+  "persona": "下班顺路经过便利区、想快速买一瓶饮品的年轻白领。",
+  "persona_visual": "28岁左右的男性，短黑发，穿浅蓝色衬衫和深灰色西裤，肩背一个黑色通勤包，手里拿着手机和工牌挂绳。",
+  "aida_stage": "interest",
+  "bdi": {
+    "belief": "他认为眼前两款候选饮品都符合下班后解渴的需求，但需要再确认哪一款更适合现在购买。",
+    "desire": "他想快速获得两款之间的清晰差异，例如口味、容量或健康感上的对比依据。",
+    "intention": "他倾向继续在两款候选之间稳定比较几秒，再根据更明确的差异做出选择。"
+  },
+  "observable_behavior": "他的目光在左右两个固定位置之间有节奏地交替停留，偶尔轻微点头，双手保持在胸前画面内，手机被自然握住但没有操作。",
+  "facial_expression": "表情平静专注，眉头轻微收拢，嘴唇放松，犹豫感较低，更像是在认真核对信息。",
+  "body_posture": "身体正面朝向镜头，站姿稳定，肩部放松，上半身略微前倾，头部随着视线在两侧小幅转动。",
+  "timeline": {
+    "t_0_2": "这名28岁左右的男性白领正面站定，目光先落在左侧固定位置，双手在胸前自然握着手机和工牌挂绳。",
+    "t_2_5": "他将视线平稳移到右侧固定位置，眉头轻微收拢，像是在寻找两款候选饮品之间的差别。",
+    "t_5_8": "他再次看回左侧，又短暂停到右侧，头部只做小幅转动，神情专注但不焦急。",
+    "t_8_10": "他轻轻点了一下头，视线停在右侧固定位置，身体仍然正面微微前倾，表现出接近完成比较的状态。"
+  },
+  "candidate_actions": [
+    "hold",
+    "inform",
+    "elicit"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "他仍然自主比较两款饮品，未获取更多差异信息。",
+        "desire": "希望自己能发现明显的对比依据，愿意再观察几秒。",
+        "intention": "继续独立完成比较，短时内无助推也不会快速推进或退缩。"
+      },
+      "preference_score": 0.0,
+      "score": 3
+    },
+    "inform": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "他明确信息落在两款显著差别上，对比依据清晰可靠。",
+        "desire": "想基于新对比快速锁定一款，缩小选择范围。",
+        "intention": "准备将注意力集中到更适合自己的那款，进入决策准备状态。"
+      },
+      "preference_score": 0.272,
+      "score": 5
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "被鼓励表达对规格、价格或场景的关注点，但自己已很明确在做对比。",
+        "desire": "期望系统能直接给出差异而不是让他选问题，略感轻微多余。",
+        "intention": "可能选择功能或场景，但也有小概率选择忽略提示继续自身比较。"
+      },
+      "preference_score": -0.02,
+      "score": 1
+    }
+  },
+  "best_action": "inform",
+  "realization": {
+    "screen_action": "show_info_overlay",
+    "voice_style": "neutral"
+  }
+}

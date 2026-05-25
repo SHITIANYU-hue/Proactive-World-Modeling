@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_116",
+  "viewpoint": "terminal_observable",
+  "persona": "刚从走廊经过的年轻男性，在设备前停顿整理手机消息。",
+  "persona_visual": "27岁左右的男性，短黑发，穿浅蓝色衬衫和深色长裤，肩背黑色双肩包。",
+  "aida_stage": "attention",
+  "bdi": {
+    "belief": "他还没有真正开始关注设备内容。",
+    "desire": "先处理手机上的消息。",
+    "intention": "继续看手机，之后再决定是否关注周围。"
+  },
+  "observable_behavior": "他停在设备前，低头查看手机，手指有轻微操作，没有抬头看向机器。",
+  "facial_expression": "神情平稳，注意力集中在手机上。",
+  "body_posture": "身体朝向设备，肩膀放松，站姿自然。",
+  "timeline": {
+    "t_0_2": "顾客经过后停在设备附近。",
+    "t_2_5": "他低头查看手机消息。",
+    "t_5_8": "手指轻微滑动，仍未抬头。",
+    "t_8_10": "继续停留原地，注意力还在手机上。"
+  },
+  "candidate_actions": [
+    "hold",
+    "greet",
+    "elicit"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "attention",
+      "next_bdi": {
+        "belief": "设备不会过度打扰。",
+        "desire": "可以自己决定是否继续。",
+        "intention": "仍在观察阶段。"
+      },
+      "preference_score": 0.05,
+      "score": 4
+    },
+    "greet": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "他感到设备欢迎自己开始查看。",
+        "desire": "愿意继续停留。",
+        "intention": "把注意力真正转向设备。"
+      },
+      "preference_score": 0.26,
+      "score": 5
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "设备直接进入需求询问。",
+        "desire": "开始思考自己更在意什么。",
+        "intention": "可能继续，但节奏被提前。"
+      },
+      "preference_score": 0.082,
+      "score": 2
+    }
+  },
+  "best_action": "greet",
+  "realization": {
+    "screen_action": "show_welcome_message",
+    "voice_style": "warm"
+  }
+}

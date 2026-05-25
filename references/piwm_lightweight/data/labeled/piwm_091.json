@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_091",
+  "viewpoint": "terminal_observable",
+  "persona": "课间来到便利区的男大学生，已经选好商品并完成操作，正站在设备前等待结果。",
+  "persona_visual": "20岁左右的男性，短黑发，穿浅灰色连帽卫衣和深色牛仔裤，背一个黑色双肩包，左手腕戴运动手表",
+  "aida_stage": "action",
+  "bdi": {
+    "belief": "他认为商品选择和操作流程已经完成，现在只需要等待设备给出结果。",
+    "desire": "他想尽快拿到商品，然后回到教室继续上课。",
+    "intention": "他倾向于原地安静等待，确认完成后礼貌点头致意并离开。"
+  },
+  "observable_behavior": "他站在原地等待，双手始终在画面内，手指轻轻交握后放松，目光稳定看向正前方偏下位置，最后微微点头作为收尾致意。",
+  "facial_expression": "表情放松平静，嘴角有很轻的礼貌微笑，几乎没有犹豫或焦虑感。",
+  "body_posture": "身体正面朝向镜头，肩膀自然放松，重心稳定站立，背包肩带贴在双肩，姿态从容。",
+  "timeline": {
+    "t_0_2": "20岁左右的男性正面站在镜头前，双手在腹前自然交握，视线看向正前方偏下位置，表情平静。",
+    "t_2_5": "他轻轻调整了一下黑色双肩包的肩带，随后双手重新回到画面中央，保持安静等待。",
+    "t_5_8": "他目光短暂下移后又回到正前方，嘴角露出很轻的礼貌微笑，身体仍然稳定站立。",
+    "t_8_10": "他微微点头，像是在完成收尾确认和致谢，然后双手自然放松，准备转身离开。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "greet"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "商品和流程都已完成，设备正准备出货，静默等待不会产生新干扰。",
+        "desire": "维持安静的自主等待，迅速取得商品离开。",
+        "intention": "原地静等完成后礼貌致意离开。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "设备正为他保留订单，等待不会错失商品，无需急躁。",
+        "desire": "放下‘担心被催/被抢’的负担，安心等待商品出货。",
+        "intention": "轻松完成收尾动作，取货后离开。"
+      },
+      "preference_score": 0.12,
+      "score": 2
+    },
+    "greet": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "所有流程顺利，系统对他的购买表示认可，体面完成交互。",
+        "desire": "顺利完成正向收尾，获得积极反馈后带着良好心情离开。",
+        "intention": "完成领取后自然离开，对数字人致谢做出友好回应。"
+      },
+      "preference_score": 0.23,
+      "score": 5
+    }
+  },
+  "best_action": "greet",
+  "realization": {
+    "screen_action": "show_welcome_message",
+    "voice_style": "warm"
+  }
+}

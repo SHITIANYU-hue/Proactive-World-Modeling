@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_014",
+  "viewpoint": "terminal_observable",
+  "persona": "午休后路过办公楼便利区的年轻女白领，已经看中智能售货机里的一款饮品，准备快速购买。",
+  "persona_visual": "26岁左右的女性，齐肩黑色直发，穿浅灰色针织开衫和白色T恤，下身为深色直筒裤，肩上背一个米色帆布托特包。",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "她认为眼前这款饮品正好符合自己想要提神解渴的需求，选择基本已经明确。",
+    "desire": "她想尽快买到机器里的那款产品，减少继续比较的时间。",
+    "intention": "她准备拿出手机进行扫码或支付，进入购买动作。"
+  },
+  "observable_behavior": "她起初短暂看向不同位置，随后目光固定在一个方向不再扫视，右手从裤子口袋里掏出手机并抬到胸前。",
+  "facial_expression": "表情从轻微思考和抿唇，逐渐转为平静确定，眉头放松，眼神集中。",
+  "body_posture": "身体正面朝向镜头，站姿稳定，上半身微微前倾，一只手扶着包带，另一只手在画面内从口袋取出手机。",
+  "timeline": {
+    "t_0_2": "这位26岁左右的女性正面站在镜头前，眼神在前方轻微移动，像是在最后确认选择。",
+    "t_2_5": "她的视线逐渐停在固定方向，嘴唇轻轻抿了一下，脸上的思考感开始减弱。",
+    "t_5_8": "她眉头放松，表情变得确定，右手伸向裤子口袋并把手机掏出来。",
+    "t_8_10": "她将手机拿到胸前，目光仍固定在前方，身体微微前倾，呈现准备购买的状态。"
+  },
+  "candidate_actions": [
+    "hold",
+    "inform",
+    "recommend"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "她依然认为这款饮品很符合需求，选择无变。",
+        "desire": "仍希望快速完成购买，无需再比较。",
+        "intention": "准备扫码或支付，动作即将发生。"
+      },
+      "preference_score": 0.0,
+      "score": 3
+    },
+    "inform": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "产品价格和优惠被已知，更加确认当前选择的合理性。",
+        "desire": "希望快速成交，价格无疑虑。",
+        "intention": "坚定准备扫码下单。"
+      },
+      "preference_score": 0.182,
+      "score": 5
+    },
+    "recommend": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "决策没有压力，可以放心操作。",
+        "desire": "减少顾虑但未提升到更快的购买动力。",
+        "intention": "略感宽慰但继续按原意准备支付。"
+      },
+      "preference_score": 0.025,
+      "score": 2
+    }
+  },
+  "best_action": "inform",
+  "realization": {
+    "screen_action": "show_info_overlay",
+    "voice_style": "neutral"
+  }
+}

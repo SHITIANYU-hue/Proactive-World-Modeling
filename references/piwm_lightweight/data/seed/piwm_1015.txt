@@ -1,0 +1,1 @@
+desire 阶段，周末路过商场、只是随便看看的普通消费者。，顾客在候选间短暂停顿，表情谨慎，像是在担心选错。整体动作缓慢、连续、真实，没有夸张表演。，target_act=Reassure:decision，生成 prompt-ready 扩展样本，video_pending

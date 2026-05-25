@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_031",
+  "viewpoint": "terminal_observable",
+  "persona": "路过校园便利区、被智能售货设备外观吸引而停下的男大学生",
+  "persona_visual": "20岁左右的男性，短黑发，穿浅灰色连帽卫衣和深色休闲裤，肩背一个黑色双肩包，右手拿着手机",
+  "aida_stage": "attention",
+  "bdi": {
+    "belief": "他觉得眼前的设备看起来新奇但还不清楚应该先关注哪里或如何开始选择。",
+    "desire": "他想快速弄明白这个设备能提供什么，并找到一个明确的观察重点。",
+    "intention": "他倾向于先停留观察，等待或寻找一个引导性提问来帮助自己聚焦，而不是马上做出购买决定。"
+  },
+  "observable_behavior": "他停在镜头前，眼神在前方不同区域快速移动，偶尔轻微转头左右扫视，手指无意识地摩挲手机边缘，没有伸手操作。",
+  "facial_expression": "表情自然放松，眉毛微微抬起，眼睛睁得稍大，带着低程度的好奇和轻微困惑。",
+  "body_posture": "身体正面朝向镜头，上半身略微前倾，双肩放松，双手保持在胸腹前的画面内，一手拿手机一手轻扶背包肩带。",
+  "timeline": {
+    "t_0_2": "这名20岁左右的男大学生从画面下方走近并停住，正面朝向镜头，眼睛先快速扫向前方上侧区域。",
+    "t_2_5": "他微微抬眉，视线从左侧移到右侧，又回到中间，右手握着手机，左手轻轻捏住背包肩带。",
+    "t_5_8": "他上半身略向前倾，眼神在几个不同区域之间来回切换，像是在寻找应该先看的重点。",
+    "t_8_10": "他停住扫视，目光回到正前方，表情保持好奇但略显无从下手，似乎在等待一个引导性提问帮助聚焦。"
+  },
+  "candidate_actions": [
+    "hold",
+    "elicit",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "attention",
+      "next_bdi": {
+        "belief": "设备新奇但路径不明，顾客仍在自主探索，没有获得额外线索，继续观察。",
+        "desire": "想快速明白设备卖点，期待外部或自生的聚焦契机。",
+        "intention": "暂不主动操作，等待可能的系统或环境提示。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "注意到设备主动提供聚焦选项，开始明确关注重点并缩小探索范围。",
+        "desire": "聚焦兴趣点（功能/价格/场景）并深入了解的欲望提升。",
+        "intention": "产生明确探索动力，准备选择一个关注方向进一步了解。"
+      },
+      "preference_score": 0.35,
+      "score": 5
+    },
+    "inform": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "强烈视觉演示使其迅速理解关键卖点，对设备能力的直观印象提升。",
+        "desire": "深入了解特定功能/亮点细节的动机增强。",
+        "intention": "愿意进一步探索新奇功能，但存在被动接受信息的苗头。"
+      },
+      "preference_score": 0.182,
+      "score": 4
+    }
+  },
+  "best_action": "elicit",
+  "realization": {
+    "screen_action": "show_discovery_prompt",
+    "voice_style": "soft"
+  }
+}

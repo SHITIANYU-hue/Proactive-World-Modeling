@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_012",
+  "viewpoint": "terminal_observable",
+  "persona": "课间经过校园便利区的大学生，想快速选一份饮品但还没拿定主意。",
+  "persona_visual": "20岁左右的男性，短黑发，穿浅灰色连帽卫衣和深色休闲裤，双肩背一个黑色书包，手里拿着手机",
+  "aida_stage": "interest",
+  "bdi": {
+    "belief": "他认为面前某个选择可能适合课间补充能量，但还不确定是否值得立刻购买。",
+    "desire": "他想找到一款既合适又不会后悔的饮品。",
+    "intention": "他倾向继续盯着感兴趣的方向观察比较，暂时不马上下单。"
+  },
+  "observable_behavior": "他反复看向画面一侧的固定方向，手指轻轻摩挲手机边缘，短暂停顿后后退一小步，仍保持视线关注同一方向。",
+  "facial_expression": "眉头微微收紧，嘴唇轻抿，眼神专注但带有明显犹豫。",
+  "body_posture": "身体正面朝向镜头，上半身略微前倾后又收回，重心轻微后移，双手保持在胸前到腰部之间的画面内。",
+  "timeline": {
+    "t_0_2": "20岁左右的男性学生正面站在镜头前，目光先扫过前方后停在画面右侧，双手握着手机放在胸前。",
+    "t_2_5": "他微微眯眼看向同一方向，拇指无意识摩挲手机边缘，眉头逐渐收紧，表现出明显兴趣。",
+    "t_5_8": "他轻轻吸气，身体重心向后移，右脚后退一小步，同时视线仍没有离开感兴趣的方向。",
+    "t_8_10": "他停在稍远的位置，嘴唇轻抿，双手仍握着手机，犹豫地继续观察而没有进一步操作。"
+  },
+  "candidate_actions": [
+    "hold",
+    "elicit",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "他仍然在思考哪一款饮品最适合当前需求，既没有得到新信息，也没有增加困扰。",
+        "desire": "仍希望找到合适选项，避免仓促决定和后悔。",
+        "intention": "持续自我观察和犹豫，没有立即改变关注或行动方向。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "elicit": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "意识到系统可协助聚焦需求，开始梳理自己真正关心的点（功能、价格或场景）。",
+        "desire": "想更清楚地锁定自己关心的饮品筛选方向，减少心理负担。",
+        "intention": "准备从多个角度挑选或缩小选择范围，主动思考或表达关注点。"
+      },
+      "preference_score": 0.21,
+      "score": 5
+    },
+    "inform": {
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "通过短演示直观感受到饮品亮点或新颖功能，对吸引力和使用场景有了具体联想。",
+        "desire": "更想体验或了解特色卖点，激发探索兴趣，但决策关键点还未完全解决。",
+        "intention": "兴趣增强，容易被进一步吸引靠近实际操作或深入比对。"
+      },
+      "preference_score": 0.137,
+      "score": 4
+    }
+  },
+  "best_action": "elicit",
+  "realization": {
+    "screen_action": "show_discovery_prompt",
+    "voice_style": "soft"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "session_id": "piwm_065",
+  "viewpoint": "terminal_observable",
+  "persona": "课间来到教学楼便利区的男大学生，已经明确想买一款提神饮品，站在智能售货设备前等待最后确认。",
+  "persona_visual": "20岁左右的男性，短黑发，穿浅灰色连帽卫衣和深色牛仔裤，肩背一个黑色双肩包，手里拿着手机和校园卡",
+  "aida_stage": "desire",
+  "bdi": {
+    "belief": "他认为自己已经选定的那款饮品能快速提神，适合下一节课前购买。",
+    "desire": "他想尽快完成购买，拿到目标商品后马上回教室。",
+    "intention": "他倾向于接受明确推荐并立刻确认下单，几乎不再继续犹豫。"
+  },
+  "observable_behavior": "他始终正面看向前方，视线短暂上下扫动后很快稳定，右手握着手机靠近胸前，左手捏着校园卡，手指轻敲卡片一次，动作干脆克制。",
+  "facial_expression": "表情专注而确定，眉头轻微收紧，嘴唇自然闭合，没有明显迟疑或困惑。",
+  "body_posture": "身体略微前倾，双肩放松但朝向明确，双脚站稳，整体姿态表现出准备立即购买的状态。",
+  "timeline": {
+    "t_0_2": "20岁左右的男大学生正面站定，短黑发、浅灰色连帽卫衣和黑色双肩包清晰可见，他抬眼看向前方，右手拿着手机，左手握着校园卡。",
+    "t_2_5": "他视线快速上下扫过一次，像是在确认目标选择，随后目光稳定下来，手里的校园卡被轻轻捏紧。",
+    "t_5_8": "他身体微微前倾，表情专注，右手手机保持在胸前位置，左手手指轻敲卡片一次，显得已经准备行动。",
+    "t_8_10": "他几乎没有犹豫地保持正面注视，嘴唇轻抿后放松，姿态稳定，像是在等待明确推荐后立即确认购买。"
+  },
+  "candidate_actions": [
+    "hold",
+    "recommend",
+    "inform"
+  ],
+  "outcomes": {
+    "hold": {
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "自己的选择没有被干扰，依然认为刚选的饮品合适。",
+        "desire": "希望如期快速完成交易，避免额外等待。",
+        "intention": "准备自行操作并确认购买，不期望其他提示。"
+      },
+      "preference_score": 0.0,
+      "score": 2
+    },
+    "recommend": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "当前选择获得直接肯定，觉得选得对且已被支持，减少不确定。",
+        "desire": "立刻完成购买的冲动大幅提升，反感或迟疑极小。",
+        "intention": "积极准备点击购买或刷卡操作，对成交没有顾虑。"
+      },
+      "preference_score": 0.37,
+      "score": 5
+    },
+    "inform": {
+      "next_aida_stage": "action",
+      "next_bdi": {
+        "belief": "对目标饮品的价格和优惠有了明确认知，确信其划算。",
+        "desire": "确信当前商品最优价，购买意愿进一步坚定。",
+        "intention": "无障碍地准备立刻完成下单，无需再比较或等待。"
+      },
+      "preference_score": 0.332,
+      "score": 4
+    }
+  },
+  "best_action": "recommend",
+  "realization": {
+    "screen_action": "highlight_single_item_with_cta",
+    "voice_style": "assertive"
+  }
+}
