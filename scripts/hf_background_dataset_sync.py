@@ -5,11 +5,10 @@ from __future__ import annotations
 
 import os
 import signal
-import sys
 import time
 from pathlib import Path
 
-from huggingface_hub import HfApi
+from huggingface_hub import CommitOperationAdd, HfApi
 
 
 REPO_ID = "GameFreshMan/PIWM"
@@ -17,6 +16,8 @@ REPO_TYPE = "dataset"
 STAGE = Path("local_artifacts/hf_upload_stage_20260531")
 LOG_PREFIX = "[hf-sync]"
 UPLOAD_TIMEOUT_SECONDS = 900
+BATCH_MAX_FILES = 100
+BATCH_MAX_BYTES = 50 * 1024 * 1024
 
 
 class UploadTimeout(TimeoutError):
@@ -25,6 +26,31 @@ class UploadTimeout(TimeoutError):
 
 def _timeout_handler(signum: int, frame: object) -> None:
     raise UploadTimeout(f"upload timed out after {UPLOAD_TIMEOUT_SECONDS}s")
+
+
+def retry_sleep_seconds(exc: Exception, failed_rounds: int) -> int:
+    text = str(exc)
+    if "Retry after " in text and " seconds" in text:
+        tail = text.split("Retry after ", 1)[1].split(" seconds", 1)[0]
+        if tail.strip().isdigit():
+            return max(60, int(tail.strip()) + 30)
+    if "in " in text and " minutes" in text:
+        tail = text.rsplit("in ", 1)[1].split(" minutes", 1)[0]
+        if tail.strip().isdigit():
+            return max(60, int(tail.strip()) * 60 + 60)
+    return min(3600, 60 * max(1, failed_rounds))
+
+
+def make_batch(missing: list[tuple[str, Path, int]]) -> list[tuple[str, Path, int]]:
+    batch: list[tuple[str, Path, int]] = []
+    total = 0
+    for item in missing:
+        _, _, size = item
+        if batch and (len(batch) >= BATCH_MAX_FILES or total + size > BATCH_MAX_BYTES):
+            break
+        batch.append(item)
+        total += size
+    return batch
 
 
 def iter_stage_files() -> list[tuple[str, Path, int]]:
@@ -79,26 +105,38 @@ def main() -> int:
             print(f"{LOG_PREFIX} complete", flush=True)
             return 0
 
-        rel, path, size = missing[0]
-        print(f"{LOG_PREFIX} upload size={size} path={rel}", flush=True)
+        batch = make_batch(missing)
+        batch_bytes = sum(size for _, _, size in batch)
+        print(
+            f"{LOG_PREFIX} upload_batch files={len(batch)} bytes={batch_bytes} "
+            f"first={batch[0][0]}",
+            flush=True,
+        )
         try:
             signal.alarm(UPLOAD_TIMEOUT_SECONDS)
-            api.upload_file(
-                path_or_fileobj=str(path),
-                path_in_repo=rel,
+            api.create_commit(
                 repo_id=REPO_ID,
                 repo_type=REPO_TYPE,
-                commit_message=f"Upload PIWM dataset artifact: {rel}",
+                operations=[
+                    CommitOperationAdd(path_in_repo=rel, path_or_fileobj=str(path))
+                    for rel, path, _ in batch
+                ],
+                commit_message=f"Upload PIWM dataset artifacts ({len(batch)} files)",
             )
             signal.alarm(0)
-            uploaded += 1
+            uploaded += len(batch)
             failed_rounds = 0
-            print(f"{LOG_PREFIX} uploaded path={rel}", flush=True)
+            print(f"{LOG_PREFIX} uploaded_batch files={len(batch)}", flush=True)
         except Exception as exc:
             signal.alarm(0)
             failed_rounds += 1
-            print(f"{LOG_PREFIX} upload failed path={rel}: {type(exc).__name__}: {exc}", flush=True)
-            time.sleep(min(300, 20 * failed_rounds))
+            sleep_s = retry_sleep_seconds(exc, failed_rounds)
+            print(
+                f"{LOG_PREFIX} upload_batch failed: {type(exc).__name__}: {exc}; "
+                f"sleep={sleep_s}s",
+                flush=True,
+            )
+            time.sleep(sleep_s)
 
 
 if __name__ == "__main__":
