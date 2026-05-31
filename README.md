@@ -1,116 +1,213 @@
-# PIWM — Proactive Intent World Model
+# Proactive World Modeling for Goal-Oriented Social Intelligence
 
-PIWM 是一个面向**线下零售第三人称导购**场景的多模态主动 agent 研究项目。
-它把同一个 VLM 当作 internal simulator：先识别顾客状态，再为每个候选话术
-动作预测后果，最后决定**是否开口、何时开口、说什么**。
+This repository contains the code, data tooling, evaluation scripts, and paper
+artifacts for **PIWM**: a proactive intent world model for multimodal retail
+assistance. PIWM studies a setting where an agent observes short pre-interaction
+video clips, infers the customer's latent state, and decides whether and how to
+intervene before an explicit request is made.
 
-> 数据管线与 SFT/评测脚本已随 sprint 迭代；文档入口统一见 [`docs/README.md`](docs/README.md)。
+The project is organized around the **See, Infer, Intervene** pipeline:
 
-## 三层结构
+1. **See**: sample sparse visual observations from a retail interaction.
+2. **Infer**: estimate a structured customer state using AIDA stages and BDI
+   fields.
+3. **Intervene**: select a best action from a constrained response set, including
+   the option to hold and remain silent.
 
-```
-Perception   →  从视觉 cue 推断  AIDA 阶段 + BDI（belief / desire / intention）
-Deliberation →  对每个候选动作预测  next AIDA + next BDI + risk + benefit + reward
-Action       →  比较 rollouts，选最优动作（包括沉默）
-```
+The repository is intended for reproducibility, dataset inspection, and
+follow-up experiments. Large dataset artifacts are hosted separately on
+Hugging Face.
 
-动作空间 v2 采用 `DialogueAct + params -> Realization -> Terminal capability` 三层结构：
-policy 层只看 6 个 Dialogue Acts，旧 `A1-A8` 和 T-state 标签仅作兼容 alias。
-详见 [`docs/contracts/action_space_realization_contract.md`](docs/contracts/action_space_realization_contract.md)。
+## Highlights
 
-视觉输入是**多视角店内观察**（multi-view in-store visual observations）。
-主设置是导购可观察视角（`salesperson_observable`）；监控/第三方视角与第一
-人称视角保留作 view-shift 评估。详见 [`docs/contracts/visual_input_contract.md`](docs/contracts/visual_input_contract.md)。
+- **GuidanceSalesBench data pipeline** for synthetic and real-store retail
+  guidance scenarios.
+- **Structured customer-state schema** based on AIDA purchasing stages and BDI
+  fields.
+- **Best-action selection evaluation** over five action classes:
+  `Greet`, `Elicit`, `Inform`, `Recommend`, and `Hold`.
+- **Oracle-state and end-to-end evaluation** scripts for separating action
+  selection from upstream video-to-state grounding.
+- **Ablation and diagnostic tooling** for frame count, BDI fields, observable
+  evidence, candidate filtering, and counterfactual planning.
+- **Paper-ready reports and figures** under `reports/`, `figures/`, and `paper/`.
 
-## 目录速览
-
-```
-piwm_data/       数据管线（schema、规则层、loader、exporter）
-piwm_train/      ms-swift / LoRA SFT 适配与训练入口
-piwm_infer/      推理侧解析与工具
-scripts/         sampler / prompt_builder / qa_gate / eval 辅助脚本
-kling/           Kling API 调用（Node.js）
-docs/            阅读入口见 docs/README.md（current / contracts / background / archive）
-paper/           论文草稿
-data/            本地生成 manifest、数据集与实验结果（大文件见 .gitignore）
-RESEARCH_LOG.md  动态索引与 sprint 进度
-```
-
-## 5 分钟 quickstart
-
-```bash
-# 1. 跑测试
-python3 -m pytest
-
-# 2. 生成场景 manifest（含 viewpoint）
-python3 -m scripts.scenario_sampler \
-  --out data/scenario_manifest.jsonl \
-  --stats-out data/_scenario_stats.json
-
-# 3. 生成 10 条 mixed-view 人工审阅用 Kling prompt（dry-run，不调用 Kling）
-python3 -m scripts.scenario_sampler \
-  --out data/scenario_manifest_review10.jsonl \
-  --stats-out data/_scenario_stats_review10.json \
-  --limit 10 --balanced-cues
-python3 -m scripts.prompt_builder \
-  --manifest data/scenario_manifest_review10.jsonl \
-  --out-root Archive_prompts_viewpoint_review \
-  --overwrite
-
-# 4. （可选）用 fixture 走通端到端 dry-run
-node kling/generate_session.js \
-  --prompt piwm_data/tests/fixtures/tiny_session/session_test_001/prompt.json \
-  --out-root Archive_generated \
-  --dry-run
-```
-
-## Stage-1 训练骨架
-
-当前 revised Stage-1 不直接用完整 543 parent 训练，而是使用 seed=42、按 AIDA stage 分层的 general split：
-
-- train：493 parent / 2309 examples；
-- val：50 parent / 235 examples；
-- split 文件：`data/official/piwm_train_synth_v2/general_split_seed42.json`。
-
-训练启动脚本只做命令骨架，不会默认启动训练：
-
-```bash
-bash scripts/train/stage1_train.sh --dry-run
-```
-
-实际训练必须由项目负责人显式加 `--run`。
-
-训完判定先按这条线看：任务 A（AIDA stage）macro F1 > 0.6，任务 C（next-stage）macro F1 > 0.6；任务 B（intention label）阈值暂待项目负责人确认。真实训练前必须保证 general frames 完整，至少包括：
+## Repository Layout
 
 ```text
-Archive_generated_priority24/
-Archive_generated_priority256/
-Archive_generated_priority500_new_after280/
-Archive_generated_priority1000_remaining_after500/
+piwm_data/      Dataset schemas, rules, validation tests, and export utilities.
+piwm_train/     Prompt templates and training-facing helpers.
+piwm_infer/     Inference-time parsers and decision-loop utilities.
+scripts/        Dataset construction, evaluation, ablation, and sync scripts.
+configs/        Experiment and evaluation configuration files.
+docs/           Data contracts, runbooks, and project documentation.
+data/           Lightweight manifests and small structured artifacts.
+reports/        Evaluation outputs, audit notes, and paper-writing materials.
+figures/        Generated figures and paper assets.
+paper/          Manuscript fragments and submission-related TeX artifacts.
 ```
 
-当前脚本已配置 `Qwen/Qwen2.5-VL-7B-Instruct`、8 卡 DDP、LoRA r=16/alpha=32、3 帧输入和 4096 token 上限；具体操作见 [`docs/current/stage1_training_runbook.md`](docs/current/stage1_training_runbook.md)。
+Large binary artifacts, full data exports, and real-video files are not meant to
+be stored directly in Git history. They are mirrored to the Hugging Face dataset
+repository described below.
 
-## 文档导航
+## Data
 
-**唯一结构化索引：** [`docs/README.md`](docs/README.md)（按 current / contracts / background 分层）。
+The large release bundle is hosted at:
 
-速查：
+```text
+https://huggingface.co/datasets/GameFreshMan/PIWM
+```
 
-| 入口 | 何时看 |
-|---|---|
-| [`docs/README.md`](docs/README.md) | 不知道从哪份文档读起 |
-| [`RESEARCH_LOG.md`](RESEARCH_LOG.md) | 最新进度、索引与高密度更新 |
-| [`docs/contracts/claim_to_artifact_audit.md`](docs/contracts/claim_to_artifact_audit.md) | 论文 claim 与代码 / 数据工件对应 |
-| [`docs/contracts/world_model_supervision_contract.md`](docs/contracts/world_model_supervision_contract.md) | World Model 监督字段与边界 |
-| [`docs/contracts/visual_input_contract.md`](docs/contracts/visual_input_contract.md) | 多视角、抽帧、QA gate |
-| [`docs/contracts/docs_maintenance_rules.md`](docs/contracts/docs_maintenance_rules.md) | 新增或归档文档前必读 |
-| [`docs/contracts/expert_provenance_upgrade_plan.md`](docs/contracts/expert_provenance_upgrade_plan.md) | 专家规则 provenance |
+To download it with the Hugging Face CLI:
 
-## 当前状态（高频更新）
+```bash
+pip install -U huggingface_hub
+huggingface-cli download GameFreshMan/PIWM \
+  --repo-type dataset \
+  --local-dir data/hf/PIWM
+```
 
-实时数字看 `RESEARCH_LOG.md` 顶部条目；不要在本 README 里复述测试通过数。
+If the dataset is private or gated, authenticate first:
 
-## License
+```bash
+huggingface-cli login
+```
 
-待补。本仓库当前为研究内部草稿。
+or set `HF_TOKEN` in the environment before running Hugging Face commands. Do
+not commit tokens or credentials to this repository.
+
+The uploaded dataset bundle includes the staged contents used for the current
+paper experiments, including official data exports, annotation packs, selected
+report artifacts, and real-store video assets.
+
+## Installation
+
+The lightweight Python package targets Python 3.9 or newer.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -U pip
+python -m pip install -e ".[test]"
+```
+
+For local training and vision-language-model evaluation, install the optional
+training dependencies:
+
+```bash
+python -m pip install -e ".[train,test]"
+```
+
+GPU training and evaluation scripts assume an environment compatible with
+Qwen2.5-VL, ModelScope, ms-swift, PyTorch, and the corresponding CUDA stack.
+The exact server environment may need to be adapted to local hardware.
+
+## Quick Checks
+
+Run the unit tests:
+
+```bash
+pytest
+```
+
+Inspect action-balance utilities and parser behavior:
+
+```bash
+python scripts/inspect_act_balance.py --help
+python scripts/eval_ms_swift_checkpoint.py --help
+python scripts/run_end_to_end_best_action_eval.py --help
+```
+
+The repository contains many one-off research scripts. Prefer reading the
+matching report in `reports/` before re-running an experiment, because the
+scripts often encode a specific data snapshot, checkpoint path, or paper-table
+protocol.
+
+## Evaluation Entry Points
+
+Common evaluation scripts include:
+
+```text
+scripts/eval_ms_swift_checkpoint.py
+scripts/piwm_4dim_eval.py
+scripts/run_end_to_end_best_action_eval.py
+scripts/run_trick6_counterfactual_planning.py
+scripts/eval_closed_model.py
+scripts/closed_model_best_action_eval.py
+scripts/summarize_real_eval_results.py
+```
+
+Important report files include:
+
+```text
+reports/2026-05-24_paper_writing_materials.md
+reports/2026-05-25_rerun_evaluation_main_table.md
+reports/2026-05-26_end_to_end_main_result.md
+reports/2026-05-26_dataset_statistics.md
+reports/2026-05-26_paper_polish_batch2_changelog.md
+```
+
+These reports document the main numbers, ablations, dataset statistics, and
+manuscript integration steps used in the current paper draft.
+
+## Reported Results Snapshot
+
+The current paper snapshot reports PIWM best-action selection across several
+settings:
+
+| Setting | Macro F1 |
+|---|---:|
+| Target-Test, oracle customer state | 0.641 |
+| Cross-Domain, oracle customer state | 0.734 |
+| Target-Test, end-to-end video-only state inference | 0.295 |
+| Real-Store Pilot, fully annotated subset | 0.579 |
+
+These values are copied from the local paper reports and should be treated as a
+snapshot of the current experimental state, not as a package-level benchmark
+API. See the corresponding report files for parse rates, per-class breakdowns,
+candidate-set details, and error-propagation analysis.
+
+## Hugging Face Sync Utility
+
+Large artifacts were staged locally under `local_artifacts/hf_upload_stage_*`
+and uploaded with:
+
+```text
+scripts/hf_background_dataset_sync.py
+```
+
+The sync script expects `HF_TOKEN` to be set in the environment and uploads only
+files missing from the remote dataset repository. It batches remaining files to
+avoid excessive one-file commits and respects retry windows when Hugging Face
+rate-limits repository commits.
+
+## Reproducibility Notes
+
+- Model checkpoints are not modified by this repository sync.
+- Raw large files should go to Hugging Face, not GitHub.
+- Parse failures are counted as errors in strict evaluation reports unless a
+  report explicitly states otherwise.
+- Closed-source model outputs are separated from local PIWM evaluation outputs.
+- Some paths in older reports refer to historical A100 or workstation layouts;
+  use the current scripts and manifests as the source of truth for new runs.
+
+## Citation
+
+If you use this code or dataset artifacts, cite the associated manuscript once
+the public citation is available. Until then, please refer to the project as:
+
+```bibtex
+@misc{piwm2026,
+  title = {See, Infer, Intervene: Proactive World Modeling for Goal-Oriented Social Intelligence},
+  author = {Anonymous},
+  year = {2026},
+  note = {Code and dataset release for PIWM}
+}
+```
+
+## License and Release Status
+
+This repository is a research release. If a formal license file has not yet been
+added, contact the maintainers before using the code or dataset artifacts beyond
+review, reproduction, or internal research purposes.
