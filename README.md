@@ -198,11 +198,11 @@ If you use this code or dataset artifacts, cite the associated manuscript once
 the public citation is available. Until then, please refer to the project as:
 
 ```bibtex
-@misc{piwm2026,
-  title = {See, Infer, Intervene: Proactive World Modeling for Goal-Oriented Social Intelligence},
-  author = {Anonymous},
-  year = {2026},
-  note = {Code and dataset release for PIWM}
+@article{zhang2026see,
+  title={See, Infer, Intervene: Proactive World Modeling for Goal-Oriented Social Intelligence},
+  author={Zhang, Honghui and Guo, Chenmeinian and Yu, Yichen and Liu, Guanyu and Qin, Yongming and Song, Chongguo and Yang, Mengyue and Yu, Lei and Shi, Tianyu},
+  journal={arXiv preprint arXiv:2606.03371},
+  year={2026}
 }
 ```
 
